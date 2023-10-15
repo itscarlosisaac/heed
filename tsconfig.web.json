@@ -8,6 +8,7 @@
   ],
   "compilerOptions": {
     "composite": true,
+    "types": [ "src/shared/types"],
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
