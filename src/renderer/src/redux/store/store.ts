@@ -3,7 +3,7 @@ import logger from 'redux-logger'
 import { ApplicationReducer } from '../slices/ApplicationSlice'
 const store = configureStore({
   reducer: {
-    applicationReducer: ApplicationReducer
+    application: ApplicationReducer
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger)
