@@ -1,46 +1,52 @@
-import { JSX } from 'react'
+import { JSX, useEffect } from 'react'
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
+  Grid,
   ModalBody,
-  ModalCloseButton,
-  Button, Flex, useDisclosure
+  Button,
+  Flex,
+  Box,
+  useDisclosure
 } from '@chakra-ui/react'
-export function WelcomeModal (): JSX.Element {
+import { useSelector } from 'react-redux'
+import { ApplicationRootState } from '../../../redux/store/store'
+import { IApplicationState } from '../../../redux/Application/ApplicationInitialState'
+import { IpcChannel } from '../../../../../shared/types'
+export function WelcomeModal(): JSX.Element {
+  const { editor } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  function handleCreateFile(e: never): void {
-    console.log('Event', e)
-    window.electron.ipcRenderer.send('new-file', {})
+  const { isOpen, onClose } = useDisclosure({
+    isOpen: editor.openUnits.length === 0
+  })
+  function handleCreateFile(): void {
+    window.electron.ipcRenderer.send(IpcChannel.createFile, {})
   }
-  function handleReadFile(e: never): void {
-    console.log('Event', e)
-    window.electron.ipcRenderer.send('open-file', {})
+  function handleReadFile(): void {
+    window.electron.ipcRenderer.send(IpcChannel.openFile, {})
   }
+
+  useEffect(() => {
+    window.electron.ipcRenderer.on('data', (e, data) => {
+      console.log("DATA front end", e, data)
+    })
+  }, [])
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size={'welcomeModal'}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Flex gap={4} >
-              <Button onClick={handleCreateFile}>Create new File</Button>
-              <Button onClick={handleReadFile}>Open File</Button>
-            </Flex>
+        <ModalContent p={0}>
+          <ModalBody w={'100%'} h={'100%'} p={0}>
+            <Grid gridTemplateColumns={'1fr 1fr'} w={'100%'} h={'100%'} gap={4}>
+              <Box w={'100%'} h={'100%'} bg={'red'} />
+              <Flex gap={4} h={'100%'} placeItems={'center'} placeContent={"center"} flexDirection={'column'}>
+                <Button onClick={handleCreateFile}>Create new File</Button>
+                <Button onClick={handleReadFile}>Open File</Button>
+              </Flex>
+            </Grid>
           </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant='ghost'>Secondary Action</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
