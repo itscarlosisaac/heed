@@ -6,7 +6,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS
 } from 'electron-devtools-installer'
 import { resolveHtmlPath } from './utils'
-import { GenericVoidFunction } from '../shared/types/generic'
+import { GenericVoidFunction } from '../shared/types'
 
 type OnEventType = 'closed' | 'ready-to-show'
 

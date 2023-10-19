@@ -1,6 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import { ApplicationReducer } from '../slices/ApplicationSlice'
+import { configureStore } from '@reduxjs/toolkit'
+import { ApplicationReducer } from '../Application/ApplicationSlice'
+
 const store = configureStore({
   reducer: {
     application: ApplicationReducer
@@ -9,6 +10,7 @@ const store = configureStore({
     return getDefaultMiddleware().concat(logger)
   }
 })
+
 export type AppDispatch = typeof store.dispatch
-export type RootState = ReturnType<typeof store.getState>
+export type ApplicationRootState = ReturnType<typeof store.getState>
 export default store

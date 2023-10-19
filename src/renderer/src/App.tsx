@@ -6,12 +6,7 @@ function App(): JSX.Element {
   return (
     <>
       <WelcomeModal />
-      <AppLayout
-        AppHeader={AppHeader}
-        LeftSidebar={Box}
-        RightSidebar={Box}
-        BottomSidebar={Box}
-      />
+      <AppLayout AppHeader={AppHeader} LeftSidebar={Box} RightSidebar={Box} BottomSidebar={Box} />
     </>
   )
 }

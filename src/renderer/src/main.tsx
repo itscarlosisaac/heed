@@ -5,10 +5,10 @@ import ReactDOM from 'react-dom/client'
 import store from './redux/store/store'
 import { ChakraProvider } from '@chakra-ui/react'
 import './styles/index.scss'
+import ChakraCustomTheme from './Theme/index'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  // eslint-disable-next-line react/jsx-no-undef
-  <ChakraProvider>
+  <ChakraProvider theme={ChakraCustomTheme}>
     <Provider store={store}>
       <React.StrictMode>
         <App />

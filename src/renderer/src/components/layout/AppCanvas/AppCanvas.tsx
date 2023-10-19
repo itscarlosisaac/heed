@@ -26,8 +26,7 @@ export function AppCanvas(): JSX.Element {
               bg={'gray.100'}
               borderWidth="1px"
               borderColor={'gray.500'}
-            >
-            </Box>
+            ></Box>
           </AbsoluteCenter>
         </div>
       </InfiniteViewer>

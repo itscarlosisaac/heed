@@ -3,7 +3,76 @@
 
 // import path from 'path'
 // import fs from 'fs'
-// import { dialog, ipcMain } from 'electron'
+import { ipcMain, BrowserWindow } from 'electron'
+import { IpcChannel } from '../shared/types'
+import Dialog from './Dialog'
+ipcMain.on(IpcChannel.createFile, async (e) => {
+  try {
+    const fileData = await Dialog.SaveFile({
+      buttonLabel: 'Save file',
+      title: 'Create new File',
+      filters: [Dialog.HTMLDialogFilter]
+    })
+    const currentWindow = BrowserWindow.getFocusedWindow()
+    if (fileData.canceled || !currentWindow) return
+    currentWindow.webContents.send('data', { fileData })
+  } catch (e) {
+    console.log('An error occurred', e)
+  }
+})
+
+ipcMain.on(IpcChannel.openFile, async (e) => {
+  try {
+    const fileData = await Dialog.OpenFile({
+      buttonLabel: 'Open File',
+      title: 'Open Ad Unit',
+      filters: [Dialog.HTMLDialogFilter]
+    })
+    const currentWindow = BrowserWindow.getFocusedWindow()
+    if (fileData.canceled || !currentWindow) return
+    currentWindow.webContents.send('data', { fileData })
+  } catch (e) {
+    console.log('An error occurred', e)
+  }
+})
+
+// dialog
+//   .showOpenDialog({
+//     title: 'Open File',
+//     defaultPath: path.join(__dirname, '../assets/sample.html'),
+//     // defaultPath: path.join(__dirname, '../assets/'),
+//     buttonLabel: 'Open',
+//     // Restricting the user to only Text Files.
+//     filters: [
+//       {
+//         name: 'HTML Files',
+//         extensions: ['html']
+//       }
+//     ],
+//     properties: ['openFile']
+//   })
+//   .then((file) => {
+//     // Stating whether dialog operation was cancelled or not.
+//     console.log('Cancelled', file.canceled)
+//     if (!file.canceled) {
+//       console.log('File: ', file)
+//       const currentWindow = BrowserWindow.getFocusedWindow()
+//       if (!currentWindow) return
+//
+//       currentWindow.webContents.send('data', { file })
+//
+//       // Creating and Writing to the sample.txt file
+//       // fs.readFile(file.filePaths[0], 'utf-8', function (err, data) {
+//       //   if (err) throw err
+//       //   BrowserWindow.getFocusedWindow().webContents.send('data', { data })
+//       //   console.log('Reading data', data)
+//       // })
+//     }
+//   })
+//   .catch((err) => {
+//     console.log(err)
+//   })
+
 //
 // const template = `
 //   <!DOCTYPE html>
@@ -39,9 +108,6 @@
 //   </html>
 // `
 //
-// ipcMain.on('new-file', (e) => {
-//   console.log('new file', e)
-//   console.log('Dialog', dialog)
 //   dialog
 //     .showSaveDialog({
 //       title: '',
@@ -110,4 +176,15 @@
 //     .catch((err) => {
 //       console.log(err)
 //     })
+// })
+//
+// import FileBusManager from '../shared/Events/FileBusManager'
+// import { Message } from '../shared/EventBus/deps/message'
+// FileBusManager.subscribe('file-manager', {
+//   callback: async (message: Message<string>) => {
+//     console.log(`Message timestamp: ${message.getTimestamp()} - issuer: ${message.getIssuer()}`)
+//   },
+//   errorHandler: (error) => {
+//     console.error(error)
+//   }
 // })
