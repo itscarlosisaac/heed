@@ -6,7 +6,7 @@ class Dialog {
   }
 
   public static async OpenFile(options: OpenDialogOptions): Promise<OpenDialogReturnValue> {
-    return await this.instance.showOpenDialog(options);
+    return await this.instance.showOpenDialog(options)
   }
 
   public static HTMLDialogFilter = {

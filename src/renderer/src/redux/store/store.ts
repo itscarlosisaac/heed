@@ -1,6 +1,9 @@
 import logger from 'redux-logger'
 import { configureStore } from '@reduxjs/toolkit'
 import { ApplicationReducer } from '../Application/ApplicationSlice'
+import { enableMapSet } from 'immer'
+
+enableMapSet()
 
 const store = configureStore({
   reducer: {

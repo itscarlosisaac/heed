@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { ApplicationInitialState } from './ApplicationInitialState'
+import * as AppReducers from './ApplicationReducers'
 
 const applicationSlice = createSlice({
-  name: 'app_slice',
+  name: 'app',
   initialState: ApplicationInitialState,
-  reducers: {
-    test: () => console.log('test')
-  },
+  reducers: AppReducers,
   extraReducers: () => {}
 })
 export const ApplicationReducer = applicationSlice.reducer

@@ -10,11 +10,14 @@ import {
   Box,
   useDisclosure
 } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ApplicationRootState } from '../../../redux/store/store'
 import { IApplicationState } from '../../../redux/Application/ApplicationInitialState'
 import { IpcChannel } from '../../../../../shared/types'
+import { ApplicationActions } from '../../../redux/Application/ApplicationSlice'
+import Unit from '../../../../../system/Unit'
 export function WelcomeModal(): JSX.Element {
+  const dispatch = useDispatch();
   const { editor } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
 
   const { isOpen, onClose } = useDisclosure({
@@ -30,6 +33,8 @@ export function WelcomeModal(): JSX.Element {
   useEffect(() => {
     window.electron.ipcRenderer.on('data', (e, data) => {
       console.log("DATA front end", e, data)
+      // const file = new Unit(file.filename)
+      // dispatch(ApplicationActions.OpenUnit(file))
     })
   }, [])
 
