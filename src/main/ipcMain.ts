@@ -1,12 +1,14 @@
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-// import path from 'path'
-// import fs from 'fs'
 import { ipcMain, BrowserWindow } from 'electron'
 import { IpcChannel } from '../shared/types'
 import Dialog from './Dialog'
-ipcMain.on(IpcChannel.createFile, async (e) => {
+import fileReader from '../system/FileReader'
+import Unit from '../system/Unit'
+import crypto from 'crypto'
+
+ipcMain.on(IpcChannel.createFile, async () => {
   try {
     const fileData = await Dialog.SaveFile({
       buttonLabel: 'Save file',
@@ -21,16 +23,19 @@ ipcMain.on(IpcChannel.createFile, async (e) => {
   }
 })
 
-ipcMain.on(IpcChannel.openFile, async (e) => {
+ipcMain.on(IpcChannel.openFile, async () => {
   try {
-    const fileData = await Dialog.OpenFile({
+    const dialogOpenData = await Dialog.OpenFile({
       buttonLabel: 'Open File',
       title: 'Open Ad Unit',
       filters: [Dialog.HTMLDialogFilter]
     })
     const currentWindow = BrowserWindow.getFocusedWindow()
-    if (fileData.canceled || !currentWindow) return
-    currentWindow.webContents.send('data', { fileData })
+    if (dialogOpenData.canceled || !currentWindow) return
+    const fileReadData = await fileReader.Read(dialogOpenData.filePaths[0])
+    const fileName = dialogOpenData.filePaths[0].split('/').at(-1) || 'untitled.html'
+    const unit = new Unit(fileName, crypto.randomUUID(), fileReadData)
+    currentWindow.webContents.send(IpcChannel.openFile, unit)
   } catch (e) {
     console.log('An error occurred', e)
   }

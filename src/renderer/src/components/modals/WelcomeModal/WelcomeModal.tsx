@@ -16,26 +16,31 @@ import { IApplicationState } from '../../../redux/Application/ApplicationInitial
 import { IpcChannel } from '../../../../../shared/types'
 import { ApplicationActions } from '../../../redux/Application/ApplicationSlice'
 import Unit from '../../../../../system/Unit'
+import FileService from '../../../services/FileService'
 export function WelcomeModal(): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { editor } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
 
   const { isOpen, onClose } = useDisclosure({
     isOpen: editor.openUnits.length === 0
   })
   function handleCreateFile(): void {
-    window.electron.ipcRenderer.send(IpcChannel.createFile, {})
+    FileService.CreateFile()
   }
   function handleReadFile(): void {
-    window.electron.ipcRenderer.send(IpcChannel.openFile, {})
+    FileService.OpenFile()
+  }
+
+  function handle(e: any, data: any) {
+    const path = data
+    // const file = new Unit(path, '001')
+    console.log('File: ', data)
+    // dispatch(ApplicationActions.OpenUnit(file))
   }
 
   useEffect(() => {
-    window.electron.ipcRenderer.on('data', (e, data) => {
-      console.log("DATA front end", e, data)
-      // const file = new Unit(file.filename)
-      // dispatch(ApplicationActions.OpenUnit(file))
-    })
+    const listener = window.electron.ipcRenderer.on(IpcChannel.openFile, handle)
+    return () => listener()
   }, [])
 
   return (
@@ -46,7 +51,13 @@ export function WelcomeModal(): JSX.Element {
           <ModalBody w={'100%'} h={'100%'} p={0}>
             <Grid gridTemplateColumns={'1fr 1fr'} w={'100%'} h={'100%'} gap={4}>
               <Box w={'100%'} h={'100%'} bg={'red'} />
-              <Flex gap={4} h={'100%'} placeItems={'center'} placeContent={"center"} flexDirection={'column'}>
+              <Flex
+                gap={4}
+                h={'100%'}
+                placeItems={'center'}
+                placeContent={'center'}
+                flexDirection={'column'}
+              >
                 <Button onClick={handleCreateFile}>Create new File</Button>
                 <Button onClick={handleReadFile}>Open File</Button>
               </Flex>
