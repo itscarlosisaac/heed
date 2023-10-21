@@ -1,6 +1,7 @@
 export interface IUnit {
-  filename: string
   id: string
+  filename: string
+  extension: string
   metadata: IUnitMetadata | null
 }
 

@@ -1,9 +1,8 @@
-import { ElementRef, JSX, useRef } from 'react'
+import { JSX } from 'react'
 import { AbsoluteCenter, Box } from '@chakra-ui/react'
 import InfiniteViewer, { OnScroll } from 'react-infinite-viewer'
 
 export function AppCanvas(): JSX.Element {
-  const targetRef = useRef<ElementRef<any>>(null)
   function onScrollViewport(e: OnScroll): void {
     console.log('on Scroll event', e)
   }

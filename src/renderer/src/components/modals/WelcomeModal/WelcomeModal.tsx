@@ -1,22 +1,13 @@
 import { JSX, useEffect } from 'react'
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  Grid,
-  ModalBody,
-  Button,
-  Flex,
-  Box,
-  useDisclosure
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ApplicationRootState } from '../../../redux/store/store'
 import { IApplicationState } from '../../../redux/Application/ApplicationInitialState'
 import { IpcChannel } from '../../../../../shared/types'
 import { ApplicationActions } from '../../../redux/Application/ApplicationSlice'
-import Unit from '../../../../../system/Unit'
 import FileService from '../../../services/FileService'
+import Unit from '../../../../../system/Unit'
+
 export function WelcomeModal(): JSX.Element {
   const dispatch = useDispatch()
   const { editor } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
@@ -31,11 +22,10 @@ export function WelcomeModal(): JSX.Element {
     FileService.OpenFile()
   }
 
-  function handle(e: any, data: any) {
-    const path = data
-    // const file = new Unit(path, '001')
+  function handle(_e: unknown, data: unknown): void {
+    const file = new Unit(data as string, '001', 'content', '.html')
     console.log('File: ', data)
-    // dispatch(ApplicationActions.OpenUnit(file))
+    dispatch(ApplicationActions.OpenUnit(file))
   }
 
   useEffect(() => {
