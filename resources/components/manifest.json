@@ -1,0 +1,15 @@
+{
+  "src/components/index.ts": {
+    "file": "index.js",
+    "imports": [
+      "src/components/interactive/heed-tap.ts"
+    ],
+    "isEntry": true,
+    "src": "src/components/index.ts"
+  },
+  "src/components/interactive/heed-tap.ts": {
+    "file": "interactive/heed-tap.js",
+    "isEntry": true,
+    "src": "src/components/interactive/heed-tap.ts"
+  }
+}

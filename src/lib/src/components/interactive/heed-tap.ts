@@ -25,11 +25,10 @@ export class HeedTap extends LitElement {
     return html`
       <slot></slot>
       <div class="card">
-        <button @click=${this._onClick} part="button">
+        <button @click=${this._onClick} part="button" style="color:red">
           count is ${this.count}
         </button>
       </div>
-      <p class="read-the-docs">${this.docsHint}</p>
     `
   }
 
