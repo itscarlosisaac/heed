@@ -99,9 +99,3 @@ export class HeedTap extends LitElement {
     }
   `
 }
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'heed-tap': HeedTap
-  }
-}

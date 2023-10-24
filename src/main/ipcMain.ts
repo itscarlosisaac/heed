@@ -7,6 +7,8 @@ import Dialog from './Dialog'
 import fileManager from '../system/FileManager'
 import Unit from '../system/Unit'
 import crypto from 'crypto'
+import path from 'path'
+import TemplateWriter from '../system/TemplateWriter'
 
 ipcMain.on(IpcChannel.createFile, async () => {
   try {
@@ -17,6 +19,11 @@ ipcMain.on(IpcChannel.createFile, async () => {
     })
     const currentWindow = BrowserWindow.getFocusedWindow()
     if (fileData.canceled || !currentWindow) return
+    console.log('File Data: ', fileData, __dirname)
+    const destination = fileData.filePath ? fileData.filePath : ''
+    const templatePath = path.resolve(__dirname, '../../resources/templates/320x250.html')
+    const jsPath = path.resolve(__dirname, '../../resources/components/main/Unit/unit.js')
+    await TemplateWriter.writeTemplate(templatePath, destination, [jsPath])
     currentWindow.webContents.send(IpcChannel.createFile, { fileData })
   } catch (e) {
     console.log('An error occurred', e)

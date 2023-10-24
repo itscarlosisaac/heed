@@ -38,9 +38,6 @@ export function WelcomeModal(): JSX.Element {
       <Modal isOpen={isOpen} onClose={onClose} isCentered size={'welcomeModal'}>
         <ModalOverlay />
         <ModalContent p={0}>
-          <heed-tap>
-            TAP
-          </heed-tap>
           <ModalBody w={'100%'} h={'100%'} p={0}>
             <Grid gridTemplateColumns={'1fr 1fr'} w={'100%'} h={'100%'} gap={4}>
               <Box w={'100%'} h={'100%'} bg={'red'} />

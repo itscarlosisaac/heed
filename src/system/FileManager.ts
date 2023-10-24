@@ -9,6 +9,10 @@ class FileManager {
   public async Write(path: PathLike, data: string): Promise<void> {
     return await fs.writeFile(path, data, { encoding: 'utf-8', flag: 'w' })
   }
+
+  public async Copy(from: PathLike, to: PathLike): Promise<void> {
+    return await fs.copyFile(from, to)
+  }
 }
 
 export default new FileManager()

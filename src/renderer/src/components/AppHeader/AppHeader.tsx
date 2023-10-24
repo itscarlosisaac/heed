@@ -14,7 +14,7 @@ export function AppHeader(): JSX.Element {
         gridTemplateColumns={'1fr 1fr'}
       >
         <Flex flexGrow={2} alignItems={'center'}>
-          <Text color={'#6B7A99'}>QuakerHots_Q10122_CartInjection</Text>
+          <Text color={'#6B7A99'}></Text>
         </Flex>
         <Flex justifyContent={'flex-end'}>
           <AppHeaderActions />
