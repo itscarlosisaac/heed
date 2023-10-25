@@ -1,6 +1,6 @@
 import TemplateGenerator from './TemplateGenerator'
 import FileManager from './FileManager'
-import path from "path";
+import path from 'path'
 
 class TemplateWriter {
   constructor(
@@ -13,30 +13,30 @@ class TemplateWriter {
 
   async writeTemplate(templatePath: string, destination: string, jsFiles: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
+      // Use the HTMLFileGenerator to generate the HTML file
       this.generator
         .generateHTMLFile(templatePath, jsFiles)
-        .then((templateData) => {
-          console.log('Template Data: ', templateData, destination)
-          this.writer.Write(destination, templateData)
-          jsFiles.forEach((file) => this.writer.Copy(file, path.resolve(path.dirname(destination), path.basename(file))))
+        .then(async (templateData) => {
+          // Parse the path to get the details of the filename and extension.
+          const parsedPath = path.parse(destination)
+          const updatedDestination = path.join(path.dirname(destination), parsedPath.name)
+          // Creates Directory
+          await this.writer.MakeDirectory(updatedDestination)
+          // Writes the html file to disk
+          await this.writer.Write(
+            path.join(updatedDestination, path.basename(destination)),
+            templateData
+          )
+          // Writes the js files to disk
+          jsFiles.forEach((file) =>
+            this.writer.Copy(file, path.resolve(updatedDestination, path.basename(file)))
+          )
           resolve()
         })
         .catch((e: unknown) => {
           reject(e)
         })
     })
-    // Use the HTMLFileGenerator to generate the HTML file
-
-    // Write the JavaScript files to disk
-    // jsFiles.forEach((jsFile) => {
-    //   fs.copyFile(jsFile, `output/${jsFile}`, (err) => {
-    //     if (err) {
-    //       console.error(`Error copying JavaScript file ${jsFile}: ${err}`)
-    //     } else {
-    //       console.log(`JavaScript file ${jsFile} copied to output directory.`)
-    //     }
-    //   })
-    // })
   }
 }
 export default new TemplateWriter(TemplateGenerator, FileManager)

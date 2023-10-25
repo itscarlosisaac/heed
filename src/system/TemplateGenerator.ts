@@ -1,4 +1,5 @@
 import FileManager from './FileManager'
+import path from 'path'
 
 class TemplateGenerator {
   async generateHTMLFile(templatePath: string, jsFiles: string[]): Promise<string> {
@@ -7,7 +8,13 @@ class TemplateGenerator {
       FileManager.Read(templatePath)
         .then((templateData) => {
           // Create a string to hold the script tags for JavaScript files
-          const scriptTags = jsFiles.map((jsFile) => `<script src="${jsFile}"></script>`).join('\n')
+          const scriptTags = jsFiles
+            .map((jsFile) => {
+              // Gets the filename of the js file
+              const fileName = path.basename(jsFile)
+              return `<script src="./${fileName}"></script>`
+            })
+            .join('\n')
 
           // Inject the script tags into the template
           const htmlOutput = templateData.replace('</head>', `\n${scriptTags}\n</head>`)
