@@ -7,6 +7,7 @@ import { IpcChannel } from '../../../../../shared/types'
 import { ApplicationActions } from '../../../redux/Application/ApplicationSlice'
 import FileService from '../../../services/FileService'
 import Unit from '../../../../../system/Unit'
+import TemplateParser from "../../../../../system/TemplateParser";
 
 export function WelcomeModal(): JSX.Element {
   const dispatch = useDispatch()
@@ -23,8 +24,21 @@ export function WelcomeModal(): JSX.Element {
   }
 
   function handle(_e: unknown, data: unknown): void {
-    const file = new Unit(data as string, '001', 'content', '.html')
+    const file = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
     console.log('File: ', data)
+
+
+
+    const parser = new TemplateParser()
+    parser.parse(file.content).then((parsedData) => {
+      console.log('Scripts:', parsedData.scripts)
+      console.log('Styles:', parsedData.styles)
+      console.log('Meta Tags:', parsedData.meta)
+      console.log('Body Content:', parsedData.bodyContent)
+    })
+
+
+
     dispatch(ApplicationActions.OpenUnit(file))
   }
 

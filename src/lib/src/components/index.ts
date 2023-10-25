@@ -1,2 +1,2 @@
-export * from './interactive/heed-tap'
+export * from './interactive/hd-tap'
 export * from './main/unit/unit'

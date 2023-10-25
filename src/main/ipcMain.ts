@@ -26,7 +26,7 @@ ipcMain.on(IpcChannel.createFile, async () => {
     await TemplateWriter.writeTemplate(templatePath, destination, [jsPath])
     currentWindow.webContents.send(IpcChannel.createFile, { fileData })
   } catch (e) {
-    console.log('An error occurred', e)
+    console.log('An error occurred when trying to create the file.', e)
   }
 })
 
@@ -40,12 +40,12 @@ ipcMain.on(IpcChannel.openFile, async () => {
     const currentWindow = BrowserWindow.getFocusedWindow()
     if (dialogOpenData.canceled || !currentWindow) return
     const [fileReadData] = await Promise.all([fileManager.Read(dialogOpenData.filePaths[0])])
-    const fileName = dialogOpenData.filePaths[0].split('/').at(-1) || 'untitled.html'
+    const fileName = path.basename(dialogOpenData.filePaths[0])
     const fileExtension = fileName.split('.').at(-1) || '.html'
-    const unit = new Unit(fileName, crypto.randomUUID(), fileReadData, fileExtension)
+    const unit = new Unit(fileName, crypto.randomUUID(), fileReadData, fileExtension, dialogOpenData.filePaths[0])
     currentWindow.webContents.send(IpcChannel.openFile, unit)
   } catch (e) {
-    console.log('An error occurred', e)
+    console.log('An error occurred when trying to open the file', e)
   }
 })
 

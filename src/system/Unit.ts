@@ -2,14 +2,16 @@ import { IUnit, IUnitMetadata } from '../shared/types'
 
 class Unit implements IUnit {
   filename: string
+  filepath: string
   extension: string
   content: string
   id: string
   metadata: IUnitMetadata | null = null
-  constructor(filename: string, id: string, content: string, extension: string) {
+  constructor(filename: string, id: string, content: string, extension: string, filepath: string) {
     this.id = id
     this.content = content
     this.filename = filename
+    this.filepath = filepath
     this.extension = extension
   }
 }

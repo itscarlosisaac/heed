@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 
-import {HeedTap} from "./components";
+import {HdTap} from "./components";
 
 declare global {
   interface HTMLElementTagNameMap {
