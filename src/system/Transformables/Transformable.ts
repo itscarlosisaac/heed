@@ -18,16 +18,21 @@ class TransformableElement {
   constructor(element: HTMLElement) {
     this.element = element
     this.element.style.position = 'absolute'
-
-    this.draggable = new Draggable(this.element, this.sharedState)
-    this.rotatable = new Rotatable(this.element, this.sharedState)
+    this.element.style.userSelect = 'none'
     this.handleManager = new HandleManager(this.element, this.sharedState)
-    this.resizable = new Resizable(this.element, this.handleManager.getHandles(), this.sharedState)
+
     this.selectable = new Selectable(
       this.element,
-      this.handleManager.getHandles(),
+      [...this.handleManager.getHandles(), this.handleManager.getRotationHandle()],
       this.sharedState
     )
+    this.rotatable = new Rotatable(
+      this.element,
+      this.handleManager.getRotationHandle(),
+      this.sharedState
+    )
+    this.draggable = new Draggable(this.element, this.sharedState)
+    this.resizable = new Resizable(this.element, this.handleManager.getHandles(), this.sharedState)
   }
 }
 export default TransformableElement

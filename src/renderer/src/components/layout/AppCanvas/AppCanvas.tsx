@@ -1,4 +1,4 @@
-import React, { JSX, useEffect } from 'react'
+import { JSX, useEffect } from 'react'
 import { AbsoluteCenter, Box } from '@chakra-ui/react'
 import InfiniteViewer, { OnScroll } from 'react-infinite-viewer'
 import { useSelector } from 'react-redux'

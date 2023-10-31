@@ -3,18 +3,14 @@ import SharedState from './ShareState'
 class Rotatable {
   private element: HTMLElement
   private sharedState: SharedState
+  private rotationHandle: SVGCircleElement
   private startX: number = 0
   private startY: number = 0
 
-  private rotationHandle: SVGCircleElement = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'circle'
-  )
-
-  constructor(element: HTMLElement, sharedState: SharedState) {
+  constructor(element: HTMLElement, rotationHandle: SVGCircleElement, sharedState: SharedState) {
     this.element = element
     this.sharedState = sharedState
-    this.appendRotationHandle()
+    this.rotationHandle = rotationHandle
 
     this.onMouseUp = this.onMouseUp.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
@@ -22,31 +18,6 @@ class Rotatable {
     this.rotationHandle.addEventListener('mousedown', (e) => this.onMouseDown(e))
     document.addEventListener('mousemove', (e) => this.onMouseMove(e))
     document.addEventListener('mouseup', () => this.onMouseUp())
-  }
-  private appendRotationHandle(): void {
-    const svgNS = 'http://www.w3.org/2000/svg'
-    const svg = document.createElementNS(svgNS, 'svg')
-    svg.setAttribute('width', '10px')
-    svg.setAttribute('height', '10px')
-    svg.style.position = 'absolute'
-    svg.style.top = '-25px'
-    svg.style.left = '0'
-    svg.style.right = '0'
-    svg.style.margin = 'auto'
-    svg.style.pointerEvents = 'none'
-
-    this.rotationHandle.setAttribute('cx', '50%')
-    this.rotationHandle.setAttribute('cy', '50%') // Adjust the cy attribute to move the circle up by 20px
-    this.rotationHandle.setAttribute('r', '5px')
-    this.rotationHandle.style.fill = '#1E88E5'
-    this.rotationHandle.style.stroke = 'white'
-    this.rotationHandle.style.strokeWidth = '1px'
-    this.rotationHandle.style.pointerEvents = 'all'
-    this.rotationHandle.style.cursor =
-      "url('https://findicons.com/files/icons/1620/crystal_project/16/rotate_ccw.png'), auto"
-
-    svg.appendChild(this.rotationHandle)
-    this.element.appendChild(svg)
   }
 
   private onMouseDown(event: MouseEvent): void {
