@@ -1,14 +1,13 @@
 import SharedState from './ShareState'
 
 class Draggable {
-  private element: HTMLElement
-  private sharedState: SharedState
+  private readonly element: HTMLElement
+  private readonly sharedState: SharedState
 
   constructor(element: HTMLElement, sharedState: SharedState) {
     this.element = element
     this.sharedState = sharedState
     this.element.addEventListener('mousedown', (e) => this.onMouseDown(e))
-
   }
 
   private onMouseDown(e: MouseEvent): void {

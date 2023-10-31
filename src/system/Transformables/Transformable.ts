@@ -3,6 +3,7 @@ import Resizable from './Resizable'
 import Rotatable from './Rotatable'
 import SharedState from './ShareState'
 import HandleManager from './HandleManager'
+import Selectable from './Selectable'
 
 class TransformableElement {
   private readonly element: HTMLElement
@@ -11,6 +12,7 @@ class TransformableElement {
   protected draggable: Draggable
   protected rotatable: Rotatable
   protected resizable: Resizable
+  protected selectable: Selectable
   private handleManager: HandleManager
 
   constructor(element: HTMLElement) {
@@ -21,6 +23,11 @@ class TransformableElement {
     this.rotatable = new Rotatable(this.element, this.sharedState)
     this.handleManager = new HandleManager(this.element, this.sharedState)
     this.resizable = new Resizable(this.element, this.handleManager.getHandles(), this.sharedState)
+    this.selectable = new Selectable(
+      this.element,
+      this.handleManager.getHandles(),
+      this.sharedState
+    )
   }
 }
 export default TransformableElement

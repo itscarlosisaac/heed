@@ -2,6 +2,7 @@ class SharedState {
   isDragging: boolean = false
   isRotating: boolean = false
   isResizing: boolean = false
+  isSelected: boolean = false
   initX: number = 0
   initY: number = 0
   mousePressX: number = 0
