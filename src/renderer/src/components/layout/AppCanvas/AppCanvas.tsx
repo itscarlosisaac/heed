@@ -16,19 +16,17 @@ export function AppCanvas(): JSX.Element {
     const parser = new DOMParser()
     const m = DesignConverter.convertToHTMLFormat(design)
     const dom = parser.parseFromString(m, 'text/html')
-    console.log('DOM ', dom)
     const children = dom.querySelector('body')
-    console.log(children)
     const unit = document.getElementById('unit')
     if (children && unit) {
       unit.appendChild(children)
-        MakeImageTransformable()
+      MakeImageTransformable()
     }
   }, [content])
 
   function MakeImageTransformable() {
     const img = document.querySelectorAll('#unit p') as HTMLElement[]
-    img.forEach(p => new Transformable(p))
+    img.forEach((p) => new Transformable(p))
   }
 
   useEffect(() => {
