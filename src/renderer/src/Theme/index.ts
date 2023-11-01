@@ -1,9 +1,10 @@
-import { extendTheme } from '@chakra-ui/react'
-import { ModalTheme } from './Components/Modal'
+import { extendTheme} from '@chakra-ui/react'
+import { ModalTheme, AccordionTheme } from './Components'
 
 const ChakraCustomTheme = extendTheme({
   components: {
-    Modal: ModalTheme
+    Modal: ModalTheme,
+    Accordion: AccordionTheme
   }
 })
 

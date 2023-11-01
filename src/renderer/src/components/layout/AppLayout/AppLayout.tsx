@@ -1,7 +1,7 @@
 import { JSX } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react'
-import { Sidebar } from '../Sidebar/Sidebar'
-import { AppCanvas } from '../AppCanvas/AppCanvas'
+import { Sidebar } from '../Sidebars/Sidebar'
+import AppCanvas from '../AppCanvas/AppCanvas'
 
 export function AppLayout({
   AppHeader,
@@ -38,11 +38,7 @@ export function AppLayout({
           <AppCanvas />
         </GridItem>
 
-        <GridItem area={'right-sidebar'} h={'100%'} bg={'yellow'}>
-          <Sidebar>
-            <RightSidebar />
-          </Sidebar>
-        </GridItem>
+        <RightSidebar />
 
         <GridItem area={'bottom-sidebar'}>
           <Sidebar>
@@ -50,8 +46,7 @@ export function AppLayout({
           </Sidebar>
         </GridItem>
 
-
-        <GridItem area={'info-bar'} bg={"green"}>
+        <GridItem area={'info-bar'} bg={'green'}>
           <h4>Info Bar</h4>
         </GridItem>
       </Grid>

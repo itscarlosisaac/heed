@@ -4,7 +4,7 @@ import InfiniteViewer, { OnScroll } from 'react-infinite-viewer'
 import { useSelector } from 'react-redux'
 import { design, DesignConverter } from '../../../../../system/DesignConverter/DesignConverter'
 import Transformable from '../../../../../system/Transformables/Transformable'
-export function AppCanvas(): JSX.Element {
+function AppCanvas(): JSX.Element {
   const content = useSelector<any>((s) => s.application.editor.openUnits)
 
   function onScrollViewport(e: OnScroll): void {
@@ -61,3 +61,4 @@ export function AppCanvas(): JSX.Element {
     </Box>
   )
 }
+export default AppCanvas
