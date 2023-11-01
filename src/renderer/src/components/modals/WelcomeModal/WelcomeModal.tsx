@@ -1,5 +1,15 @@
 import { JSX, useEffect } from 'react'
-import { Box, Button, Flex, Grid, Modal, ModalBody, ModalContent, ModalOverlay, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure
+} from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ApplicationRootState } from '../../../redux/store/store'
 import { IApplicationState } from '../../../redux/Application/ApplicationInitialState'
@@ -7,9 +17,9 @@ import { IpcChannel } from '../../../../../shared/types'
 import { ApplicationActions } from '../../../redux/Application/ApplicationSlice'
 import FileService from '../../../services/FileService'
 import Unit from '../../../../../system/Unit'
-import TemplateParser from "../../../../../system/TemplateParser";
+import TemplateParser from '../../../../../system/TemplateParser'
 
-export function WelcomeModal(): JSX.Element {
+function WelcomeModal(): JSX.Element {
   const dispatch = useDispatch()
   const { editor } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
 
@@ -27,8 +37,6 @@ export function WelcomeModal(): JSX.Element {
     const file = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
     console.log('File: ', data)
 
-
-
     const parser = new TemplateParser()
     parser.parse(file.content).then((parsedData) => {
       console.log('Scripts:', parsedData.scripts)
@@ -36,8 +44,6 @@ export function WelcomeModal(): JSX.Element {
       console.log('Meta Tags:', parsedData.meta)
       console.log('Body Content:', parsedData.bodyContent)
     })
-
-
 
     dispatch(ApplicationActions.OpenUnit(file))
   }
@@ -72,3 +78,5 @@ export function WelcomeModal(): JSX.Element {
     </>
   )
 }
+
+export default WelcomeModal
