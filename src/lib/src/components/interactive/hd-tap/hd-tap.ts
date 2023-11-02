@@ -1,9 +1,12 @@
-class HdTap extends HTMLElement {
+import Paper from '../../Paper/Paper'
+import { PaperTypes } from '../../Paper/Paper.types'
+
+class HdTap extends Paper implements PaperTypes{
   constructor() {
-    super()
+    super('HD-Tap')
   }
 
-  connectedCallback(): void {
+  connected(): void {
     // TODO: Make a selection to choose touch end or touch start
     // Adding event listeners for click, touch, and keyboard events
     this.addEventListener('click', this.handleTap)
@@ -17,7 +20,7 @@ class HdTap extends HTMLElement {
     this.style.backgroundColor = '#e1ffe7'
     this.setAttribute('aria-label', 'Interactive element that allows click and tap interactions')
   }
-  disconnectedCallback(): void {
+  disconnected(): void {
     // Remove event listeners
     this.removeEventListener('click', this.handleTap)
     this.removeEventListener('touchend', this.handleTap)
