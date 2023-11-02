@@ -9,10 +9,19 @@
   </head>
   <body>
   <heed-unit>
-    <heed-tap>
-      TAP
+    <heed-tap
+		    id="hd-tap"
+		    style="display:block;width:100px;height:100px">
     </heed-tap>
 
   </heed-unit>
+
+  <script>
+	  const element = document.getElementById('hd-tap');
+
+	  element.addEventListener('click', (event) => {
+		  console.log('Interaction type:', event)
+	  });
+  </script>
   </body>
 </html>
