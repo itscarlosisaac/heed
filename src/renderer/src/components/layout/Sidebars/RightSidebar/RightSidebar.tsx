@@ -1,8 +1,9 @@
 import Properties from '../../../Panels/Properties/Properties'
 import { GridItem } from '@chakra-ui/react'
-import Transformation from '../../../Panels/Transformation/Transformation'
-import StylePanel from '../../../Panels/StylePanel/StylePanel'
-import ImagePropertiesPanel from '@renderer/components/Panels/components/Image/ImagePropertiesPanel/ImagePropertiesPanel'
+import Transformation from '@renderer/components/Panels/Transformation/Transformation'
+import StylePanel from '@renderer/components/Panels/StylePanel/StylePanel'
+import ImagePropertiesPanel from '@renderer/components/Panels/ImagePropertiesPanel/ImagePropertiesPanel'
+import AnchorPanel from '@renderer/components/Panels/Anchor/AnchorPanel'
 
 function RightSidebar(): JSX.Element {
   return (
@@ -10,6 +11,7 @@ function RightSidebar(): JSX.Element {
       <Properties />
       <Transformation />
       <StylePanel />
+      <AnchorPanel />
       <ImagePropertiesPanel />
     </GridItem>
   )
