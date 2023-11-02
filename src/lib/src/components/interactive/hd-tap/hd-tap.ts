@@ -1,7 +1,7 @@
 import Paper from '../../Paper/Paper'
 import { PaperTypes } from '../../Paper/Paper.types'
 
-class HdTap extends Paper implements PaperTypes{
+class HdTap extends Paper implements PaperTypes {
   constructor() {
     super('HD-Tap')
   }
@@ -18,6 +18,8 @@ class HdTap extends Paper implements PaperTypes{
     this.setAttribute('tabindex', '0')
     this.style.border = '1px solid #a8f8b8'
     this.style.backgroundColor = '#e1ffe7'
+    this.style.cursor = 'pointer'
+    this.style.display = 'block'
     this.setAttribute('aria-label', 'Interactive element that allows click and tap interactions')
   }
   disconnected(): void {

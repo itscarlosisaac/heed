@@ -12,7 +12,7 @@
     <heed-tap
 		    id="hd-tap"
 		    name="hd-tap"
-		    style="display:block;width:100px;height:100px">
+		    style="width:100px;height:100px;">
     </heed-tap>
 
   </heed-unit>
@@ -20,7 +20,7 @@
   <script>
 	  const element = document.getElementById('hd-tap');
 
-	  element.addEventListener('click', (event) => {
+	  element.addEventListener('tap', (event) => {
 		  console.log('Interaction type:', event)
 	  });
   </script>
