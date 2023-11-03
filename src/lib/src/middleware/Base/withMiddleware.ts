@@ -1,5 +1,5 @@
-import MiddlewareManager from './ComponentMiddleware'
-import { CustomConstructor } from './ComponentMiddleware.types'
+import { CustomConstructor } from './MiddlewareManager.types'
+import MiddlewareManager from './MiddlewareManager'
 
 function withMiddleware<T extends CustomConstructor>(
   WithMiddlewareComponent: T,
@@ -26,7 +26,6 @@ function withMiddleware<T extends CustomConstructor>(
       middlewareManager.onDisconnected(this)
     }
   }
-
 }
 
-export default withMiddleware
+export { withMiddleware }

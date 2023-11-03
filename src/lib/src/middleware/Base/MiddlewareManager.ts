@@ -1,4 +1,4 @@
-import { Middleware } from './ComponentMiddleware.types'
+import { Middleware } from './MiddlewareManager.types'
 
 class MiddlewareManager {
   private middlewares: Middleware[] = []
@@ -19,5 +19,4 @@ class MiddlewareManager {
     }
   }
 }
-
 export default MiddlewareManager
