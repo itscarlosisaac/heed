@@ -20,6 +20,8 @@ class HdTap extends Paper implements PaperTypes {
     this.style.backgroundColor = '#e1ffe7'
     this.style.cursor = 'pointer'
     this.style.display = 'block'
+    this.style.width = '100px'
+    this.style.height = '100px'
     this.setAttribute('aria-label', 'Interactive element that allows click and tap interactions')
   }
   disconnected(): void {
@@ -37,6 +39,8 @@ class HdTap extends Paper implements PaperTypes {
     })
     this.dispatchEvent(tapEvent)
   }
+
+
 }
 // Define the custom element
 customElements.define('heed-tap', HdTap)
