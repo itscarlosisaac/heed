@@ -1,7 +1,15 @@
 import { middlewareManager, withMiddleware } from '../../../middleware'
 import { generateUUID } from '../../../utils/utils'
 
+/**
+ * Hotspot is a custom HTML element that extends HTMLElement and is designed to handle click and tap interactions.
+ * The element is styled to appear as an interactive area and is accessible with ARIA attributes.
+ */
 class Hotspot extends HTMLElement {
+  /**
+   * IntermediateElement is a private HTMLDivElement that acts as a child of the custom element.
+   * It is used to provide visual feedback and accessibility features.
+   */
   private IntermediateElement: HTMLDivElement = document.createElement('div')
   constructor() {
     super()
@@ -9,15 +17,14 @@ class Hotspot extends HTMLElement {
 
   connectedCallback(): void {
     this.addEventListener('click', this.onTap)
-    this.addEventListener('touchend', this.onTap)
-    this.addEventListener('keydown', this.onTap)
+    this.addEventListener('touchstart', this.onTap)
     this.setInitialAttributes()
   }
 
   disconnectedCallback(): void {
     // Remove event listeners
     this.removeEventListener('click', this.onTap)
-    this.removeEventListener('touchend', this.onTap)
+    this.removeEventListener('touchstart', this.onTap)
   }
 
   setInitialAttributes(): void {
@@ -37,8 +44,11 @@ class Hotspot extends HTMLElement {
     )
   }
 
+  /**
+   * onTap is an event handler for click, touchstart events.
+   * It dispatches a 'tap' event when the element is interacted with.
+   */
   onTap(): void {
-    // Trigger a custom event to notify the click
     const tapEvent = new CustomEvent('tap', {
       bubbles: true,
       composed: true
