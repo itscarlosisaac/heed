@@ -75,8 +75,7 @@ class HandleManager {
     this.rotationHandle.style.stroke = 'white'
     this.rotationHandle.style.strokeWidth = '1px'
     this.rotationHandle.style.pointerEvents = 'all'
-    this.rotationHandle.style.cursor =
-      "url('https://findicons.com/files/icons/1620/crystal_project/16/rotate_ccw.png'), auto"
+    this.rotationHandle.style.cursor = 'grabbing'
 
     svg.appendChild(this.rotationHandle)
     this.element.appendChild(svg)
