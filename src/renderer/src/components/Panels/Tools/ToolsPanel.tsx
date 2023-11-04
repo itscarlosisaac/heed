@@ -5,13 +5,13 @@ import Transformable from '../../../../../system/Transformables/Transformable'
 
 function Properties(): JSX.Element {
   function handleCreateHotspot(): void {
-    const unit = document.querySelector('#unit body') as HTMLElement
+    const unit = document.querySelector('#unit') as HTMLElement
     if (!unit) return
-    console.log('Will create hotspot')
     ComponentInstantiator.setContainer(unit)
-
-    const element = ComponentInstantiator.createAndAppendElement('hd-hotspot')
-    const b = new Transformable(element)
+    const element = ComponentInstantiator.createAndAppendElement('hd-hotspot', {
+      style: `width:20px; height:20px;`
+    })
+    new Transformable(element)
   }
 
   return (

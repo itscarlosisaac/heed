@@ -36,8 +36,8 @@ class Hotspot extends HTMLElement {
     this.IntermediateElement.style.backgroundColor = '#e1ffe7'
     this.IntermediateElement.style.cursor = 'pointer'
     this.IntermediateElement.style.display = 'block'
-    this.IntermediateElement.style.width = '100px'
-    this.IntermediateElement.style.height = '100px'
+    this.IntermediateElement.style.width = '100%'
+    this.IntermediateElement.style.height = '100%'
     this.IntermediateElement.setAttribute(
       'aria-label',
       'Interactive element that allows click and tap interactions'
