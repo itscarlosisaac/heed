@@ -34,18 +34,22 @@ function WelcomeModal(): JSX.Element {
   }
 
   function handle(_e: unknown, data: unknown): void {
-    const file = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
+    const unit = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
     console.log('File: ', data)
 
     const parser = new TemplateParser()
-    parser.parse(file.content).then((parsedData) => {
+    parser.parse(unit.content).then((parsedData) => {
       console.log('Scripts:', parsedData.scripts)
+
+      unit.setScripts(parsedData.scripts)
+      unit.setStyles(parsedData.styles)
+      unit.setMetatags(parsedData.meta)
+
       console.log('Styles:', parsedData.styles)
       console.log('Meta Tags:', parsedData.meta)
       console.log('Body Content:', parsedData.bodyContent)
+      dispatch(ApplicationActions.OpenUnit(unit.get()))
     })
-
-    dispatch(ApplicationActions.OpenUnit(file))
   }
 
   useEffect(() => {

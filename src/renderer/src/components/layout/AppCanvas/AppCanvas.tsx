@@ -1,39 +1,11 @@
-import { JSX, useEffect } from 'react'
+import { JSX } from 'react'
 import { AbsoluteCenter, Box } from '@chakra-ui/react'
 import InfiniteViewer, { OnScroll } from 'react-infinite-viewer'
-import { useSelector } from 'react-redux'
-import { design, DesignConverter } from '../../../../../system/DesignConverter/DesignConverter'
-import Transformable from '../../../../../system/Transformables/Transformable'
-function AppCanvas(): JSX.Element {
-  const content = useSelector<any>((s) => s.application.editor.openUnits)
 
+function AppCanvas(): JSX.Element {
   function onScrollViewport(e: OnScroll): void {
     console.log('on Scroll event', e)
   }
-
-  useEffect(() => {
-    if (content.length == 0) return
-    const parser = new DOMParser()
-    const m = DesignConverter.convertToHTMLFormat(design)
-    const dom = parser.parseFromString(m, 'text/html')
-    const children = dom.querySelector('body')
-    const unit = document.getElementById('unit')
-    if (children && unit) {
-      unit.appendChild(children)
-      MakeImageTransformable()
-    }
-  }, [content])
-
-  function MakeImageTransformable() {
-    const img = document.querySelectorAll('#unit p') as HTMLElement[]
-    img.forEach((p) => new Transformable(p))
-  }
-
-  useEffect(() => {
-    // Usage:
-    // const element = document.querySelector('#element') as HTMLElement
-    // new Transformable(element)
-  }, [])
 
   return (
     <Box h={'100%'} w={'100%'} bg={'coral'} position={'relative'}>
