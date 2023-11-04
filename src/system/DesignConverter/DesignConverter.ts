@@ -13,48 +13,56 @@ class DesignConverter {
    * @returns {string} The HTML string representation of the design element.
    */
   static convertToHTMLFormat(design: DesignElement): string {
-    const stack: { design: DesignElement; parent: string | null }[] = []
-    stack.push({ design, parent: null })
     let html = ''
+    const stack: Array<{ design: DesignElement; isClosingTag: boolean }> = []
+
+    // Initially push the root element onto the stack
+    stack.push({ design, isClosingTag: false })
 
     while (stack.length > 0) {
-      const { design } = stack.pop() as { design: DesignElement; parent: string | null }
+      const { design, isClosingTag } = stack.pop()!
 
-      // Add the opening tag
-      html += `<${design.type}`
-
-      if (design.styles) {
-        const styleString = Object.entries(design.styles)
-          .map(([key, value]) => `${key}: ${value}`)
-          .join('; ')
-        html += ` style="${styleString}"`
-      }
-
-      if (design.attributes) {
-        for (const [key, value] of Object.entries(design.attributes)) {
-          html += ` ${key}="${value}"`
-        }
-      }
-
-      html += '>'
-
-      if (design.content) {
-        html += design.content
-      }
-
-      // If there are children, add them to the stack
-      if (design.children && design.children.length > 0) {
-        for (let i = design.children.length - 1; i >= 0; i--) {
-          stack.push({ design: design.children[i], parent: design.type })
-        }
-      } else {
-        // Close the tag if there are no children
+      if (isClosingTag) {
+        // Add the closing tag for the element
         html += `</${design.type}>`
+      } else {
+        // Add the opening tag for the element
+        html += `<${design.type}`
+
+        if (design.styles) {
+          const styleString = Object.entries(design.styles)
+            .map(([key, value]) => `${key}: ${value}`)
+            .join('; ')
+          html += ` style="${styleString}"`
+        }
+
+        if (design.attributes) {
+          for (const [key, value] of Object.entries(design.attributes)) {
+            html += ` ${key}="${value}"`
+          }
+        }
+
+        html += '>'
+
+        if (design.content) {
+          html += design.content
+        }
+
+        // If there are children, push them onto the stack in reverse order
+        if (design.children && design.children.length > 0) {
+          // Push the closing tag for the current element onto the stack
+          stack.push({ design, isClosingTag: true })
+
+          // Then push all children onto the stack
+          for (let i = design.children.length - 1; i >= 0; i--) {
+            stack.push({ design: design.children[i], isClosingTag: false })
+          }
+        } else {
+          // If there are no children, add the closing tag immediately
+          html += `</${design.type}>`
+        }
       }
     }
-
-    // Close the root tag
-    html += `</${design.type}>`
 
     return html
   }
@@ -93,53 +101,26 @@ class DesignConverter {
    */
   private static convertElementToDesign(element: HTMLElement): DesignElement {
     const designElement: DesignElement = {
-      type: element.tagName.toLowerCase()
-    }
-
-    // Parses the Styles.
-    if (element.style.cssText) {
-      designElement.styles = this.parseStyles(element.style.cssText)
+      type: element.tagName.toLowerCase(),
+      attributes: {}
     }
 
     if (element.attributes.length > 0) {
-      for (const [key, val] of Object.entries(element.attributes)) {
-        designElement[`${key}`] = val
+      for (let i = 0; i < element.attributes.length; i++) {
+        const attr = element.attributes[i]
+        designElement.attributes[attr.name] = attr.value
       }
     }
 
     if (element.children.length === 1 && element.children[0] instanceof Text) {
       designElement.content = element.textContent || undefined
     } else if (element.children.length > 0) {
-      designElement.children = Array.from(element.children).map((child) =>
-        this.convertElementToDesign(child as HTMLElement)
-      )
+      designElement.children = designElement.children = Array.from(element.childNodes)
+        .filter((node) => node.nodeType === Node.ELEMENT_NODE)
+        .map((child) => this.convertElementToDesign(child as HTMLElement))
     }
 
     return designElement
-  }
-
-  /**
-   * Parses a string of CSS styles into an object.
-   * @param {string} styleText - The string containing CSS styles.
-   * @returns {{ [key: string]: string }} An object representing the CSS styles.
-   * @private
-   */
-  private static parseStyles(styleText: string): { [key: string]: string } {
-    const styles: { [key: string]: string } = {}
-    const stylePairs = styleText.split(';')
-    for (const pair of stylePairs) {
-      const [key, value] = pair.split(':').map((s) => s.trim())
-
-      if (!key || !value) {
-        console.warn(`Ignoring malformed style: ${pair}`)
-        continue
-      }
-
-      if (key && value) {
-        styles[key] = value
-      }
-    }
-    return styles
   }
 }
 
@@ -156,11 +137,13 @@ const design: DesignElement = {
   },
   children: [
     {
+      attributes: {},
       type: 'p',
       styles: { color: 'white' },
       content: 'Hello World'
     },
     {
+      attributes: {},
       type: 'p',
       styles: { color: 'green' },
       content: 'Hello Again'
@@ -175,4 +158,4 @@ const design: DesignElement = {
   ]
 }
 
-export { DesignConverter, design }
+export { DesignConverter }
