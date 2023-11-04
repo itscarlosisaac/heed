@@ -34,5 +34,9 @@ class TransformableElement {
     this.draggable = new Draggable(this.element, this.sharedState)
     this.resizable = new Resizable(this.element, this.handleManager.getHandles(), this.sharedState)
   }
+
+  removeHandlers(): void {
+    this.element.querySelectorAll('svg').forEach((handler) => handler.remove())
+  }
 }
 export default TransformableElement
