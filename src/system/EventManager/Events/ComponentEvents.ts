@@ -13,6 +13,7 @@ ComponentEventManager.on('create', (tagName) => {
   const element = ComponentInstantiator.createAndAppendElement(tagName, {
     style: `width:50px; height:50px;`
   })
+  ComponentEventManager.emit('created', element)
   new Transformable(element)
 })
 
