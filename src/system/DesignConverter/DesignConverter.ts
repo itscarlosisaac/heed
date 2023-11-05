@@ -70,13 +70,14 @@ class DesignConverter {
   /**
    * Converts an HTML string into a DesignElement object.
    * @param {string} htmlString - The HTML string to convert.
+   * @param {string} rootSelector - The selector of the root tag.
    * @returns {DesignElement} The DesignElement object representation of the HTML content.
    * @throws Will throw an error if the HTML string is empty.
    * @throws Will throw an error if the HTML string is invalid or does not contain a root element.
    */
-  static convertToHeedFormat(htmlString: string): DesignElement {
+  static convertToHeedFormat(htmlString: string, rootSelector: string = 'body'): DesignElement {
     const doc = new DOMParser().parseFromString(htmlString, 'text/html')
-    const root = doc.body.firstElementChild as HTMLElement
+    const root = doc.querySelector(rootSelector) as HTMLElement
 
     if (htmlString.trim() === '') {
       throw new Error('The HTML string cannot be empty.')

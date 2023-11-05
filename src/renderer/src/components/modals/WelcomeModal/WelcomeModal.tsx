@@ -18,6 +18,7 @@ import { ApplicationActions } from '../../../redux/Application/ApplicationSlice'
 import FileService from '../../../services/FileService'
 import Unit from '../../../../../system/Unit'
 import TemplateParser from '../../../../../system/TemplateParser'
+import { DesignConverter } from '../../../../../system/DesignConverter/DesignConverter'
 
 function WelcomeModal(): JSX.Element {
   const dispatch = useDispatch()
@@ -33,27 +34,26 @@ function WelcomeModal(): JSX.Element {
     FileService.OpenFile()
   }
 
-  function handle(_e: unknown, data: unknown): void {
+  function onOpenFile(_e: unknown, data: unknown): void {
     const unit = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
     console.log('File: ', data)
+    const Domparser = new DOMParser()
+    const da = Domparser.parseFromString(data.content, 'text/html')
+    console.log("DA", da)
+    const m = DesignConverter.convertToHeedFormat(da.querySelector('html').outerHTML, 'html')
+    console.log(m)
 
     const parser = new TemplateParser()
     parser.parse(unit.content).then((parsedData) => {
-      console.log('Scripts:', parsedData.scripts)
-
       unit.setScripts(parsedData.scripts)
       unit.setStyles(parsedData.styles)
       unit.setMetatags(parsedData.meta)
-
-      console.log('Styles:', parsedData.styles)
-      console.log('Meta Tags:', parsedData.meta)
-      console.log('Body Content:', parsedData.bodyContent)
       dispatch(ApplicationActions.OpenUnit(unit.get()))
     })
   }
 
   useEffect(() => {
-    const listener = window.electron.ipcRenderer.on(IpcChannel.openFile, handle)
+    const listener = window.electron.ipcRenderer.on(IpcChannel.openFile, onOpenFile)
     return () => listener()
   }, [])
 

@@ -7,8 +7,8 @@ class FileService {
   public static OpenFile(): void {
     window.electron.ipcRenderer.send(IpcChannel.openFile, {})
   }
-  public static SaveFile(): void {
-    window.electron.ipcRenderer.send(IpcChannel.saveFile, {})
+  public static SaveFile(data: string): void {
+    window.electron.ipcRenderer.send(IpcChannel.saveFile, data)
   }
 }
 

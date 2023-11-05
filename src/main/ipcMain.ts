@@ -49,6 +49,6 @@ ipcMain.on(IpcChannel.openFile, async () => {
   }
 })
 
-ipcMain.on(IpcChannel.saveFile, async () => {
+ipcMain.on(IpcChannel.saveFile, async (event, data) => {
   console.log('Will save.')
 })
