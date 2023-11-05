@@ -113,8 +113,8 @@ class DesignConverter {
       }
     }
 
-    if (element.children.length === 1 && element.children[0] instanceof Text) {
-      designElement.content = element.textContent || undefined
+    if (element.childNodes.length === 1 && element.childNodes[0].nodeType === Node.TEXT_NODE) {
+      designElement.content = element.textContent ? element.textContent.trim() : undefined
     } else if (element.children.length > 0) {
       designElement.children = designElement.children = Array.from(element.childNodes)
         .filter((node) => node.nodeType === Node.ELEMENT_NODE)
