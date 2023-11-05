@@ -31,6 +31,7 @@ class Hotspot extends HTMLElement {
     // TODO: Make a selection to choose touch end or touch start
     // Set initial attributes for accessibility
     this.appendChild(this.IntermediateElement)
+    this.setAttribute('id', generateUUID(`hd-hotspot`))
     this.IntermediateElement.setAttribute('class', generateUUID())
     this.IntermediateElement.style.border = '1px solid #a8f8b8'
     this.IntermediateElement.style.backgroundColor = '#e1ffe7'

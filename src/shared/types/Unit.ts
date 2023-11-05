@@ -6,6 +6,7 @@ export interface IUnit {
   styleTag: IUnitStyle[]
   scriptTag: IUnitScript[]
   metaTag: IUnitMetaTag[]
+  children: HTMLElement[]
 }
 
 export interface IUnitMetadata {

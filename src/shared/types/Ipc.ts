@@ -5,7 +5,7 @@ export interface IpcApi {
   send(channel: string, payload?: unknown): void
 }
 export enum IpcChannel {
-  openFile = 'open-file',
-  saveFile = 'save-file',
-  createFile = 'create-file'
+  openFile = 'open_file',
+  saveFile = 'save_file',
+  createFile = 'create_file'
 }

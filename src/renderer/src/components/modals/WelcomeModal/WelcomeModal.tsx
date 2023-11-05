@@ -39,7 +39,7 @@ function WelcomeModal(): JSX.Element {
     console.log('File: ', data)
     const Domparser = new DOMParser()
     const da = Domparser.parseFromString(data.content, 'text/html')
-    console.log("DA", da)
+    console.log('DA', da)
     const m = DesignConverter.convertToHeedFormat(da.querySelector('html').outerHTML, 'html')
     console.log(m)
 

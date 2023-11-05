@@ -1,9 +1,5 @@
-type Listener<T extends Array<unknown>> = (...args: T) => void
-type VoidMethod = () => void
-type EventMiddleware<EventMap> = (
-  event: { type: keyof EventMap; payload: EventMap[keyof EventMap] },
-  next: VoidMethod
-) => void
+import { EventMiddleware, Listener } from '../../shared/types/EventManager/EventManager'
+import { VoidMethod } from '../../shared/types'
 
 class EventManager<EventMap extends Record<string, Array<unknown>>> {
   private listeners: {

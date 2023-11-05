@@ -6,6 +6,7 @@ import store from './redux/store/store'
 import { ChakraProvider } from '@chakra-ui/react'
 import './styles/index.scss'
 import ChakraCustomTheme from './Theme/index'
+import '../../system/EventManager/Events/ComponentEvents'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ChakraProvider theme={ChakraCustomTheme}>

@@ -3,7 +3,7 @@ import { DesignElement } from '../../shared/types/DesignElements/DesignElement'
 /**
  * The DesignConverter class provides static methods to convert between a custom DesignElement object structure and
  * HTML format. It is designed to facilitate the transformation of design elements that have been defined in a
- * JavaScript object notation into valid HTML strings, and vice versa.
+ * JSON into valid HTML strings, and vice versa.
  */
 
 class DesignConverter {

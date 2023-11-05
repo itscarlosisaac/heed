@@ -10,6 +10,7 @@ class Unit implements IUnit {
   metaTag: IUnitMetaTag[] = []
   scriptTag: IUnitScript[] = []
   styleTag: IUnitStyle[] = []
+  children: HTMLElement[] = []
   constructor(filename: string, id: string, content: string, extension: string, filepath: string) {
     this.id = id
     this.content = content
@@ -26,6 +27,14 @@ class Unit implements IUnit {
   }
   setMetatags(metatags: IUnitMetaTag[]): void {
     this.metaTag = metatags
+  }
+
+  addChild(element: HTMLElement): void {
+    this.children.push(element)
+  }
+
+  removeChild(element: HTMLElement): void {
+    this.children.pop()
   }
 
   get(): any {
