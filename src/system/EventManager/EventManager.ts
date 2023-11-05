@@ -14,6 +14,17 @@ class EventManager<EventMap extends Record<string, Array<unknown>>> {
     this.listeners[eventName] = listeners
   }
 
+  public off<K extends keyof EventMap>(eventName: K, listener: Listener<EventMap[K]>): void {
+    const listeners = this.listeners[eventName]
+    if (listeners) {
+      listeners.delete(listener)
+      // If there are no more listeners, you might want to delete the key from the object
+      if (listeners.size === 0) {
+        delete this.listeners[eventName]
+      }
+    }
+  }
+
   public use(middleware: EventMiddleware<EventMap>): void {
     this.middleware.push(middleware)
   }

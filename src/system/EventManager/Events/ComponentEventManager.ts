@@ -4,6 +4,7 @@ import { EventMiddleware } from '../../../shared/types/EventManager/EventManager
 
 type CreateComponentMap = {
   create: [data: string]
+  created: [data: HTMLElement]
   delete: [data: string]
 }
 
