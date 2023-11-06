@@ -10,7 +10,7 @@ import WelcomeModal from './components/modals/WelcomeModal/WelcomeModal'
 function App(): JSX.Element {
   return (
     <>
-      <WelcomeModal />
+      {/*<WelcomeModal />*/}
       <AppLayout
         AppHeader={AppHeader}
         LeftSidebar={LeftSidebar}

@@ -19,6 +19,7 @@ import FileService from '../../../services/FileService'
 import Unit from '../../../../../system/Unit'
 import TemplateParser from '../../../../../system/TemplateParser'
 import { DesignConverter } from '../../../../../system/DesignConverter/DesignConverter'
+import Transformable from '../../../../../system/Transformables/Transformable'
 
 function WelcomeModal(): JSX.Element {
   const dispatch = useDispatch()
@@ -36,12 +37,25 @@ function WelcomeModal(): JSX.Element {
 
   function onOpenFile(_e: unknown, data: unknown): void {
     const unit = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
-    console.log('File: ', data)
     const Domparser = new DOMParser()
-    const da = Domparser.parseFromString(data.content, 'text/html')
-    console.log('DA', da)
-    const m = DesignConverter.convertToHeedFormat(da.querySelector('html').outerHTML, 'html')
-    console.log(m)
+    const parsedDoc = Domparser.parseFromString(data.content, 'text/html')
+
+    console.log('DA', parsedDoc)
+    const heedUnit = parsedDoc.querySelector('heed-unit')
+    console.log('heedUnit', heedUnit)
+
+    const unitElement = document.querySelector('#unit')
+    // const heedUnitContent = heedUnit.innerHTML
+    console.log('HTML = ', heedUnit.children)
+
+    // unitElement.innerHTML = '' // Clear existing content
+    // unitElement.innerHTML = heedUnitContent // Set new content
+    // document.querySelector("#unit").innerHTML = heedUnit.innerHTML
+    const children = unitElement.children
+    for (let i = 0; i < children.length; i++) {
+      unitElement.innerHTML += heedUnit.children[i]
+      new Transformable(children[i])
+    }
 
     const parser = new TemplateParser()
     parser.parse(unit.content).then((parsedData) => {
