@@ -41,6 +41,7 @@
     "electron-updater": "^6.1.1",
     "framer-motion": "^10.16.4",
     "jsdom": "^22.1.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-hook-form": "^7.47.0",
     "react-hook-form-chakra": "^1.0.1",
     "react-infinite-viewer": "^0.28.0",
