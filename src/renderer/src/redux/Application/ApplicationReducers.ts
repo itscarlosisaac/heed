@@ -24,7 +24,7 @@ function UpdateBody(state: IApplicationState, action: PayloadAction<string>): vo
   const parsedDoc = parser.parseFromString(content, 'text/html')
   parsedDoc.querySelector('body heed-unit').appendChild(container.firstChild)
   console.log('Parsed Doc', parsedDoc, container.firstChild)
-  // state.editor.activeUnit.content = parsedDoc
+  state.editor.activeUnit.content = parsedDoc
 }
 
 export { OpenUnit, CloseUnit, SetActiveUnit, UpdateBody }
