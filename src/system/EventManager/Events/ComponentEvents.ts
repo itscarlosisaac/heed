@@ -6,14 +6,20 @@ import ComponentEventManager from './ComponentEventManager'
  * Creates a new component in the unit with its default properties.
  * @tagName {string} The tag of the element to be created
  */
-ComponentEventManager.on('create', (tagName) => {
+ComponentEventManager.on('create', (data) => {
   const unit = document.querySelector('#unit') as HTMLElement
   if (!unit) return
   ComponentInstantiator.setContainer(unit)
-  const element = ComponentInstantiator.createAndAppendElement(tagName, {
-    style: `width:50px; height:50px;`
+  const element = ComponentInstantiator.createAndAppendElement({
+    tagName: data.tagName,
+    attributes: {
+      ...data.attributes,
+      style: `width:50px; height:50px;`
+    }
   })
+  console.log('Will update ', data)
   ComponentEventManager.emit('created', element)
+  console.log('Creating transformable for: ', element)
   new Transformable(element)
 })
 

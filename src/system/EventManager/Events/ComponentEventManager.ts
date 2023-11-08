@@ -3,7 +3,7 @@ import EventManager from '../EventManager'
 import { EventMiddleware } from '../../../shared/types/EventManager/EventManager'
 
 type CreateComponentMap = {
-  create: [data: string]
+  create: [data: { tagName: string, attributes: Record<string, string>}]
   created: [data: HTMLElement]
   delete: [data: string]
 }

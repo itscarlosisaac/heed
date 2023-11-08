@@ -1,13 +1,14 @@
-import { HStack, Button } from '@chakra-ui/react'
+import { HStack } from '@chakra-ui/react'
 import PanelContainer from '../PanelContainer/PanelContainer'
 import CreateHotspotButton from './CreateHotspotButton/CreateHotspotButton'
+import CreateImageButton from './CreateImageButton/CreateImageButton'
 
 function Properties(): JSX.Element {
   return (
     <>
       <PanelContainer title={'Tools'}>
         <HStack spacing={4} alignItems={'flex-start'}>
-          <Button>Create Image</Button>
+          <CreateImageButton />
           <CreateHotspotButton />
         </HStack>
       </PanelContainer>

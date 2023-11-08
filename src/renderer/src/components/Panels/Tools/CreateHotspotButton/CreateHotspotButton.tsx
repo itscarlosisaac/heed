@@ -7,7 +7,13 @@ import { useEffect } from 'react'
 function CreateHotspotButton(): JSX.Element {
   const dispatch = useDispatch()
   function handleCreateHotspot(): void {
-    ComponentEventManager.emit('create', 'hd-hotspot')
+    ComponentEventManager.emit('create', {
+      tagName: 'hd-hotspot',
+      attributes: {
+        width: '50px',
+        height: '50px'
+      }
+    })
   }
 
   function handleCreatedHotspot(data: HTMLElement): void {

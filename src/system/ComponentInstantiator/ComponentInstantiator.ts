@@ -6,16 +6,19 @@ class ComponentInstantiator {
   }
 
   // Method to create and append the custom element with a set of attributes.
-  public createAndAppendElement(tagName: string, attributes?: Record<string, string>): HTMLElement {
+  public createAndAppendElement(data: {
+    tagName: string
+    attributes?: Record<string, string>
+  }): HTMLElement {
     if (!this.container) {
       throw new Error(`Instantiator needs a container element.`)
     }
-    if (!customElements.get(tagName)) {
-      throw new Error(`Custom element "${tagName}" is not defined.`)
+    if (!customElements.get(data.tagName)) {
+      throw new Error(`Custom element "${data.tagName}" is not defined.`)
     }
-    const element = document.createElement(tagName)
-    for (const attr in attributes) {
-      element.setAttribute(attr, attributes[attr])
+    const element = document.createElement(data.tagName)
+    for (const attr in data.attributes) {
+      element.setAttribute(attr, data.attributes[attr])
     }
     this.container.appendChild(element)
     return element
