@@ -1,4 +1,4 @@
-import { Middleware } from './MiddlewareManager.types'
+import {AttributeChangedProps, Middleware} from './MiddlewareManager.types'
 
 class MiddlewareManager {
   private middlewares: Middleware[] = []
@@ -16,6 +16,12 @@ class MiddlewareManager {
   onDisconnected(host: HTMLElement): void {
     for (const middleware of this.middlewares) {
       middleware.disconnected?.(host)
+    }
+  }
+
+  onAttributeChanged(host: HTMLElement, data: AttributeChangedProps): void {
+    for (const middleware of this.middlewares) {
+      middleware.attributeChanged?.(host, data)
     }
   }
 }

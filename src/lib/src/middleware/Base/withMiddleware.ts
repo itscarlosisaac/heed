@@ -6,8 +6,6 @@ function withMiddleware<T extends CustomConstructor>(
   middlewareManager: MiddlewareManager
 ): T {
   return class extends WithMiddlewareComponent {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     constructor(...args: any[]) {
       super(...args)
     }
@@ -24,6 +22,12 @@ function withMiddleware<T extends CustomConstructor>(
         super.disconnectedCallback()
       }
       middlewareManager.onDisconnected(this)
+    }
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
+      if (super.attributeChangedCallback) {
+        super.attributeChangedCallback(name, oldValue, newValue)
+      }
+      middlewareManager.onAttributeChanged(this, { name, oldValue, newValue })
     }
   }
 }
