@@ -6,7 +6,7 @@
   "author": "example.com",
   "homepage": "https://www.electronjs.org",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri dev",

@@ -5,3 +5,4 @@ out
 .vscode
 .idea/**/*
 resources/components
+src-tauri/target
