@@ -9,7 +9,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri",
+    "tauri": "tauri dev",
     "dev-components": "vite --config ./components.vite.config.ts",
     "build-components": "tsc --project tsconfig-components.json && vite build ./src/lib --config ./components.vite.config.ts "
   },

@@ -4,12 +4,17 @@
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+    format!("Hello, {}! You've been greeted from Rust and updated!", name)
+}
+
+#[tauri::command]
+fn get_window_name(name: &str) -> String {
+    format!("Window: {}! Label", name)
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![greet, get_window_name])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
