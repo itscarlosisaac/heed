@@ -1,11 +1,11 @@
 import { Button } from '@chakra-ui/react'
-import { useDispatch } from 'react-redux'
-import { ApplicationActions } from '../../../../redux/Application/ApplicationSlice'
+// import { useDispatch } from 'react-redux'
+// import { ApplicationActions } from '../../../../redux/Application/ApplicationSlice'
 import { useEffect } from 'react'
 import ComponentEventManager from "../../../../system/EventManager/Events/ComponentEventManager.ts";
 
 function CreateHotspotButton(): JSX.Element {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   function handleCreateHotspot(): void {
     ComponentEventManager.emit('create', {
       tagName: 'hd-hotspot',
@@ -18,7 +18,7 @@ function CreateHotspotButton(): JSX.Element {
 
   function handleCreatedHotspot(data: HTMLElement): void {
     console.log('Created', data)
-    dispatch(ApplicationActions.UpdateBody(data.outerHTML))
+    // dispatch(ApplicationActions.UpdateBody(data.outerHTML))
   }
 
   useEffect(() => {

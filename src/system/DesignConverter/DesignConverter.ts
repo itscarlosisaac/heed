@@ -129,34 +129,34 @@ class DesignConverter {
 // const htmlString = DesignConverter.convertToHTMLFormat(myDesignElement);
 // const designObject = DesignConverter.convertToHeedFormat('<div style="color: red;">Hello World</div>');
 
-const design: DesignElement = {
-  type: 'div',
-  styles: { 'background-color': 'red' },
-  attributes: {
-    'data-text': 'My content',
-    'data-value': 'my super value'
-  },
-  children: [
-    {
-      attributes: {},
-      type: 'p',
-      styles: { color: 'white' },
-      content: 'Hello World'
-    },
-    {
-      attributes: {},
-      type: 'p',
-      styles: { color: 'green' },
-      content: 'Hello Again'
-    },
-    {
-      type: 'img',
-      attributes: {
-        class: 'dede',
-        src: 'https://shiftmag.dev/wp-content/uploads/2023/10/Frontend-framework.png?x17579'
-      }
-    }
-  ]
-}
+// const design: DesignElement = {
+//   type: 'div',
+//   styles: { 'background-color': 'red' },
+//   attributes: {
+//     'data-text': 'My content',
+//     'data-value': 'my super value'
+//   },
+//   children: [
+//     {
+//       attributes: {},
+//       type: 'p',
+//       styles: { color: 'white' },
+//       content: 'Hello World'
+//     },
+//     {
+//       attributes: {},
+//       type: 'p',
+//       styles: { color: 'green' },
+//       content: 'Hello Again'
+//     },
+//     {
+//       type: 'img',
+//       attributes: {
+//         class: 'dede',
+//         src: 'https://shiftmag.dev/wp-content/uploads/2023/10/Frontend-framework.png?x17579'
+//       }
+//     }
+//   ]
+// }
 
 export { DesignConverter }

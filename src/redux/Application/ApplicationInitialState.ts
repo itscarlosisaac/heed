@@ -1,4 +1,4 @@
-import { IUnit } from '../../../../shared/types'
+import {IUnit} from "../../shared/types";
 
 export interface IApplicationState {
   editor: {

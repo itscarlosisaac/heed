@@ -1,11 +1,11 @@
 import { Button } from '@chakra-ui/react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { ApplicationActions } from '../../../../redux/Application/ApplicationSlice'
+// import { ApplicationActions } from '../../../../redux/Application/ApplicationSlice'
 import ComponentEventManager from '../../../../system/EventManager/Events/ComponentEventManager'
 
 function CreateImageButton(): JSX.Element {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   function handleCreateImage(): void {
     ComponentEventManager.emit('create', {
       tagName: 'hd-image-display',
@@ -20,7 +20,7 @@ function CreateImageButton(): JSX.Element {
 
   function handleCreatedImage(data: HTMLElement): void {
     console.log('Created', data)
-    dispatch(ApplicationActions.UpdateBody(data.outerHTML))
+    // dispatch(ApplicationActions.UpdateBody(data.outerHTML))
   }
 
   useEffect(() => {

@@ -103,7 +103,7 @@ class TemplateParser {
     const path: string[] = []
     while (tag && tag !== tag.ownerDocument.documentElement) {
       path.unshift(this.getNodeNameAndIndex(tag))
-      tag = tag.parentNode
+      tag = tag.parentNode as Element
     }
     return path.join(' > ')
   }

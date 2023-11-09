@@ -4,7 +4,7 @@ import { AppLayout } from './components/layout/AppLayout/AppLayout'
 import './lib/src/components/index.ts'
 import RightSidebar from './components/layout/Sidebars/RightSidebar/RightSidebar'
 import LeftSidebar from './components/layout/Sidebars/LeftSidebar/LeftSidebar'
-import WelcomeModal from './components/modals/WelcomeModal/WelcomeModal'
+// import WelcomeModal from './components/modals/WelcomeModal/WelcomeModal'
 import { invoke } from '@tauri-apps/api'
 
 
