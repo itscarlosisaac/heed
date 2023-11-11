@@ -15,6 +15,7 @@ class HeedIo {
         this.fileManager = fileManager;
     }
 
+    // Open a unit.
     async open_file(){
         const path = await this.fileModal.OpenFileAction();
         if( typeof path != "string" ) return
@@ -36,7 +37,9 @@ class HeedIo {
         const editor_dom_unit = document.querySelector("#unit");
         const editor_content = parsed_current_doc.querySelector('heed-unit');
 
-        if( !editor_content  || !editor_dom_unit) return;
+        if( !editor_content  || !editor_dom_unit){
+            throw new Error('Unable to save, some dom elements are not present.')
+        }
 
         editor_content.innerHTML = editor_dom_unit.innerHTML;
 

@@ -6,7 +6,7 @@ import {ApplicationActions} from "../../../redux/Application/ApplicationSlice.ts
 
 function OpenFileModal() {
     const dispatch = useDispatch();
-    async function open_file(){
+    async function handle_open_file(){
         let unit = await HeedIo.open_file()
 
         if( !unit ) return;
@@ -15,7 +15,7 @@ function OpenFileModal() {
     }
 
     return (
-        <Button size={'xs'} onClick={open_file}>
+        <Button size={'xs'} onClick={handle_open_file}>
             Open File
         </Button>
     );
