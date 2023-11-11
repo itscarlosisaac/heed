@@ -1,7 +1,7 @@
-import {open} from "@tauri-apps/api/dialog";
+import {open, save} from "@tauri-apps/api/dialog";
 
 class FileModal {
-    async OpenFileAction(){
+    async open_file_action(){
         return await open({
             multiple: false,
             filters: [{
@@ -9,6 +9,16 @@ class FileModal {
                 extensions: ['html']
             }]
         });
+    }
+
+    async save_file_action(){
+        return await save({
+            title: "Create new file",
+            filters: [{
+                name: 'HTML Files',
+                extensions: ['html']
+            }]
+        })
     }
 }
 

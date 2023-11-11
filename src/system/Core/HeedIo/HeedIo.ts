@@ -1,4 +1,4 @@
-import { basename, extname } from '@tauri-apps/api/path';
+import { basename, extname, resolve, dirname, normalize } from '@tauri-apps/api/path';
 import FileModal from "../Tarui/FileModal.ts";
 import FileManager from "../Tarui/FileManager.ts";
 import Unit from "../../Unit.ts";
@@ -17,17 +17,14 @@ class HeedIo {
 
     // Open a unit.
     async open_file(){
-        const path = await this.fileModal.OpenFileAction();
+        const path = await this.fileModal.open_file_action();
         if( typeof path != "string" ) return
 
         const fileData = await this.fileManager.Read(path);
         const filename = await basename(path);
         const fileExtension = await extname(path);
-        console.log("Filename: ", filename, fileExtension)
-        console.log("File Data", fileData)
         return new Unit( filename, "34313", fileData, fileExtension, path);
     }
-
 
     // Save the current unit
     async save_file(unit: IUnit) {
@@ -47,6 +44,32 @@ class HeedIo {
         const HTML = DesignConverter.convertToHTMLFormat(result)
 
         return await this.fileManager.Write(unit.filepath, HTML);
+    }
+
+    async create_file() {
+        const filepath = await this.fileModal.save_file_action();
+        if( !filepath ) return;
+        console.log("Path", filepath)
+
+        const templatePath = await resolve(dirname +  '../../../resources/templates/320x250.html')
+        const jsPath = await resolve(dirname + '../../../resources/components/main/Unit/unit.js')
+
+        const templateData = await this.fileManager.Read(templatePath);
+        const scriptName = await basename(jsPath);
+        const scriptTags = `<script src=${scriptName}></script>`
+        const output = templateData.replace('</head>',`\n${scriptTags}\n</head>` )
+
+        // Creating dir and files
+        let dirPath = await dirname(filepath)
+        let filename = await basename(filepath);
+        dirPath = await resolve(dirPath, filename.replace(".html", ""))
+
+        let jsFilePath = await resolve(dirPath, scriptName)
+
+        await this.fileManager.MakeDirectory(dirPath)
+        await this.fileManager.Write( `${dirPath}/${filename}`, output );
+        await this.fileManager.Copy(jsPath, jsFilePath);
+
     }
 
 }

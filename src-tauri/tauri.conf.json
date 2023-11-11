@@ -21,7 +21,12 @@
       },
       "fs": {
         "all": true,
-        "scope": ["$APPDATA/users/*", "/Users/carlosmartinez/Library/Application Support/com.heed.dev/users"]
+        "scope": [
+          "$APPDATA/users/*",
+          "/Users/carlosmartinez/Library/Application Support/com.heed.dev/users",
+          "$DESKTOP/**/*",
+          "$HOME/**/*"
+        ]
       }
     },
     "bundle": {
