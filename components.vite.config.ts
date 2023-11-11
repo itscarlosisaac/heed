@@ -1,10 +1,10 @@
 /** @type {import('vite').UserConfig} */
-import glob from 'glob'
+import {glob} from 'glob'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import * as path from 'path'
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(async ({ command, mode }) => {
   if (command === 'serve') {
     return {
       server: {
@@ -15,18 +15,17 @@ export default defineConfig(({ command, mode }) => {
       }
     }
   }
-  const entries = Object.fromEntries(
-    glob.sync('src/lib/src/components/**/*.ts').map((file: string) => {
-      return [
-        path.relative(
-          'src/lib/src/components',
-          file.slice(0, file.length - path.extname(file).length)
-        ),
-        // @ts-ignore Not necessary for the import meta.
-        fileURLToPath(new URL(file, import.meta.url))
-      ]
-    })
-  )
+
+  const entries = await glob('src/lib/src/components/**/*.ts')
+  const transformed = entries.map((entry) => {
+        return [
+          path.relative(
+            'src/lib/src/components', entry.slice(0, entry.length - path.extname(entry).length)
+          ),
+          fileURLToPath(new URL(entry, import.meta.url))
+        ]
+  })
+
   return {
     minify: mode === 'development' ? false : 'terser',
     build: {
@@ -35,8 +34,8 @@ export default defineConfig(({ command, mode }) => {
       manifest: true,
       minify: true,
       lib: {
-        entry: entries,
-        fileName: (format, entryName): string => `${entryName}.js`,
+        entry: Object.fromEntries(transformed),
+        fileName: (_format, entryName): string => `${entryName}.js`,
         name: 'heed-components',
         formats: ['es']
       }

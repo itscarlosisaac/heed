@@ -1,5 +1,5 @@
 import TemplateGenerator from './TemplateGenerator'
-import FileManager from './FileManager'
+import FileManager from './Core/Tarui/FileManager'
 import path from 'path'
 
 class TemplateWriter {

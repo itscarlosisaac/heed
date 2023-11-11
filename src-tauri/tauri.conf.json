@@ -12,10 +12,16 @@
   },
   "tauri": {
     "allowlist": {
+      "dialog": { "all": true },
+      "path": { "all": true },
       "all": false,
       "shell": {
         "all": false,
         "open": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["$APPDATA/users/*", "/Users/carlosmartinez/Library/Application Support/com.heed.dev/users"]
       }
     },
     "bundle": {

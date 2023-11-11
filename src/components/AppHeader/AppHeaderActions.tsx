@@ -3,10 +3,9 @@ import { Button, Flex } from '@chakra-ui/react'
 import FileService from '../../services/FileService'
 import { useSelector } from 'react-redux'
 import { ApplicationRootState } from '../../redux/store/store'
-// import { ApplicationActions } from '../../redux/Application/ApplicationSlice'
 import {IUnit} from "../../shared/types";
 import {DesignConverter} from "../../system/DesignConverter/DesignConverter.ts";
-// import TemplateParser from "../../system/TemplateParser.ts";
+import OpenFileModal from "./deps/OpenFileModal.tsx";
 
 export function AppHeaderActions(): JSX.Element {
   // const dispatch = useDispatch()
@@ -33,9 +32,6 @@ export function AppHeaderActions(): JSX.Element {
     FileService.SaveFile({ activeUnit, data: HTML })
   }
 
-  function OpenFile(): void {
-    FileService.OpenFile()
-  }
   //
   // function onOpenFile(_e: unknown, data: unknown): void {
   //   const unit = new Unit(data.filename, data.id, data.content, data.extension, data.filepath)
@@ -75,9 +71,7 @@ export function AppHeaderActions(): JSX.Element {
   return (
     <>
       <Flex gap={3} alignItems={'center'}>
-        <Button size={'xs'} onClick={OpenFile}>
-          Open File
-        </Button>
+        <OpenFileModal />
         <Button size={'xs'}>Publish</Button>
         <Button size={'xs'}>Preview</Button>
         <Button size={'xs'} onClick={SaveFile}>

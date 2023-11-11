@@ -25,7 +25,6 @@ class ImageDisplay extends HTMLElement {
   setInitialAttributes(): void {
     this.appendChild(this.IntermediateElement)
     this.setAttribute('id', generateUUID(`hd-image-display`))
-    this.setAttribute('style', 'width:100%;height:100%;display:block')
     this.IntermediateElement.setAttribute(
       'style',
       'width:100%;height:100%;display:block; user-select:none; pointer-events: none'

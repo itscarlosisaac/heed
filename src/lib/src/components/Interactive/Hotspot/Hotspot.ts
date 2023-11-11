@@ -1,5 +1,6 @@
-import { middlewareManager, withMiddleware } from '../../../middleware'
-import { generateUUID } from '../../../utils/utils'
+import {generateUUID} from "../../../utils/utils.ts";
+import {middlewareManager, withMiddleware} from "../../../middleware";
+
 
 /**
  * Hotspot is a custom HTML element that extends HTMLElement and is designed to handle click and tap interactions.

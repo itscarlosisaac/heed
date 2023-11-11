@@ -1,6 +1,3 @@
-import { app, BrowserWindow } from 'electron'
-import { electronApp, optimizer } from '@electron-toolkit/utils'
-import debug from 'electron-debug'
 import sourceMapSupport from 'source-map-support'
 import MainWindow from './MainWindow'
 import './ipcMain'

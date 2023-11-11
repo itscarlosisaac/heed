@@ -1,19 +1,19 @@
-// import { PayloadAction } from '@reduxjs/toolkit'
-// import { IApplicationState } from './ApplicationInitialState'
-// import {IUnit} from "../../shared/types";
-//
-// function SetActiveUnit(state: IApplicationState, action: PayloadAction<IUnit>): void {
-//   state.editor.activeUnit = action.payload
-// }
-//
-// function OpenUnit(state: IApplicationState, action: PayloadAction<IUnit>): void {
-//   state.editor.openUnits.push(action.payload)
-//   state.editor.activeUnit = action.payload
-// }
-//
-// function CloseUnit(state: IApplicationState, action: PayloadAction<string>): void {
-//   state.editor.openUnits.filter((unit) => unit.id !== action.payload)
-// }
+import { PayloadAction } from '@reduxjs/toolkit'
+import { IApplicationState } from './ApplicationInitialState'
+import {IUnit} from "../../shared/types";
+
+function SetActiveUnit(state: IApplicationState, action: PayloadAction<IUnit>): void {
+  state.editor.activeUnit = action.payload
+}
+
+function OpenUnit(state: IApplicationState, action: PayloadAction<IUnit>): void {
+  state.editor.openUnits.push(action.payload)
+  state.editor.activeUnit = action.payload
+}
+
+function CloseUnit(state: IApplicationState, action: PayloadAction<string>): void {
+  state.editor.openUnits.filter((unit) => unit.id !== action.payload)
+}
 //
 // function UpdateBody(state: IApplicationState, action: PayloadAction<string>): void {
 //   const parser = new DOMParser()
@@ -30,4 +30,4 @@
 //   state.editor.activeUnit.content = parsedDoc
 // }
 //
-// export { OpenUnit, CloseUnit, SetActiveUnit, UpdateBody }
+export { OpenUnit, SetActiveUnit, CloseUnit }

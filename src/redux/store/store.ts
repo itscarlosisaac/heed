@@ -13,7 +13,7 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger)
-  }
+  },
 })
 
 export type AppDispatch = typeof store.dispatch
