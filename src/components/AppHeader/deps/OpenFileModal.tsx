@@ -7,7 +7,7 @@ import {ApplicationActions} from "../../../redux/Application/ApplicationSlice.ts
 function OpenFileModal() {
     const dispatch = useDispatch();
     async function open_file(){
-        let unit = await HeedIo.openFile()
+        let unit = await HeedIo.open_file()
 
         if( !unit ) return;
         unit = await HeedParser.ParseUnitData(unit);
