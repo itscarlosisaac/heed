@@ -2,32 +2,21 @@ import { PayloadAction } from '@reduxjs/toolkit'
 // import { IApplicationState } from './ApplicationInitialState'
 import {IUnit} from "../../shared/types";
 
-function SetActiveUnit(state: any, action: PayloadAction<IUnit>): void {
+
+// TODO: Fix the typings of the state for IApplication reducers
+function SetActiveUnit(state: any, action: PayloadAction<IUnit>) {
+  state.editor.activeUnit = action.payload
+  return state;
+}
+
+function OpenUnit(state: any, action: PayloadAction<IUnit>) {
+  state.editor.openUnits = [...state.editor.openUnits, action.payload]
   state.editor.activeUnit = action.payload
 }
 
-function OpenUnit(state: any, action: any): void {
-  state.editor.openUnits.push(action.payload)
-  state.editor.activeUnit = action.payload
+function CloseUnit(state: any, action: PayloadAction<string>) {
+  state.editor.openUnits = state.editor.openUnits.filter((unit:IUnit) => unit.id !== action.payload);
+  return state;
 }
 
-function CloseUnit(state: any, action: PayloadAction<string>): void {
-  state.editor.openUnits.filter((unit: IUnit) => unit.id !== action.payload)
-}
-//
-// function UpdateBody(state: IApplicationState, action: PayloadAction<string>): void {
-//   const parser = new DOMParser()
-//   const content = state.editor.activeUnit.content
-//   const container = document.createElement('div');
-//   container.innerHTML = action.payload
-//   console.log("PAYLOAD: ", action.payload)
-//   const parsedDoc = parser.parseFromString(content, 'text/html')
-//   const parseDocContainer = parsedDoc.querySelector('body heed-unit');
-//   if( container.firstChild && parseDocContainer )
-//     parseDocContainer.appendChild(container.firstChild)
-//
-//   console.log('Parsed Doc', parsedDoc, container.firstChild)
-//   state.editor.activeUnit.content = parsedDoc
-// }
-//
 export { OpenUnit, SetActiveUnit, CloseUnit }
