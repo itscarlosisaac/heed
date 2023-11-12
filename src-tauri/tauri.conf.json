@@ -21,18 +21,17 @@
       },
       "fs": {
         "all": true,
-        "scope": [
-          "$APPDATA/users/*",
-          "/Users/carlosmartinez/Library/Application Support/com.heed.dev/users",
-          "$DESKTOP/**/*",
-          "$HOME/**/*"
-        ]
+        "scope": ["*/**"]
+      },
+      "http": {
+        "all": true,
+        "scope": ["https://*"]
       }
     },
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "",
+      "copyright": "Carlos Martinez",
       "deb": {
         "depends": []
       },
@@ -53,7 +52,9 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": [
+        "../resources/**/*"
+      ],
       "shortDescription": "",
       "targets": "all",
       "windows": {

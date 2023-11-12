@@ -33,7 +33,7 @@ class Unit implements IUnit {
     this.children.push(element)
   }
 
-  removeChild(element: HTMLElement): void {
+  removeChild(): void {
     this.children.pop()
   }
 

@@ -1,18 +1,18 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { IApplicationState } from './ApplicationInitialState'
+// import { IApplicationState } from './ApplicationInitialState'
 import {IUnit} from "../../shared/types";
 
-function SetActiveUnit(state: IApplicationState, action: PayloadAction<IUnit>): void {
+function SetActiveUnit(state: any, action: PayloadAction<IUnit>): void {
   state.editor.activeUnit = action.payload
 }
 
-function OpenUnit(state: IApplicationState, action: PayloadAction<IUnit>): void {
+function OpenUnit(state: any, action: any): void {
   state.editor.openUnits.push(action.payload)
   state.editor.activeUnit = action.payload
 }
 
-function CloseUnit(state: IApplicationState, action: PayloadAction<string>): void {
-  state.editor.openUnits.filter((unit) => unit.id !== action.payload)
+function CloseUnit(state: any, action: PayloadAction<string>): void {
+  state.editor.openUnits.filter((unit: IUnit) => unit.id !== action.payload)
 }
 //
 // function UpdateBody(state: IApplicationState, action: PayloadAction<string>): void {

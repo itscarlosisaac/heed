@@ -113,6 +113,9 @@ class TemplateParser {
     let name = node.nodeName
     let index = 1
     const siblings = node.parentNode && node.parentNode.childNodes
+    if( !siblings ) {
+      return ""
+    }
     for (let i = 0; i < siblings.length; i++) {
       if (siblings[i] === node) {
         break

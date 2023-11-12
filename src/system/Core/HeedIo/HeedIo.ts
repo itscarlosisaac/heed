@@ -1,4 +1,4 @@
-import { basename, extname, resolve, dirname, normalize } from '@tauri-apps/api/path';
+import { basename, extname, resolve, dirname, resolveResource } from '@tauri-apps/api/path';
 import FileModal from "../Tarui/FileModal.ts";
 import FileManager from "../Tarui/FileManager.ts";
 import Unit from "../../Unit.ts";
@@ -51,8 +51,8 @@ class HeedIo {
         if( !filepath ) return;
         console.log("Path", filepath)
 
-        const templatePath = await resolve(dirname +  '../../../resources/templates/320x250.html')
-        const jsPath = await resolve(dirname + '../../../resources/components/main/Unit/unit.js')
+        const templatePath = await resolveResource('_up_/resources/templates/320x250.html')
+        const jsPath = await resolveResource('_up_/resources/templates/unit.js')
 
         const templateData = await this.fileManager.Read(templatePath);
         const scriptName = await basename(jsPath);

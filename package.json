@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "tauri": "tauri dev",
     "tauri-build": "tauri build",
+    "tauri-build-debug": "tauri build --debug",
     "dev-components": "vite --config ./components.vite.config.ts",
     "build-components": "tsc --project tsconfig-components.json && vite build ./src/lib --config ./components.vite.config.ts "
   },
