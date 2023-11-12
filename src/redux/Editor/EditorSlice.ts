@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {EditorInitialState} from "./EditorInitialState";
+import * as EditorReducers from './EditorReducer.ts';
 
 const editorSlice = createSlice({
     name: 'app',
     initialState: EditorInitialState,
-    reducers: {
-        UpdateBody: state => { console.log("STATE: ", state)}
-    },
+    reducers: EditorReducers,
     extraReducers: () => {}
 })
 export const EditorReducer = editorSlice.reducer

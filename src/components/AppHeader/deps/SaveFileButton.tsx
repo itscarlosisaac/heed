@@ -6,7 +6,7 @@ import heedIo from "../../../system/Core/HeedIo/HeedIo.ts";
 
 function SaveFileButton() {
     const activeUnit = useSelector<ApplicationRootState>(
-        (s) => s.application.editor.activeUnit
+        (s) => s.application.activeUnit
     ) as IUnit
 
     async function save_file(){

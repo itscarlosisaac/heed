@@ -4,6 +4,7 @@ import FileManager from "../Tarui/FileManager.ts";
 import Unit from "../../Unit.ts";
 import {IUnit} from "../../../shared/types";
 import {DesignConverter} from "../../DesignConverter/DesignConverter.ts";
+import GenerateUUID from "../../utils/GenerateUUID.ts";
 
 class HeedIo {
 
@@ -23,7 +24,7 @@ class HeedIo {
         const fileData = await this.fileManager.Read(path);
         const filename = await basename(path);
         const fileExtension = await extname(path);
-        return new Unit( filename, "34313", fileData, fileExtension, path);
+        return new Unit( filename, GenerateUUID('unit'), fileData, fileExtension, path);
     }
 
     // Save the current unit
@@ -49,7 +50,6 @@ class HeedIo {
     async create_file() {
         const filepath = await this.fileModal.save_file_action();
         if( !filepath ) return;
-        console.log("Path", filepath)
 
         const templatePath = await resolveResource('_up_/resources/templates/320x250.html')
         const jsPath = await resolveResource('_up_/resources/templates/unit.js')

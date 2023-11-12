@@ -3,15 +3,24 @@ import HeedIo from "../../../system/Core/HeedIo/HeedIo.ts";
 import HeedParser from "../../../system/Core/HeedParser/HeedParser.ts";
 import {useDispatch} from "react-redux";
 import {ApplicationActions} from "../../../redux/Application/ApplicationSlice.ts";
+import {EditorActions} from "../../../redux/Editor/EditorSlice.ts";
 
 function OpenFileModal() {
     const dispatch = useDispatch();
-    async function handle_open_file(){
-        let unit = await HeedIo.open_file()
 
-        if( !unit ) return;
+    async function handle_open_file() {
+        let unit = await HeedIo.open_file()
+        if (!unit) return;
+
         unit = await HeedParser.ParseUnitData(unit);
         dispatch(ApplicationActions.OpenUnit(unit.get()))
+        const elements = HeedParser.GetElements()
+        dispatch(EditorActions.AddElement(elements))
+
+        // TODO, Refactor this following part adding the event listener to the element on select.
+        elements.map(element => element.addEventListener('click', () => {
+            dispatch(EditorActions.SelectElement(element))
+        }))
     }
 
     return (

@@ -16,10 +16,10 @@ import OpenFileModal from "../../AppHeader/deps/OpenFileModal.tsx";
 import CreateFileButton from "../../AppHeader/deps/CreateFileButton.tsx";
 
 function WelcomeModal(): JSX.Element {
-  const { editor } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
+  const { openUnits } = useSelector<ApplicationRootState>((s) => s.application) as IApplicationState
 
   const { isOpen, onClose } = useDisclosure({
-    isOpen: editor.openUnits.length === 0
+    isOpen: openUnits.length === 0
   })
 
   return (

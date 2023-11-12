@@ -1,10 +1,12 @@
 import Unit from "../../Unit";
 import TemplateParser from "../../TemplateParser.ts";
 import Transformable from "../../Transformables/Transformable.ts";
+import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 
 class HeedParser {
 
     readonly templateParser: TemplateParser;
+    private parsedElements: HTMLElement[] = [];
 
     constructor(templateParser: TemplateParser) {
         this.templateParser = templateParser
@@ -34,10 +36,16 @@ class HeedParser {
 
         Array.from(heedUnit.children).forEach((child) => {
             const copy = child.cloneNode(false) as HTMLElement
-            console.log("Element: ", copy)
+            console.log("Creating transformable for Element: ", copy)
             unitElements.appendChild(copy)
+
             new Transformable(copy)
+            this.parsedElements.push(copy)
           })
+    }
+
+    public GetElements() {
+        return this.parsedElements;
     }
 
 }

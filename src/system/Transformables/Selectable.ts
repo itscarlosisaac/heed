@@ -18,7 +18,7 @@ class Selectable {
     this.element.addEventListener('click', this.onSelect)
   }
   public onSelect(event: MouseEvent): void {
-    event.stopImmediatePropagation()
+    event.stopPropagation()
     this.sharedState.isSelected = true
     this.toggleHandles('visible')
     window.addEventListener('click', this.onUnSelect)
