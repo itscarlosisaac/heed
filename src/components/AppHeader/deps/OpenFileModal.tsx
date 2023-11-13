@@ -4,6 +4,8 @@ import HeedParser from "../../../system/Core/HeedParser/HeedParser.ts";
 import {useDispatch} from "react-redux";
 import {ApplicationActions} from "../../../redux/Application/ApplicationSlice.ts";
 import {EditorActions} from "../../../redux/Editor/EditorSlice.ts";
+import AppError from "../../../system/Error/AppError.ts";
+import {AppErrorCode} from "../../../system/Error/AppError.types.ts";
 
 function OpenFileModal() {
     const dispatch = useDispatch();
@@ -18,9 +20,14 @@ function OpenFileModal() {
         dispatch(EditorActions.AddElement(elements))
 
         // TODO, Refactor this following part adding the event listener to the element on select.
-        elements.map(element => element.addEventListener('click', () => {
-            dispatch(EditorActions.SelectElement(element))
-        }))
+        elements.map(element => {
+            const htmlElement = document.getElementById(element.id)
+            if( !htmlElement ) throw new AppError(AppErrorCode.ElementNotFound);
+
+            htmlElement.addEventListener('click', (_e: MouseEvent) => {
+                dispatch(EditorActions.SelectElement(HeedParser.ExtractStyles(htmlElement)))
+            });
+        })
     }
 
     return (

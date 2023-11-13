@@ -36,8 +36,8 @@ export interface IHeedElement {
 }
 
 export interface IEditorState {
-    elements: HTMLElement[]
-    selected: HTMLElement | null
+    elements: IHeedElement[]
+    selected: IHeedElement | null
 }
 
 export const EditorInitialState: IEditorState = {

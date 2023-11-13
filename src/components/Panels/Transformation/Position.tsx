@@ -7,10 +7,11 @@ import {
 } from '@chakra-ui/react'
 import {useSelector} from "react-redux";
 import {ApplicationRootState} from "../../../redux/store/store.ts";
+import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 
 function Position(): JSX.Element {
 
-    const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as HTMLElement;
+    const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as IHeedElement;
 
     return (
         <>
@@ -19,7 +20,7 @@ function Position(): JSX.Element {
                     <Input name={'x-position'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.style.left.replace("px", '') : ""} />
+                           value={selector ? selector.position.left : ""} />
                     <InputRightElement>
                         <Text color={'white'}>X</Text>
                     </InputRightElement>
@@ -28,7 +29,7 @@ function Position(): JSX.Element {
                     <Input name={'y-position'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.style.top.replace("px", '') : ""} />
+                           value={selector ? selector.position.top : ""} />
                     <InputRightElement>
                         <Text color={'white'}>Y</Text>
                     </InputRightElement>

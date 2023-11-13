@@ -2,9 +2,10 @@ import { Text, HStack, Input, VStack } from '@chakra-ui/react'
 import PanelContainer from '../PanelContainer/PanelContainer'
 import {useSelector} from "react-redux";
 import {ApplicationRootState} from "../../../redux/store/store.ts";
+import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 
 function Properties(): JSX.Element {
-  const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as HTMLElement;
+  const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as IHeedElement;
 
   return (
     <>

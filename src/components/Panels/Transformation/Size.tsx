@@ -1,4 +1,3 @@
-import PanelContainer from '../PanelContainer/PanelContainer'
 import {
     HStack,
     Input,
@@ -10,10 +9,11 @@ import {
 import { LinkIcon } from '@chakra-ui/icons'
 import {useSelector} from "react-redux";
 import {ApplicationRootState} from "../../../redux/store/store.ts";
+import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 
 function Size(): JSX.Element {
 
-    const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as HTMLElement;
+    const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as IHeedElement;
 
     return (
         <>
@@ -22,7 +22,7 @@ function Size(): JSX.Element {
                     <Input name={'width'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.style.width.replace("px", '') : ""} />
+                           value={selector ? selector.size.width: ""} />
                     <InputRightElement>
                         <Text color={'white'}>W</Text>
                     </InputRightElement>
@@ -31,7 +31,7 @@ function Size(): JSX.Element {
                     <Input name={'height'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.style.height.replace("px", '') : ""} />
+                           value={selector ? selector.size.height: ""} />
                     <InputRightElement>
                         <Text color={'white'}>H</Text>
                     </InputRightElement>

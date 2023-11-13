@@ -5,6 +5,8 @@ import Unit from "../../Unit.ts";
 import {IUnit} from "../../../shared/types";
 import {DesignConverter} from "../../DesignConverter/DesignConverter.ts";
 import GenerateUUID from "../../utils/GenerateUUID.ts";
+import {AppErrorCode} from "../../Error/AppError.types.ts";
+import AppError from "../../Error/AppError.ts";
 
 class HeedIo {
 
@@ -36,7 +38,7 @@ class HeedIo {
         const editor_content = parsed_current_doc.querySelector('heed-unit');
 
         if( !editor_content  || !editor_dom_unit){
-            throw new Error('Unable to save, some dom elements are not present.')
+            throw new AppError(AppErrorCode.ElementNotFound, "Unable to save the file.")
         }
 
         editor_content.innerHTML = editor_dom_unit.innerHTML;
