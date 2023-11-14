@@ -7,6 +7,9 @@ import {DesignConverter} from "../../DesignConverter/DesignConverter.ts";
 import GenerateUUID from "../../utils/GenerateUUID.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
 import AppError from "../../Error/AppError.ts";
+import FileObserver from "../../Observables/FileObserver.ts";
+import {map, Observable, Subject} from "rxjs";
+import HeedParser from "../HeedParser/HeedParser.ts";
 
 class HeedIo {
 
@@ -26,7 +29,34 @@ class HeedIo {
         const fileData = await this.fileManager.Read(path);
         const filename = await basename(path);
         const fileExtension = await extname(path);
-        return new Unit( filename, GenerateUUID('unit'), fileData, fileExtension, path);
+
+        const unit = new Unit( filename, GenerateUUID('unit'), fileData, fileExtension, path);
+
+        const obs = new Observable<Unit>((s) => s.next(unit));
+        const sub = new Subject<Unit>()
+        const fileObserver = new FileObserver<Unit, any>(sub, obs);
+
+        function secondTest(data: unknown) {
+            console.log("FileObserver: second from first observer", data)
+            return data
+        }
+
+        function thirdTest(data: unknown) {
+            console.log("FileObserver: third from first observer", data)
+            throw new Error("FileObserver: Unable to continue to ")
+            return data
+        }
+
+        fileObserver.attach(map(HeedParser.RenderParsedData))
+        fileObserver.attach(map(secondTest))
+        fileObserver.attach(map(thirdTest))
+
+        fileObserver.subscribe(file => {
+            console.log("FileObserver file:", file);
+        });
+
+        fileObserver.init()
+        return unit;
     }
 
     // Save the current unit

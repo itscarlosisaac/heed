@@ -47,8 +47,7 @@ export const testObserver = {
     complete: () => console.log("Observer got a complete notification"),
 };
 
-export const secodObserr = {
-    next: (x) => console.log("Observer number 2: ",  x),
-    error: (err) => console.error("Observer got an error: " + err),
-    complete: () => console.log("Observer got a complete notification"),
-};
+export const secodObserr = (x) => {
+    console.log("Second Observer got value: ",  x)
+    return x
+}

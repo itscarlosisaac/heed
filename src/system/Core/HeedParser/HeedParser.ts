@@ -12,21 +12,22 @@ class HeedParser {
 
     constructor(templateParser: TemplateParser) {
         this.templateParser = templateParser
+        this.RenderParsedData = this.RenderParsedData.bind(this)
     }
 
     async ParseUnitData(unit: Unit) {
-        this.RenderParsedData(unit)
-        this.templateParser.parse(unit.content)
-            .then((parsedDoc) => {
-                    unit.setScripts(parsedDoc.scripts)
-                    unit.setStyles(parsedDoc.styles)
-                    unit.setMetatags(parsedDoc.meta)
-                }
-            )
+        // this.RenderParsedData(unit)
+        // this.templateParser.parse(unit.content)
+        //     .then((parsedDoc) => {
+        //             unit.setScripts(parsedDoc.scripts)
+        //             unit.setStyles(parsedDoc.styles)
+        //             unit.setMetatags(parsedDoc.meta)
+        //         }
+        //     )
         return unit;
     }
 
-    private RenderParsedData(unit: Unit) {
+    public RenderParsedData(unit: Unit) {
         const domParser = new DOMParser();
         const parsedDoc = domParser.parseFromString(unit.content, 'text/html')
         const heedUnit = parsedDoc.querySelector('heed-unit')
@@ -40,17 +41,18 @@ class HeedParser {
             // TODO - Figure out why the element is duplicated when using the child
             const clonedElement = child.cloneNode(false) as HTMLElement
             unitElements.appendChild(clonedElement)
-            new Transformable(clonedElement)
-            this.parsedElements.push({
-                name: "",
-                class: "",
-                opacity: 0,
-                id: clonedElement.id,
-                position: { unit: "px", top: 0, left: 0 },
-                size: { unit: "px", width: 0, height: 0 },
-                rotation: 0,
-            })
+            // new Transformable(clonedElement)
+            // this.parsedElements.push({
+            //     name: "",
+            //     class: "",
+            //     opacity: 0,
+            //     id: clonedElement.id,
+            //     position: { unit: "px", top: 0, left: 0 },
+            //     size: { unit: "px", width: 0, height: 0 },
+            //     rotation: 0,
+            // })
         })
+        return unit;
     }
 
     public GetElements() {
