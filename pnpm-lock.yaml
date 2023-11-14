@@ -68,6 +68,9 @@ dependencies:
   redux-logger:
     specifier: ^3.0.6
     version: 3.0.6
+  rxjs:
+    specifier: ^7.8.1
+    version: 7.8.1
   source-map-support:
     specifier: ^0.5.21
     version: 0.5.21
@@ -91,6 +94,9 @@ devDependencies:
   '@types/redux-logger':
     specifier: ^3.0.12
     version: 3.0.12
+  '@types/remote-redux-devtools':
+    specifier: ^0.5.8
+    version: 0.5.8
   '@types/source-map-support':
     specifier: ^0.5.10
     version: 0.5.10
@@ -2245,6 +2251,12 @@ packages:
 
   /@types/redux-logger@3.0.12:
     resolution: {integrity: sha512-5vAlwokZi/Unb1eGoZfVVzIBTPNDflwXiDzPLT1SynP6hdJfsOEf+w6ZOySOyboLWciCRYeE5DGYUnwVCq+Uyg==}
+    dependencies:
+      redux: 4.2.1
+    dev: true
+
+  /@types/remote-redux-devtools@0.5.8:
+    resolution: {integrity: sha512-BpH1Wj2JoWGC9+WHthZdCNTn++T7Ij3Ir1F/QAR8KARrP0M3L3p2MHfK9ffDaOd7VawoKZ5UpOVcUScIThfOMA==}
     dependencies:
       redux: 4.2.1
     dev: true
@@ -5161,7 +5173,6 @@ packages:
     requiresBuild: true
     dependencies:
       tslib: 2.6.2
-    dev: true
 
   /safe-array-concat@1.0.1:
     resolution: {integrity: sha512-6XbUAseYE2KtOuGueyeobCySj9L4+66Tn6KQMOPQJrAJEowYKW/YR/MGJZl7FdydUdaFu4LYyDZjxf4/Nmo23Q==}

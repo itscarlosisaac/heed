@@ -49,6 +49,7 @@ class HeedIo {
         return await this.fileManager.Write(unit.filepath, HTML);
     }
 
+    // Create a new file
     async create_file() {
         const filepath = await this.fileModal.save_file_action();
         if( !filepath ) return;

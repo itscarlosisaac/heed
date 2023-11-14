@@ -9,7 +9,7 @@ enableMapSet()
 const store = configureStore({
   reducer: {
     application: ApplicationReducer,
-    editor: EditorReducer
+    editor: EditorReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger)

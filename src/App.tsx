@@ -7,6 +7,8 @@ import LeftSidebar from './components/layout/Sidebars/LeftSidebar/LeftSidebar'
 import WelcomeModal from './components/modals/WelcomeModal/WelcomeModal'
 import {useSelector} from "react-redux";
 import {ApplicationRootState} from "./redux/store/store.ts";
+import './system/Observables/index.ts'
+
 
 // TODO: Cleaned up the includes in tsconfig.node and web.
 function App(): JSX.Element {

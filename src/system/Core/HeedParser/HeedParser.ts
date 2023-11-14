@@ -27,8 +27,8 @@ class HeedParser {
     }
 
     private RenderParsedData(unit: Unit) {
-        const Domparser = new DOMParser();
-        const parsedDoc = Domparser.parseFromString(unit.content, 'text/html')
+        const domParser = new DOMParser();
+        const parsedDoc = domParser.parseFromString(unit.content, 'text/html')
         const heedUnit = parsedDoc.querySelector('heed-unit')
         const unitElements = document.querySelector('#unit')
 
@@ -37,6 +37,7 @@ class HeedParser {
         }
 
         Array.from(heedUnit.children).forEach((child) => {
+            // TODO - Figure out why the element is duplicated when using the child
             const clonedElement = child.cloneNode(false) as HTMLElement
             unitElements.appendChild(clonedElement)
             new Transformable(clonedElement)

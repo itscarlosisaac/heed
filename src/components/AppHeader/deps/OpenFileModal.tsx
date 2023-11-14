@@ -6,6 +6,8 @@ import {ApplicationActions} from "../../../redux/Application/ApplicationSlice.ts
 import {EditorActions} from "../../../redux/Editor/EditorSlice.ts";
 import AppError from "../../../system/Error/AppError.ts";
 import {AppErrorCode} from "../../../system/Error/AppError.types.ts";
+import {createObserver, testObserver} from "../../../system/Observables";
+import Unit from "../../../system/Unit.ts";
 
 function OpenFileModal() {
     const dispatch = useDispatch();
@@ -13,6 +15,10 @@ function OpenFileModal() {
     async function handle_open_file() {
         let unit = await HeedIo.open_file()
         if (!unit) return;
+
+        const testOb = createObserver<Unit>(unit);
+        const sub = testOb.subscribe(testObserver)
+        sub.unsubscribe();
 
         unit = await HeedParser.ParseUnitData(unit);
         dispatch(ApplicationActions.OpenUnit(unit.get()))
