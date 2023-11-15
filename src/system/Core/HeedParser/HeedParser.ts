@@ -4,6 +4,7 @@ import Transformable from "../../Transformables/Transformable.ts";
 import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 import AppError from "../../Error/AppError.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
+import {layer_behavioral_subject} from "../HeedIo/LayerObservable.ts";
 
 class HeedParser {
 
@@ -16,14 +17,13 @@ class HeedParser {
     }
 
     async ParseUnitData(unit: Unit) {
-        // this.RenderParsedData(unit)
-        // this.templateParser.parse(unit.content)
-        //     .then((parsedDoc) => {
-        //             unit.setScripts(parsedDoc.scripts)
-        //             unit.setStyles(parsedDoc.styles)
-        //             unit.setMetatags(parsedDoc.meta)
-        //         }
-        //     )
+        this.templateParser.parse(unit.content)
+            .then((parsedDoc) => {
+                    unit.setScripts(parsedDoc.scripts)
+                    unit.setStyles(parsedDoc.styles)
+                    unit.setMetatags(parsedDoc.meta)
+                }
+            )
         return unit;
     }
 
@@ -41,17 +41,9 @@ class HeedParser {
             // TODO - Figure out why the element is duplicated when using the child
             const clonedElement = child.cloneNode(false) as HTMLElement
             unitElements.appendChild(clonedElement)
-            // new Transformable(clonedElement)
-            // this.parsedElements.push({
-            //     name: "",
-            //     class: "",
-            //     opacity: 0,
-            //     id: clonedElement.id,
-            //     position: { unit: "px", top: 0, left: 0 },
-            //     size: { unit: "px", width: 0, height: 0 },
-            //     rotation: 0,
-            // })
         })
+        layer_behavioral_subject.next(unitElements.children);
+
         return unit;
     }
 

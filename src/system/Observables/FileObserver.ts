@@ -1,4 +1,4 @@
-import {Subject, Observable, OperatorFunction, Subscriber} from "rxjs";
+import {BehaviorSubject, Observable, OperatorFunction, Subscriber} from "rxjs";
 
 /**
  * A class to observe and manipulate data streams using RxJS.
@@ -7,16 +7,16 @@ import {Subject, Observable, OperatorFunction, Subscriber} from "rxjs";
  * @template R The output type of data after applying the operator.
  */
 class FileObserver<T, R extends T> {
-    private subject: Subject<R>;
+    private subject: BehaviorSubject<R>;
     private observable: Observable<T>;
 
     /**
      * Constructs a FileObserver instance.
      *
-     * @param {Subject<R>} subject The subject that observers will subscribe to.
+     * @param {BehaviorSubject<R>} subject The subject that observers will subscribe to.
      * @param {Observable<T>} observable The observable that emits data.
      */
-    constructor(subject: Subject<R>, observable: Observable<T>) {
+    constructor(subject: BehaviorSubject<R>, observable: Observable<T>) {
         this.subject = subject;
         this.observable = observable;
     }

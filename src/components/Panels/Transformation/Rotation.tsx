@@ -21,7 +21,7 @@ function Rotation(): JSX.Element {
                     <Input name={'rotation'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.rotation : ""}  w={'100%'} />
+                           defaultValue={selector ? selector.rotation : ""}  w={'100%'} />
                     <InputLeftElement>
                         <UpDownIcon color={'white'} />
                     </InputLeftElement>

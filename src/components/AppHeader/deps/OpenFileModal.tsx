@@ -1,6 +1,5 @@
 import {Button} from "@chakra-ui/react";
 import HeedIo from "../../../system/Core/HeedIo/HeedIo.ts";
-import HeedParser from "../../../system/Core/HeedParser/HeedParser.ts";
 import {useDispatch} from "react-redux";
 import {ApplicationActions} from "../../../redux/Application/ApplicationSlice.ts";
 
@@ -11,7 +10,6 @@ function OpenFileModal() {
         let unit = await HeedIo.open_file()
         if (!unit) return;
 
-        unit = await HeedParser.ParseUnitData(unit);
         dispatch(ApplicationActions.OpenUnit(unit.get()))
 
         // const elements = HeedParser.GetElements()

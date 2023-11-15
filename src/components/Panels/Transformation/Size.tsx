@@ -22,7 +22,7 @@ function Size(): JSX.Element {
                     <Input name={'width'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.size.width: ""} />
+                           defaultValue={selector ? selector.size.width: ""} />
                     <InputRightElement>
                         <Text color={'white'}>W</Text>
                     </InputRightElement>
@@ -31,7 +31,7 @@ function Size(): JSX.Element {
                     <Input name={'height'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.size.height: ""} />
+                           defaultValue={selector ? selector.size.height: ""} />
                     <InputRightElement>
                         <Text color={'white'}>H</Text>
                     </InputRightElement>

@@ -14,6 +14,7 @@ class TemplateParser {
       meta: [],
       bodyContent: { content: '', position: '' }
     }
+    this.parse = this.parse.bind(this);
   }
 
   // Parse the provided HTML content and extract the desired elements.

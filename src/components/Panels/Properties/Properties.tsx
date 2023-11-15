@@ -13,7 +13,7 @@ function Properties(): JSX.Element {
         <VStack spacing={4} alignItems={'flex-start'}>
           <HStack w={'100%'}>
             <Text color={'white'}>Id: </Text>
-            <Input name={'id'} color={'white'} placeholder={'id'} value={selector ? selector.id : ""} />
+            <Input name={'id'} color={'white'} placeholder={'id'} defaultValue={selector ? selector.id : ""} />
           </HStack>
 
           <HStack w={'100%'}>

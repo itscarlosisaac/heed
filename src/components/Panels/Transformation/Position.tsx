@@ -20,7 +20,7 @@ function Position(): JSX.Element {
                     <Input name={'x-position'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.position.left : ""} />
+                           defaultValue={selector ? selector.position.left : ""} />
                     <InputRightElement>
                         <Text color={'white'}>X</Text>
                     </InputRightElement>
@@ -29,7 +29,7 @@ function Position(): JSX.Element {
                     <Input name={'y-position'}
                            color={'white'}
                            placeholder="0"
-                           value={selector ? selector.position.top : ""} />
+                           defaultValue={selector ? selector.position.top : ""} />
                     <InputRightElement>
                         <Text color={'white'}>Y</Text>
                     </InputRightElement>
