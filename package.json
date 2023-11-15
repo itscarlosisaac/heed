@@ -29,6 +29,8 @@
     "framer-motion": "^10.16.4",
     "immer": "^10.0.3",
     "jsdom": "^22.1.0",
+    "mobx": "^6.11.0",
+    "mobx-react": "^9.1.0",
     "node-sass": "^9.0.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-hook-form": "^7.48.2",

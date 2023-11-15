@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import {
     HStack,
     Input,
@@ -7,14 +8,9 @@ import {
     IconButton,
 } from '@chakra-ui/react'
 import { LinkIcon } from '@chakra-ui/icons'
-import {useSelector} from "react-redux";
-import {ApplicationRootState} from "../../../redux/store/store.ts";
-import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
+import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
-function Size(): JSX.Element {
-
-    const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as IHeedElement;
-
+const Size = observer( (): JSX.Element  => {
     return (
         <>
             <HStack spacing={4}>
@@ -22,7 +18,7 @@ function Size(): JSX.Element {
                     <Input name={'width'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={selector ? selector.size.width: ""} />
+                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_size.width : ""} />
                     <InputRightElement>
                         <Text color={'white'}>W</Text>
                     </InputRightElement>
@@ -31,7 +27,7 @@ function Size(): JSX.Element {
                     <Input name={'height'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={selector ? selector.size.height: ""} />
+                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_size.height : ""} />
                     <InputRightElement>
                         <Text color={'white'}>H</Text>
                     </InputRightElement>
@@ -40,6 +36,6 @@ function Size(): JSX.Element {
             </HStack>
         </>
     )
-}
+})
 
 export default Size

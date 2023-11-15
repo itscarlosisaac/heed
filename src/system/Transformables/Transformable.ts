@@ -6,7 +6,7 @@ import HandleManager from './HandleManager'
 import Selectable from './Selectable'
 
 class TransformableElement {
-  private readonly element: HTMLElement
+  private readonly element: HTMLElement;
 
   private sharedState: SharedState = new SharedState()
   protected draggable: Draggable
@@ -17,14 +17,15 @@ class TransformableElement {
 
   constructor(element: HTMLElement) {
     this.element = element
+
     this.element.style.position = 'absolute'
     this.element.style.userSelect = 'none'
     this.handleManager = new HandleManager(this.element, this.sharedState)
-
+    //
     this.selectable = new Selectable(
-      this.element,
-      [...this.handleManager.getHandles(), this.handleManager.getRotationHandle()],
-      this.sharedState
+        this.element,
+        [...this.handleManager.getHandles(), this.handleManager.getRotationHandle()],
+        this.sharedState
     )
     this.rotatable = new Rotatable(
       this.element,
@@ -35,8 +36,11 @@ class TransformableElement {
     this.resizable = new Resizable(this.element, this.handleManager.getHandles(), this.sharedState)
   }
 
-  removeHandlers(): void {
+  public removeHandlers(): void {
     this.element.querySelectorAll('svg').forEach((handler) => handler.remove())
+  }
+  public get_root(){
+    return this.element
   }
 }
 export default TransformableElement

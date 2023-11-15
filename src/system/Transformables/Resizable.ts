@@ -186,6 +186,10 @@ class Resizable {
       newX - this.element.offsetWidth / 2,
       newY - this.element.offsetHeight / 2
     )
+
+    this.element.dispatchEvent(new CustomEvent('hd-resized', {
+      detail: { state: this.sharedState }
+    }))
   }
 
   private onMouseUp(): void {

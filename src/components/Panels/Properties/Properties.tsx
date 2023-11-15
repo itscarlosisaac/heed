@@ -1,11 +1,9 @@
+import { observer } from "mobx-react"
 import { Text, HStack, Input, VStack } from '@chakra-ui/react'
 import PanelContainer from '../PanelContainer/PanelContainer'
-import {useSelector} from "react-redux";
-import {ApplicationRootState} from "../../../redux/store/store.ts";
-import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
+import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
-function Properties(): JSX.Element {
-  const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as IHeedElement;
+const Properties = observer((): JSX.Element =>  {
 
   return (
     <>
@@ -13,7 +11,11 @@ function Properties(): JSX.Element {
         <VStack spacing={4} alignItems={'flex-start'}>
           <HStack w={'100%'}>
             <Text color={'white'}>Id: </Text>
-            <Input name={'id'} color={'white'} placeholder={'id'} defaultValue={selector ? selector.id : ""} />
+            <Input
+                name={'id'}
+                color={'white'}
+                placeholder={'id'}
+                defaultValue={heedElementManager.selected_element ? heedElementManager.selected_element.id : ""} />
           </HStack>
 
           <HStack w={'100%'}>
@@ -24,6 +26,6 @@ function Properties(): JSX.Element {
       </PanelContainer>
     </>
   )
-}
+});
 
 export default Properties

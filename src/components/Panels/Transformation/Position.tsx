@@ -5,14 +5,10 @@ import {
     InputRightElement,
     Text,
 } from '@chakra-ui/react'
-import {useSelector} from "react-redux";
-import {ApplicationRootState} from "../../../redux/store/store.ts";
-import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
+import { observer } from "mobx-react";
+import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
-function Position(): JSX.Element {
-
-    const selector = useSelector<ApplicationRootState>(s => s.editor.selected) as IHeedElement;
-
+const Position = observer( (): JSX.Element  => {
     return (
         <>
             <HStack spacing={4}>
@@ -20,7 +16,7 @@ function Position(): JSX.Element {
                     <Input name={'x-position'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={selector ? selector.position.left : ""} />
+                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_position.left : ""} />
                     <InputRightElement>
                         <Text color={'white'}>X</Text>
                     </InputRightElement>
@@ -29,7 +25,7 @@ function Position(): JSX.Element {
                     <Input name={'y-position'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={selector ? selector.position.top : ""} />
+                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_position.top: ""} />
                     <InputRightElement>
                         <Text color={'white'}>Y</Text>
                     </InputRightElement>
@@ -37,6 +33,6 @@ function Position(): JSX.Element {
             </HStack>
         </>
     )
-}
+})
 
 export default Position

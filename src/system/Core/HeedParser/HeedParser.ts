@@ -4,7 +4,7 @@ import Transformable from "../../Transformables/Transformable.ts";
 import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 import AppError from "../../Error/AppError.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
-import {layer_behavioral_subject} from "../HeedIo/LayerObservable.ts";
+import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
 class HeedParser {
 
@@ -41,8 +41,26 @@ class HeedParser {
             // TODO - Figure out why the element is duplicated when using the child
             const clonedElement = child.cloneNode(false) as HTMLElement
             unitElements.appendChild(clonedElement)
+
+            const tranformable = new Transformable(clonedElement);
+
+            tranformable.get_root().addEventListener('hd-selected', (e)  => {
+                heedElementManager.select(e.target as HTMLElement);
+                heedElementManager.update_position(e)
+                heedElementManager.update_size(e)
+            })
+
+            tranformable.get_root().addEventListener('hd-dragged', (e) => {
+                heedElementManager.update_position(e)
+            })
+
+            tranformable.get_root().addEventListener('hd-resized', (e) => {
+                heedElementManager.update_size(e)
+            })
+
+            heedElementManager.add_element(clonedElement);
         })
-        layer_behavioral_subject.next(unitElements.children);
+
 
         return unit;
     }

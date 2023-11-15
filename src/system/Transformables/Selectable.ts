@@ -19,9 +19,14 @@ class Selectable {
   }
   public onSelect(event: MouseEvent): void {
     event.stopPropagation()
+    if( this.sharedState.isSelected ) return;
+
     this.sharedState.isSelected = true
     this.toggleHandles('visible')
     window.addEventListener('click', this.onUnSelect)
+    this.element.dispatchEvent(new CustomEvent('hd-selected', {
+      detail: { state: this.sharedState }
+    }))
   }
 
   public onUnSelect(): void {

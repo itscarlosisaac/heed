@@ -8,7 +8,7 @@ import GenerateUUID from "../../utils/GenerateUUID.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
 import AppError from "../../Error/AppError.ts";
 import FileObserver from "../../Observables/FileObserver.ts";
-import {BehaviorSubject, map, Observable, Subject} from "rxjs";
+import {BehaviorSubject, map, Observable } from "rxjs";
 import HeedParser from "../HeedParser/HeedParser.ts";
 
 class HeedIo {
