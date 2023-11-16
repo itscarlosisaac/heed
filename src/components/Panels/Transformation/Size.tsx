@@ -10,7 +10,7 @@ import {
 import { LinkIcon } from '@chakra-ui/icons'
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
-const Size = observer( (): JSX.Element  => {
+function Size() : JSX.Element {
     return (
         <>
             <HStack spacing={4}>
@@ -18,7 +18,7 @@ const Size = observer( (): JSX.Element  => {
                     <Input name={'width'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_size.width : ""} />
+                           defaultValue={heedElementManager.selected_style ? heedElementManager.selected_style.width : ""} />
                     <InputRightElement>
                         <Text color={'white'}>W</Text>
                     </InputRightElement>
@@ -27,7 +27,7 @@ const Size = observer( (): JSX.Element  => {
                     <Input name={'height'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_size.height : ""} />
+                           defaultValue={heedElementManager.selected_style ? heedElementManager.selected_style.height : ""} />
                     <InputRightElement>
                         <Text color={'white'}>H</Text>
                     </InputRightElement>
@@ -36,6 +36,6 @@ const Size = observer( (): JSX.Element  => {
             </HStack>
         </>
     )
-})
+}
 
-export default Size
+export default observer(Size)

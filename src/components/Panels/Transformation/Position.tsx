@@ -5,10 +5,10 @@ import {
     InputRightElement,
     Text,
 } from '@chakra-ui/react'
-import { observer } from "mobx-react";
+import {observer} from "mobx-react";
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
-const Position = observer( (): JSX.Element  => {
+function Position(): JSX.Element {
     return (
         <>
             <HStack spacing={4}>
@@ -16,7 +16,10 @@ const Position = observer( (): JSX.Element  => {
                     <Input name={'x-position'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_position.left : ""} />
+                           defaultValue={
+                               heedElementManager.selected_style ?
+                                   heedElementManager.selected_style.left : ""
+                           }/>
                     <InputRightElement>
                         <Text color={'white'}>X</Text>
                     </InputRightElement>
@@ -25,7 +28,10 @@ const Position = observer( (): JSX.Element  => {
                     <Input name={'y-position'}
                            color={'white'}
                            placeholder="0"
-                           defaultValue={heedElementManager.selected_element ? heedElementManager.selected_position.top: ""} />
+                           defaultValue={
+                               heedElementManager.selected_style ?
+                                   heedElementManager.selected_style.top : ""
+                           }/>
                     <InputRightElement>
                         <Text color={'white'}>Y</Text>
                     </InputRightElement>
@@ -33,6 +39,6 @@ const Position = observer( (): JSX.Element  => {
             </HStack>
         </>
     )
-})
+}
 
-export default Position
+export default observer(Position)

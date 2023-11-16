@@ -4,6 +4,7 @@ class HeedElementManager {
     private _elements: HTMLElement[] = []
     private _selected_element: HTMLElement | null = null;
 
+    private _selected_style: CSSStyleDeclaration | null = null;
     private _selected_size = { width: "", height: "" }
     private _selected_position = { top: "", left: "" }
 
@@ -19,6 +20,10 @@ class HeedElementManager {
         return this._selected_element
     }
 
+    public get selected_style(){
+        return this._selected_style;
+    }
+
     public get selected_position() {
         return this._selected_position
     }
@@ -28,7 +33,11 @@ class HeedElementManager {
     }
 
     public select(el: HTMLElement | null) {
+        if( !el ) {
+            return this._selected_element = null
+        }
         this._selected_element = el;
+        this._selected_style = window.getComputedStyle(el);
     }
 
     add_element(el: HTMLElement) {
@@ -36,18 +45,14 @@ class HeedElementManager {
     }
 
     update_position(d: Event){
-        // console.log("SELECTED",this._selected_element)
         if( this._selected_element ){
-            this._selected_position.left = d.target.style.left
-            this._selected_position.top = d.target.style.top
+            this._selected_style = window.getComputedStyle(d.target);
         }
     }
 
     update_size(d: Event){
-        // console.log("SELECTED",this._selected_element)
         if( this._selected_element ){
-            this._selected_size.width = d.target.style.width
-            this._selected_size.height = d.target.style.height
+            this._selected_style = window.getComputedStyle(d.target);
         }
     }
 
