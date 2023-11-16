@@ -1,12 +1,12 @@
 import {makeAutoObservable} from "mobx";
+import {ChangeEvent} from "react";
 
 class HeedElementManager {
     private _elements: HTMLElement[] = []
     private _selected_element: HTMLElement | null = null;
 
     private _selected_style: CSSStyleDeclaration | null = null;
-    private _selected_size = { width: "", height: "" }
-    private _selected_position = { top: "", left: "" }
+    private _selected_attrs: Record<string, string> = {}
 
     constructor() {
         makeAutoObservable(this)
@@ -24,12 +24,14 @@ class HeedElementManager {
         return this._selected_style;
     }
 
-    public get selected_position() {
-        return this._selected_position
+    public get selected_attributes(){
+        return this._selected_attrs;
     }
 
-    public get selected_size() {
-        return this._selected_size
+    public update_id(event: ChangeEvent<HTMLInputElement>) {
+        console.log("will change id", event.target.value)
+        this._selected_element?.setAttribute(event.target.name, event.target.value);
+        this._selected_attrs[event.target.name] =  event.target.value;
     }
 
     public select(el: HTMLElement | null) {
@@ -38,6 +40,11 @@ class HeedElementManager {
         }
         this._selected_element = el;
         this._selected_style = window.getComputedStyle(el);
+
+        this._selected_attrs = Array.from(el.attributes).reduce((attrs: Record<string, string>, attribute) => {
+            attrs[attribute.name] = attribute.value;
+            return attrs;
+        }, {});
     }
 
     add_element(el: HTMLElement) {
