@@ -7,7 +7,7 @@ import AppError from "../Error/AppError.ts";
 import {AppErrorCode} from "../Error/AppError.types.ts";
 
 export default class Selectable extends EventTarget {
-    private readonly boundingBox: HTMLElement;
+    boundingBox: HTMLElement;
     private readonly outsideClickListener: (event: MouseEvent) => void;
     private readonly outsideClicker: HTMLElement | null;
 
@@ -76,6 +76,7 @@ export default class Selectable extends EventTarget {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on move box.")
         }
         const rect = this.selectedElement.getBoundingClientRect();
+        console.log("Rect bounds", rect)
         this.boundingBox.style.width = `${rect.width}px`;
         this.boundingBox.style.height = `${rect.height}px`;
         this.boundingBox.style.left = `${rect.left}px`;
@@ -93,17 +94,13 @@ export default class Selectable extends EventTarget {
         this.state.isSelected = true;
         this.selectedElement = element;
 
-        // console.log('Will attach the bounding box.');
         this.draggable.onAttachDrag(element);
         this.draggable.boundingBox.dispatchEvent(
             new MouseEvent('mousedown', event)
         );
 
         // Logic to calculate and set position and size based on the element's dimensions
-
-        requestAnimationFrame(() => {
-            this.moveBox();
-        });
+        requestAnimationFrame(() => this.moveBox())
 
         // Dispatch a custom event to notify that an element has been attached
         const attachEvent = new CustomEvent('boundingBoxAttached', {

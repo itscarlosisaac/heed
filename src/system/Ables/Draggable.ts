@@ -63,6 +63,12 @@ class Draggable {
                 translate(${ e.clientX - this.state.dragMousePosition.x}px,
                 ${e.clientY - this.state.dragMousePosition.y}px)
             `;
+
+            // Dispatch a custom event to notify that the element has been moved
+            const dragMove = new CustomEvent('dragMove', {
+                detail: { element: this.selectedElement },
+            });
+            this.boundingBox.dispatchEvent(dragMove);
         });
     }
 

@@ -38,7 +38,8 @@ class HeedParser {
             throw new AppError(AppErrorCode.ConstructError, "Unable to construct the unit.")
         }
 
-        const selectable = new Selectable('.viewer');
+        const selectable = new Selectable('.viewport');
+
         // SELECTABLE
         selectable.addEventListener('boundingBoxAttached', (event: CustomEvent) => {
             heedElementManager.select(event.detail.element as HTMLElement);
@@ -48,6 +49,12 @@ class HeedParser {
         selectable.addEventListener('boundingBoxDetached', (event: CustomEvent) => {
             heedElementManager.select(null)
             console.log('Element detached:', event.detail.element);
+        });
+
+        selectable.boundingBox.addEventListener('dragMove', (event: CustomEvent) => {
+            console.log('Element move:', event.detail.element);
+            heedElementManager.update_position({target: event.detail.element})
+            heedElementManager.update_size({target: event.detail.element})
         });
 
         Array.from(heedUnit.children).forEach((child) => {
