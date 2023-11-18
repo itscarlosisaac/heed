@@ -5,6 +5,7 @@ import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 import AppError from "../../Error/AppError.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
+import Selectable from "../../Ables/Selectable.ts";
 
 class HeedParser {
 
@@ -37,26 +38,44 @@ class HeedParser {
             throw new AppError(AppErrorCode.ConstructError, "Unable to construct the unit.")
         }
 
+        const selectable = new Selectable('.viewer');
+        // SELECTABLE
+        selectable.addEventListener('boundingBoxAttached', (event: CustomEvent) => {
+            heedElementManager.select(event.detail.element as HTMLElement);
+            console.log('Element attached:', event.detail.element);
+        });
+
+        selectable.addEventListener('boundingBoxDetached', (event: CustomEvent) => {
+            heedElementManager.select(null)
+            console.log('Element detached:', event.detail.element);
+        });
+
         Array.from(heedUnit.children).forEach((child) => {
             // TODO - Figure out why the element is duplicated when using the child
             const clonedElement = child.cloneNode(false) as HTMLElement
+            clonedElement.style.userSelect = "none"
             unitElements.appendChild(clonedElement)
 
-            const tranformable = new Transformable(clonedElement);
+            // Assuming you have elements you want to make movable
+            clonedElement.addEventListener('mousedown', (event: MouseEvent) =>
+                selectable.attach(event, clonedElement as HTMLElement)
+            );
 
-            tranformable.get_root().addEventListener('hd-selected', (e)  => {
-                heedElementManager.select(e.target as HTMLElement);
-                heedElementManager.update_position(e)
-                heedElementManager.update_size(e)
-            })
-
-            tranformable.get_root().addEventListener('hd-dragged', (e) => {
-                heedElementManager.update_position(e)
-            })
-
-            tranformable.get_root().addEventListener('hd-resized', (e) => {
-                heedElementManager.update_size(e)
-            })
+            // const tranformable = new Transformable(clonedElement);
+            //
+            // tranformable.get_root().addEventListener('hd-selected', (e)  => {
+            //     heedElementManager.select(e.target as HTMLElement);
+            //     heedElementManager.update_position(e)
+            //     heedElementManager.update_size(e)
+            // })
+            //
+            // tranformable.get_root().addEventListener('hd-dragged', (e) => {
+            //     heedElementManager.update_position(e)
+            // })
+            //
+            // tranformable.get_root().addEventListener('hd-resized', (e) => {
+            //     heedElementManager.update_size(e)
+            // })
 
             heedElementManager.add_element(clonedElement);
         })

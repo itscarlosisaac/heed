@@ -9,6 +9,7 @@ import {observer} from "mobx-react";
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 
 function Position(): JSX.Element {
+
     return (
         <>
             <HStack spacing={4}>
