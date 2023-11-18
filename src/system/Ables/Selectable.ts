@@ -5,6 +5,7 @@ import Draggable from "./Draggable.ts";
 import {ShareState} from "./ables.types.ts";
 import AppError from "../Error/AppError.ts";
 import {AppErrorCode} from "../Error/AppError.types.ts";
+import Rotatable from "./Rotatable.ts";
 
 export default class Selectable extends EventTarget {
     boundingBox: HTMLElement;
@@ -13,12 +14,14 @@ export default class Selectable extends EventTarget {
 
     private selectedElement: HTMLElement | null = null;
     private draggable: Draggable;
+    private rotatable: Rotatable;
 
     public state: ShareState = {
         dragStartPosition: { x: 0, y: 0 },
         dragMousePosition: { x: 0, y: 0 },
         isDragging: false,
         isSelected: false,
+        isRotating: false,
     };
 
     // Constructor to initialize the bounding box
@@ -53,11 +56,14 @@ export default class Selectable extends EventTarget {
         new ResizeBound('sw', this.boundingBox);
         new ResizeBound('w', this.boundingBox);
 
-        new RotateBound(this.boundingBox);
+        const rotateHandler = new RotateBound(this.boundingBox);
 
         // So it doesn't interfere with clicking other elements
         document.body.appendChild(this.boundingBox);
         this.draggable = new Draggable(this.boundingBox, this.state);
+
+        // Rotate Handler
+        this.rotatable = new Rotatable(this.boundingBox, rotateHandler, this.state);
 
         // The outside element that will handle the click outside the selected element.
         this.outsideClickListener = (event: MouseEvent) => {

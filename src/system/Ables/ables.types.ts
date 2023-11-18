@@ -12,4 +12,5 @@ export interface ShareState {
     dragMousePosition: Position;
     isDragging: boolean;
     isSelected: boolean;
+    isRotating: boolean;
 }
