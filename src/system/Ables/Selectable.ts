@@ -82,9 +82,9 @@ export default class Selectable extends EventTarget {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on move box.")
         }
         const rect = this.selectedElement.getBoundingClientRect();
-        console.log("Rect bounds", rect)
-        this.boundingBox.style.width = `${rect.width}px`;
-        this.boundingBox.style.height = `${rect.height}px`;
+        const computedStyles = getComputedStyle(this.selectedElement);
+        this.boundingBox.style.width = computedStyles.width;
+        this.boundingBox.style.height = computedStyles.height;
         this.boundingBox.style.left = `${rect.left}px`;
         this.boundingBox.style.top = `${rect.top}px`;
         this.boundingBox.style.visibility = 'visible';
@@ -101,6 +101,8 @@ export default class Selectable extends EventTarget {
         this.selectedElement = element;
 
         this.draggable.onAttachDrag(element);
+        this.rotatable.onAttachRotatable(element);
+
         this.draggable.boundingBox.dispatchEvent(
             new MouseEvent('mousedown', event)
         );

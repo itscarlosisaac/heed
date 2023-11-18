@@ -1,6 +1,7 @@
 import {ShareState} from './ables.types';
 import {AppErrorCode} from "../Error/AppError.types.ts";
 import AppError from "../Error/AppError.ts";
+import Transformer from "./Transformer.ts";
 class Draggable {
     boundingBox: HTMLElement;
     selectedElement: HTMLElement | null = null;
@@ -21,6 +22,13 @@ class Draggable {
         this.selectedElement = element;
     }
 
+    restartTransforms(){
+        // Repositioning the bounding box
+        const elementTransform = Transformer.parseTransformations(this.selectedElement);
+        Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
+        Transformer.updateTranslate(this.boundingBox, 0,0)
+    }
+
     onDragStart(e: MouseEvent) {
         if( !this.selectedElement ) {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on  drag start.")
@@ -38,8 +46,8 @@ class Draggable {
         document.addEventListener('mousemove', this.onDragMove);
         document.addEventListener('mouseup', this.onDragEnd);
 
-        // Repositioning the bounding box
-        this.boundingBox.style.transform = '';
+
+        this.restartTransforms();
         const rect = this.selectedElement.getBoundingClientRect();
         this.moveElement(this.boundingBox, rect.left, rect.top)
     }
@@ -59,10 +67,8 @@ class Draggable {
                 this.state.dragStartPosition.y + (e.clientY - this.state.dragMousePosition.y)
             );
 
-            this.boundingBox.style.transform = `
-                translate(${ e.clientX - this.state.dragMousePosition.x}px,
-                ${e.clientY - this.state.dragMousePosition.y}px)
-            `;
+
+            Transformer.updateTranslate(this.boundingBox, e.clientX - this.state.dragMousePosition.x,e.clientY - this.state.dragMousePosition.y)
 
             // Dispatch a custom event to notify that the element has been moved
             const dragMove = new CustomEvent('dragMove', {

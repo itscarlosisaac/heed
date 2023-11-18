@@ -1,8 +1,11 @@
 import {RotateBound} from "./Bounds/RotateBound.ts";
 import {ShareState} from "./ables.types.ts";
+import Transformer from "./Transformer.ts";
+import {elementAt} from "rxjs";
 
 class Rotatable {
     private boundingBox: HTMLElement;
+    private selectedElement: HTMLElement;
     private rotateBound: RotateBound;
     private state: ShareState;
     constructor(boundingBox: HTMLElement, rotateBound: RotateBound, state: ShareState) {
@@ -15,6 +18,17 @@ class Rotatable {
         this.onRotateEnd = this.onRotateEnd.bind(this);
         this.rotateBound.handler.addEventListener('mousedown', this.onRotateStart )
     }
+
+    onAttachRotatable(element: HTMLElement) {
+        this.selectedElement = element;
+    }
+
+    restartTransforms(){
+        // Repositioning the bounding box
+        const elementTransform = Transformer.parseTransformations(this.selectedElement);
+        Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
+    }
+
 
     onRotateStart(event: MouseEvent): void {
         console.log("Will Rotate",event)
@@ -30,6 +44,9 @@ class Rotatable {
 
         document.addEventListener('mousemove', this.onRotate);
         document.addEventListener('mouseup', this.onRotateEnd);
+
+        // Resetting rotation to element.
+        this.restartTransforms()
     }
     onRotate(event: MouseEvent): void {
         if( !this.state.isRotating ) return;
@@ -40,10 +57,11 @@ class Rotatable {
             + Math.PI / 2;
 
         const degree = (angle * 180) / Math.PI
-        this.boundingBox.style.transform = `rotate(${degree}deg)`
+        this.selectedElement.style.transform = `rotate(${degree}deg)`
+        Transformer.updateRotate(this.boundingBox, degree)
     }
-    onRotateEnd(e){
-        console.log("End Rotate",e)
+    onRotateEnd(event){
+        console.log("End Rotate",event)
         this.state.isRotating = false;
         document.removeEventListener('mousemove', this.onRotate);
         document.removeEventListener('mouseup', this.onRotateEnd);

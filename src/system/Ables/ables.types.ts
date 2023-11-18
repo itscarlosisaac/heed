@@ -14,3 +14,10 @@ export interface ShareState {
     isSelected: boolean;
     isRotating: boolean;
 }
+
+export interface Transformations {
+    translate: { x: number, y: number },
+    scale: { x: number, y: number },
+    rotate: number,
+    skew: { x: number, y: number }
+}
