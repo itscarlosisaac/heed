@@ -2,6 +2,7 @@ import {ShareState} from './ables.types';
 import {AppErrorCode} from "../Error/AppError.types.ts";
 import AppError from "../Error/AppError.ts";
 import Transformer from "./Transformer.ts";
+
 class Draggable {
     boundingBox: HTMLElement;
     selectedElement: HTMLElement | null = null;
@@ -22,15 +23,15 @@ class Draggable {
         this.selectedElement = element;
     }
 
-    restartTransforms(){
+    restartTransforms() {
         // Repositioning the bounding box
         const elementTransform = Transformer.parseTransformations(this.selectedElement);
         Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
-        Transformer.updateTranslate(this.boundingBox, 0,0)
+        Transformer.updateTranslate(this.boundingBox, 0, 0)
     }
 
     onDragStart(e: MouseEvent) {
-        if( !this.selectedElement ) {
+        if (!this.selectedElement) {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on  drag start.")
         }
 
@@ -48,8 +49,11 @@ class Draggable {
 
 
         this.restartTransforms();
-        const rect = this.selectedElement.getBoundingClientRect();
-        this.moveElement(this.boundingBox, rect.left, rect.top)
+        const cssStyleDeclaration = getComputedStyle(this.selectedElement);
+
+        this.moveElement(this.boundingBox,
+            cssStyleDeclaration.left.replace("px", ""),
+            cssStyleDeclaration.top.replace("px", ""))
     }
 
     onDragMove(e: MouseEvent) {
@@ -57,7 +61,7 @@ class Draggable {
 
         requestAnimationFrame(() => {
 
-            if( !this.selectedElement ) {
+            if (!this.selectedElement) {
                 throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on  drag move.")
             }
 
@@ -68,17 +72,18 @@ class Draggable {
             );
 
 
-            Transformer.updateTranslate(this.boundingBox, e.clientX - this.state.dragMousePosition.x,e.clientY - this.state.dragMousePosition.y)
+            Transformer.updateTranslate(this.boundingBox, e.clientX - this.state.dragMousePosition.x, e.clientY - this.state.dragMousePosition.y)
 
             // Dispatch a custom event to notify that the element has been moved
             const dragMove = new CustomEvent('dragMove', {
-                detail: { element: this.selectedElement },
+                detail: {element: this.selectedElement},
             });
             this.boundingBox.dispatchEvent(dragMove);
         });
     }
 
-    onDragEnd() {
+    onDragEnd(e) {
+        e.stopPropagation()
         this.boundingBox.style.cursor = "grab"
         console.log('Will END drag - move', this);
 

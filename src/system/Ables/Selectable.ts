@@ -8,7 +8,7 @@ import {AppErrorCode} from "../Error/AppError.types.ts";
 import Rotatable from "./Rotatable.ts";
 
 
-export default class Selectable extends EventTarget {
+class Selectable extends EventTarget {
     boundingBox: HTMLElement;
     private readonly outsideClickListener: (event: MouseEvent) => void;
     private readonly outsideClicker: HTMLElement | null;
@@ -26,7 +26,7 @@ export default class Selectable extends EventTarget {
     };
 
     // Constructor to initialize the bounding box
-    constructor(selector: string) {
+    constructor(selector: string, container: HTMLElement) {
         super();
 
         // Select the outside click boundaries
@@ -60,7 +60,8 @@ export default class Selectable extends EventTarget {
         const rotateHandler = new RotateBound(this.boundingBox);
 
         // So it doesn't interfere with clicking other elements
-        document.body.appendChild(this.boundingBox);
+        // document.body.appendChild(this.boundingBox);
+        container.appendChild(this.boundingBox);
         this.draggable = new Draggable(this.boundingBox, this.state);
 
         // Rotate Handler
@@ -72,7 +73,7 @@ export default class Selectable extends EventTarget {
                 this.selectedElement &&
                 !this.selectedElement.contains(event.target as Node)
             ) {
-                this.detach();
+                // this.detach();
             }
         };
     }
@@ -82,16 +83,13 @@ export default class Selectable extends EventTarget {
         if( !this.selectedElement ) {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on move box.")
         }
-        const rect = this.selectedElement.getBoundingClientRect();
-
         const computedStyles = getComputedStyle(this.selectedElement);
+        const rect = this.selectedElement.getBoundingClientRect();
         this.boundingBox.style.width = computedStyles.width;
         this.boundingBox.style.height = computedStyles.height;
 
-        console.log("TRANS - RECT", rect)
-
-        this.boundingBox.style.left = `${rect.left}px`;
-        this.boundingBox.style.top = `${rect.top}px`;
+        this.boundingBox.style.left = `${computedStyles.left}`;
+        this.boundingBox.style.top = `${computedStyles.top}`;
         this.boundingBox.style.visibility = 'visible';
     }
 
@@ -119,7 +117,6 @@ export default class Selectable extends EventTarget {
         const attachEvent = new CustomEvent('boundingBoxAttached', {
             detail: { element: this.selectedElement },
         });
-
         this.dispatchEvent(attachEvent);
 
         if( !this.outsideClicker ) {
@@ -129,7 +126,7 @@ export default class Selectable extends EventTarget {
         this.outsideClicker.addEventListener(
           'click',
           this.outsideClickListener,
-          true
+            true
         );
     }
 
@@ -138,7 +135,6 @@ export default class Selectable extends EventTarget {
         this.state.isSelected = false;
         const detachedElement = this.selectedElement;
         this.selectedElement = null;
-        // Logic to reset or hide the bounding box
 
         // Dispatch a custom event to notify that the element has been detached
         const detachEvent = new CustomEvent('boundingBoxDetached', {
@@ -148,7 +144,7 @@ export default class Selectable extends EventTarget {
         this.hideBox();
 
         if( !this.outsideClicker ) {
-            throw new AppError(AppErrorCode.ElementNotFound, "Unable to find outside clicker element when deattaching bounding box.")
+            throw new AppError(AppErrorCode.ElementNotFound, "Unable to find outside clicker element when de-attaching bounding box.")
         }
 
         this.outsideClicker.removeEventListener(
@@ -158,3 +154,5 @@ export default class Selectable extends EventTarget {
         );
     }
 }
+
+export default Selectable;

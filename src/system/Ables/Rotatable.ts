@@ -1,7 +1,6 @@
 import {RotateBound} from "./Bounds/RotateBound.ts";
 import {ShareState} from "./ables.types.ts";
 import Transformer from "./Transformer.ts";
-import {elementAt} from "rxjs";
 
 class Rotatable {
     private boundingBox: HTMLElement;
