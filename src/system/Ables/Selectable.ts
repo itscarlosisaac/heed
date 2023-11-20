@@ -7,6 +7,7 @@ import AppError from "../Error/AppError.ts";
 import {AppErrorCode} from "../Error/AppError.types.ts";
 import Rotatable from "./Rotatable.ts";
 
+
 export default class Selectable extends EventTarget {
     boundingBox: HTMLElement;
     private readonly outsideClickListener: (event: MouseEvent) => void;
@@ -82,9 +83,13 @@ export default class Selectable extends EventTarget {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on move box.")
         }
         const rect = this.selectedElement.getBoundingClientRect();
+
         const computedStyles = getComputedStyle(this.selectedElement);
         this.boundingBox.style.width = computedStyles.width;
         this.boundingBox.style.height = computedStyles.height;
+
+        console.log("TRANS - RECT", rect)
+
         this.boundingBox.style.left = `${rect.left}px`;
         this.boundingBox.style.top = `${rect.top}px`;
         this.boundingBox.style.visibility = 'visible';

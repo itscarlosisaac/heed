@@ -23,15 +23,14 @@ class Rotatable {
         this.selectedElement = element;
     }
 
+    // Repositioning the bounding box
     restartTransforms(){
-        // Repositioning the bounding box
         const elementTransform = Transformer.parseTransformations(this.selectedElement);
         Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
     }
 
 
     onRotateStart(event: MouseEvent): void {
-        console.log("Will Rotate",event)
         event.stopPropagation()
         this.state.isRotating = true;
 
@@ -50,7 +49,7 @@ class Rotatable {
     }
     onRotate(event: MouseEvent): void {
         if( !this.state.isRotating ) return;
-        console.log("Rotating", event)
+
         const angle = Math.atan2(
             event.clientY - this.state.dragStartPosition.y,
             event.clientX - this.state.dragStartPosition.x)
@@ -61,7 +60,6 @@ class Rotatable {
         Transformer.updateRotate(this.boundingBox, degree)
     }
     onRotateEnd(event){
-        console.log("End Rotate",event)
         this.state.isRotating = false;
         document.removeEventListener('mousemove', this.onRotate);
         document.removeEventListener('mouseup', this.onRotateEnd);

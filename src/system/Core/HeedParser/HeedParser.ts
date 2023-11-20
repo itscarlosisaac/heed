@@ -52,7 +52,7 @@ class HeedParser {
         });
 
         selectable.boundingBox.addEventListener('dragMove', (event: CustomEvent) => {
-            console.log('Element move:', event.detail.element);
+            // console.log('Element move:', event.detail.element);
             heedElementManager.update_position({target: event.detail.element})
             heedElementManager.update_size({target: event.detail.element})
         });
