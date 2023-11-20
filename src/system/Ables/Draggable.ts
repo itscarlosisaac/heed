@@ -47,7 +47,6 @@ class Draggable {
         document.addEventListener('mousemove', this.onDragMove);
         document.addEventListener('mouseup', this.onDragEnd);
 
-
         this.restartTransforms();
         const cssStyleDeclaration = getComputedStyle(this.selectedElement);
 
@@ -82,8 +81,7 @@ class Draggable {
         });
     }
 
-    onDragEnd(e) {
-        e.stopPropagation()
+    onDragEnd() {
         this.boundingBox.style.cursor = "grab"
         console.log('Will END drag - move', this);
 

@@ -28,7 +28,6 @@ class Rotatable {
         Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
     }
 
-
     onRotateStart(event: MouseEvent): void {
         event.stopPropagation()
         this.state.isRotating = true;

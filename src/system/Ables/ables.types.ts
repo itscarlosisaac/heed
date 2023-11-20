@@ -6,7 +6,6 @@ export interface Position {
     x: number;
     y: number;
 }
-
 export interface ShareState {
     dragStartPosition: Position;
     dragMousePosition: Position;

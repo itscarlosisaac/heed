@@ -100,6 +100,7 @@ class Selectable extends EventTarget {
 
     // Method to attach the bounding box to a given HTML element
     public attach(event: MouseEvent, element: HTMLElement): void {
+        console.log("Select Event target", event)
         this.state.isSelected = true;
         this.selectedElement = element;
 
