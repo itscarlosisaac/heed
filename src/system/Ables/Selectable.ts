@@ -6,6 +6,7 @@ import {ShareState} from "./ables.types.ts";
 import AppError from "../Error/AppError.ts";
 import {AppErrorCode} from "../Error/AppError.types.ts";
 import Rotatable from "./Rotatable.ts";
+import Resizable from "./Resizable.ts";
 
 
 class Selectable extends EventTarget {
@@ -16,13 +17,17 @@ class Selectable extends EventTarget {
     private selectedElement: HTMLElement | null = null;
     private draggable: Draggable;
     private rotatable: Rotatable;
+    private resizable: Resizable;
 
     public state: ShareState = {
         dragStartPosition: { x: 0, y: 0 },
         dragMousePosition: { x: 0, y: 0 },
+        initialSize: { width: 0, height: 0 },
+        initialCenter: { height: 0, width: 0},
+        isResizing: false,
         isDragging: false,
         isSelected: false,
-        isRotating: false,
+        isRotating: false
     };
 
     // Constructor to initialize the bounding box
@@ -47,14 +52,14 @@ class Selectable extends EventTarget {
         new LineBound('vertical', 'right', this.boundingBox);
 
         new ResizeBound('n', this.boundingBox);
-        new ResizeBound('ne', this.boundingBox);
-        new ResizeBound('nw', this.boundingBox);
+        const ne = new ResizeBound('ne', this.boundingBox);
+        const nw = new ResizeBound('nw', this.boundingBox);
 
         new ResizeBound('e', this.boundingBox);
-        new ResizeBound('se', this.boundingBox);
+        const se = new ResizeBound('se', this.boundingBox);
         new ResizeBound('s', this.boundingBox);
 
-        new ResizeBound('sw', this.boundingBox);
+        const sw =new ResizeBound('sw', this.boundingBox);
         new ResizeBound('w', this.boundingBox);
 
         const rotateHandler = new RotateBound(this.boundingBox);
@@ -67,6 +72,12 @@ class Selectable extends EventTarget {
         // Rotate Handler
         this.rotatable = new Rotatable(this.boundingBox, rotateHandler, this.state);
 
+        // Resize Handler
+        this.resizable = new Resizable(this.boundingBox, this.state, [
+            ne, se, sw, nw
+        ])
+
+        // TODO - Fix the de-attach logic
         // The outside element that will handle the click outside the selected element.
         this.outsideClickListener = (event: MouseEvent) => {
             if (
@@ -84,7 +95,6 @@ class Selectable extends EventTarget {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element on move box.")
         }
         const computedStyles = getComputedStyle(this.selectedElement);
-        const rect = this.selectedElement.getBoundingClientRect();
         this.boundingBox.style.width = computedStyles.width;
         this.boundingBox.style.height = computedStyles.height;
 
@@ -106,6 +116,7 @@ class Selectable extends EventTarget {
 
         this.draggable.onAttachDrag(element);
         this.rotatable.onAttachRotatable(element);
+        this.resizable.onAttachResizable(element);
 
         this.draggable.boundingBox.dispatchEvent(
             new MouseEvent('mousedown', event)

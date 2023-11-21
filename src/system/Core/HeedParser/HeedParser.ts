@@ -1,5 +1,6 @@
 import Unit from "../../Unit";
 import TemplateParser from "../../TemplateParser.ts";
+import Transformable from "../../Transformables/Transformable.ts";
 import {IHeedElement} from "../../../redux/Editor/EditorInitialState.ts";
 import AppError from "../../Error/AppError.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
@@ -37,24 +38,26 @@ class HeedParser {
             throw new AppError(AppErrorCode.ConstructError, "Unable to construct the unit.")
         }
 
-        const selectable = new Selectable('#canvas', document.querySelector("#unit"));
 
+        //
+        // const selectable = new Selectable('#canvas', document.querySelector("#unit"));
+        //
         // // SELECTABLE
-        selectable.addEventListener('boundingBoxAttached', (event: CustomEvent) => {
-            heedElementManager.select(event.detail.element as HTMLElement);
-            console.log('Element attached:', event.detail.element);
-        });
-
+        // selectable.addEventListener('boundingBoxAttached', (event: CustomEvent) => {
+        //     heedElementManager.select(event.detail.element as HTMLElement);
+        //     console.log('Element attached:', event.detail.element);
+        // });
+        //
         // selectable.addEventListener('boundingBoxDetached', (event: CustomEvent) => {
         //     heedElementManager.select(null)
         //     console.log('Element detached:', event.detail.element);
         // });
 
-        selectable.boundingBox.addEventListener('dragMove', (event: CustomEvent) => {
-            // console.log('Element move:', event.detail.element);
-            heedElementManager.update_position({target: event.detail.element})
-            heedElementManager.update_size({target: event.detail.element})
-        });
+        // selectable.boundingBox.addEventListener('dragMove', (event: CustomEvent) => {
+        //     // console.log('Element move:', event.detail.element);
+        //     heedElementManager.update_position({target: event.detail.element})
+        //     heedElementManager.update_size({target: event.detail.element})
+        // });
 
         Array.from(heedUnit.children).forEach((child) => {
             // TODO - Figure out why the element is duplicated when using the child
@@ -63,9 +66,9 @@ class HeedParser {
             unitElements.appendChild(clonedElement)
 
             // Assuming you have elements you want to make movable
-            clonedElement.addEventListener('mousedown', (event: MouseEvent) =>
-                selectable.attach(event, clonedElement as HTMLElement)
-            );
+            // clonedElement.addEventListener('mousedown', (event: MouseEvent) =>
+            //     selectable.attach(event, clonedElement as HTMLElement)
+            // );
 
 
             // const tranformable = new Transformable(clonedElement);
