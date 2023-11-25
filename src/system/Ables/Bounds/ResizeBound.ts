@@ -1,13 +1,13 @@
-import {Direction} from "../ables.types";
+import {AnchorPosition} from "../ables.types";
 
 export class ResizeBound {
     private parent: HTMLElement;
     private readonly _handler: HTMLElement = document.createElement('div');
-    private readonly position: Direction = 'n';
+    private readonly anchor: keyof AnchorPosition & string = 'top_left';
 
-    constructor(position: Direction, parent: HTMLElement) {
+    constructor(anchor: keyof AnchorPosition & string, parent: HTMLElement) {
         this.parent = parent;
-        this.position = position;
+        this.anchor = anchor;
         this.setup();
     }
 
@@ -16,7 +16,7 @@ export class ResizeBound {
     }
 
     get direction(){
-        return this.position
+        return this.anchor
     }
 
     private setup() {
@@ -29,47 +29,47 @@ export class ResizeBound {
         this._handler.style.zIndex = '1000000';
         this._handler.style.margin = 'auto';
         this._handler.style.cursor = 'pointer';
-        this._handler.dataset.direction = this.position;
+        this._handler.dataset.anchor = this.anchor;
 
         const offset = '3px';
 
-        switch (this.position) {
-            case 'nw':
+        switch (this.anchor) {
+            case 'top_left':
                 this._handler.style.top = `-${offset}`;
                 this._handler.style.left = `-${offset}`;
                 break;
-            case 'n':
-                this._handler.style.top = `-${offset}`;
-                this._handler.style.left = '0';
-                this._handler.style.right = '0';
-                break;
-            case 'ne':
+            // case 'n':
+            //     this._handler.style.top = `-${offset}`;
+            //     this._handler.style.left = '0';
+            //     this._handler.style.right = '0';
+            //     break;
+            case 'top_right':
                 this._handler.style.top = `-${offset}`;
                 this._handler.style.right = `-${offset}`;
                 break;
-            case 'e':
-                this._handler.style.top = '0px';
-                this._handler.style.bottom = '0px';
-                this._handler.style.right = `-${offset}`;
-                break;
-            case 'se':
+            // case 'e':
+            //     this._handler.style.top = '0px';
+            //     this._handler.style.bottom = '0px';
+            //     this._handler.style.right = `-${offset}`;
+            //     break;
+            case 'bottom_right':
                 this._handler.style.bottom = `-${offset}`;
                 this._handler.style.right = `-${offset}`;
                 break;
-            case 's':
-                this._handler.style.bottom = `-${offset}`;
-                this._handler.style.left = '0';
-                this._handler.style.right = '0';
-                break;
-            case 'sw':
+            // case 's':
+            //     this._handler.style.bottom = `-${offset}`;
+            //     this._handler.style.left = '0';
+            //     this._handler.style.right = '0';
+            //     break;
+            case 'bottom_left':
                 this._handler.style.bottom = `-${offset}`;
                 this._handler.style.left = `-${offset}`;
                 break;
-            case 'w':
-                this._handler.style.top = '0px';
-                this._handler.style.bottom = '0px';
-                this._handler.style.left = `-${offset}`;
-                break;
+            // case 'w':
+            //     this._handler.style.top = '0px';
+            //     this._handler.style.bottom = '0px';
+            //     this._handler.style.left = `-${offset}`;
+            //     break;
         }
 
         // Attaching _handler to parent.

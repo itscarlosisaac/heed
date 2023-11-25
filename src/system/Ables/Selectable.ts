@@ -51,16 +51,15 @@ class Selectable extends EventTarget {
         new LineBound('vertical', 'left', this.boundingBox);
         new LineBound('vertical', 'right', this.boundingBox);
 
-        new ResizeBound('n', this.boundingBox);
-        const ne = new ResizeBound('ne', this.boundingBox);
-        const nw = new ResizeBound('nw', this.boundingBox);
+        const nw = new ResizeBound('top_left', this.boundingBox);
+        const ne = new ResizeBound('top_right', this.boundingBox);
+        const se = new ResizeBound('bottom_right', this.boundingBox);
+        const sw = new ResizeBound('bottom_left', this.boundingBox);
 
-        new ResizeBound('e', this.boundingBox);
-        const se = new ResizeBound('se', this.boundingBox);
-        new ResizeBound('s', this.boundingBox);
-
-        const sw =new ResizeBound('sw', this.boundingBox);
-        new ResizeBound('w', this.boundingBox);
+        // new ResizeBound('n', this.boundingBox);
+        // new ResizeBound('s', this.boundingBox);
+        // new ResizeBound('e', this.boundingBox);
+        // new ResizeBound('w', this.boundingBox);
 
         const rotateHandler = new RotateBound(this.boundingBox);
 

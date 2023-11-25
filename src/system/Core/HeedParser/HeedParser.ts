@@ -40,7 +40,7 @@ class HeedParser {
 
 
         //
-        // const selectable = new Selectable('#canvas', document.querySelector("#unit"));
+        const selectable = new Selectable('#canvas', document.querySelector("#unit"));
         //
         // // SELECTABLE
         // selectable.addEventListener('boundingBoxAttached', (event: CustomEvent) => {
@@ -66,9 +66,9 @@ class HeedParser {
             unitElements.appendChild(clonedElement)
 
             // Assuming you have elements you want to make movable
-            // clonedElement.addEventListener('mousedown', (event: MouseEvent) =>
-            //     selectable.attach(event, clonedElement as HTMLElement)
-            // );
+            clonedElement.addEventListener('mousedown', (event: MouseEvent) =>
+                selectable.attach(event, clonedElement as HTMLElement)
+            );
 
 
             // const tranformable = new Transformable(clonedElement);

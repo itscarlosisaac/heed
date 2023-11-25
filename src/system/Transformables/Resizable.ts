@@ -138,8 +138,9 @@ class Resizable {
           rotatedHDiff = minHeight - this.sharedState.initH
         }
         newX += 0.5 * rotatedWDiff * cosFraction
-        newY += 0.5 * rotatedWDiff * sinFraction
         newX -= 0.5 * rotatedHDiff * sinFraction
+
+        newY += 0.5 * rotatedWDiff * sinFraction
         newY += 0.5 * rotatedHDiff * cosFraction
         break
       case 'bottom-right':

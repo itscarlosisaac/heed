@@ -1,14 +1,14 @@
-import {Direction, ShareState} from "./ables.types";
+import {AnchorPosition, Point, ShareState, Size} from "./ables.types";
 import {ResizeBound} from "./Bounds/ResizeBound.ts";
-
+import ablesUtils from "./ables.utils.ts";
 
 class Resizable {
     protected target: HTMLElement
-    protected selectedElement: HTMLElement
+    protected selectedElement: HTMLElement | null = null;
 
     state: ShareState;
     handlers: ResizeBound[] = []
-    private direction: Direction;
+    private anchor: keyof AnchorPosition & string = "top_left"
 
     constructor(target: HTMLElement, state: ShareState, handlers: ResizeBound[]) {
         this.state = state;
@@ -26,13 +26,11 @@ class Resizable {
             handle.handler.addEventListener('mousedown', this.onMouseDown))
     }
 
-
     onAttachResizable(element: HTMLElement) {
         this.selectedElement = element;
     }
 
     private handleInitialSetup(event: MouseEvent){
-        console.log("Target:", event)
         this.state.initialSize = {
             width: this.target.offsetWidth,
             height: this.target.offsetHeight,
@@ -48,107 +46,138 @@ class Resizable {
             y: event.clientY
         }
 
-        this.direction = event.target.dataset.direction;
-    }
+        this.state.initial_coordinates = ablesUtils.get_original_coordinates(this.target);
 
-    private getCurrentRotation(): number {
-        const styles = window.getComputedStyle(this.target, null)
-        const transform =
-            styles.getPropertyValue('-webkit-transform') ||
-            styles.getPropertyValue('-moz-transform') ||
-            styles.getPropertyValue('-ms-transform') ||
-            styles.getPropertyValue('-o-transform') ||
-            styles.getPropertyValue('transform') ||
-            'none'
-        if (transform != 'none') {
-            const values = transform.split('(')[1].split(')')[0].split(',')
-            const angle = Math.round(Math.atan2(Number(values[1]), Number(values[0])) * (180 / Math.PI))
-            return angle < 0 ? angle + 360 : angle
-        }
-        return 0
+        this.anchor = event.target.dataset.anchor || "top_left";
     }
 
     onMouseDown(event: MouseEvent): void {
         event.stopPropagation()
         this.state.isResizing = true;
         this.handleInitialSetup(event)
-        window.addEventListener('mousemove', this.onMouseMove )
-        window.addEventListener('mouseup', this.onMouseUp)
+        document.addEventListener('mousemove', this.onMouseMove )
+        document.addEventListener('mouseup', this.onMouseUp)
     }
 
     onMouseMove(event: MouseEvent): void  {
-        if( !this.state.isResizing ) return;
-        console.log("resize direction", this.direction)
-        const initialRotation = this.getCurrentRotation()
-        const initRadians = (initialRotation * Math.PI) / 180
-        const cosFraction = Math.cos(initRadians)
-        const sinFraction = Math.sin(initRadians)
-        const wDiff = event.clientX - this.state.dragStartPosition.x
-        const hDiff = event.clientY - this.state.dragStartPosition.y
-        let rotatedWDiff = cosFraction * wDiff + sinFraction * hDiff
-        let rotatedHDiff = cosFraction * hDiff - sinFraction * wDiff
+        if( !this.state.isResizing|| !this.selectedElement ) return;
 
-        const minHeight = 10
-        const minWidth = 10
+        const distance = ablesUtils.get_point_distance(this.state.dragStartPosition, {
+            x: event.clientX,
+            y: event.clientY,
+        })
+        const initial_rotation = ablesUtils.get_current_rotation(this.target)
+        const initial_radian_rotation = (initial_rotation * Math.PI) / 180
+        const cosFraction = Math.cos(initial_radian_rotation)
+        const sinFraction = Math.sin(initial_radian_rotation)
 
-        let newW: number = this.state.initialSize.width,
-            newH: number = this.state.initialSize.height,
-            newX: number = this.state.initialCenter.width,
-            newY: number = this.state.initialCenter.height
+        const rotated_distance: Point = {
+            x: cosFraction * distance.x + sinFraction * distance.y,
+            y: cosFraction * distance.y - sinFraction * distance.x,
+        };
 
-        switch (this.direction) {
-            // Commented cases.
-            case 'nw':
-                newW = this.state.initialSize.width - rotatedWDiff
-                if (newW < minWidth) {
-                    newW = minWidth
-                    rotatedWDiff = this.state.initialSize.width - minWidth
-                }
-                newH = this.state.initialSize.height - rotatedHDiff
-                if (newH < minHeight) {
-                    newH = minHeight
-                    rotatedHDiff = this.state.initialSize.height - minHeight
-                }
-                newX += 0.5 * rotatedWDiff * cosFraction
-                newY += 0.5 * rotatedWDiff * sinFraction
-                newX -= 0.5 * rotatedHDiff * sinFraction
-                newY += 0.5 * rotatedHDiff * cosFraction
+        const min_width = 10;
+        const min_height = 10;
+
+        let new_size: Size = {
+            width: min_width,
+            height: min_height,
+        };
+
+        if (new_size.height == min_height) {
+            new_size.height = min_height;
+            rotated_distance.y = min_height / 2 + this.state.initial_coordinates.top_left.y / 2;
+        }
+        //
+        // if (new_size.width == min_width) {
+        //     new_size.width = min_width;
+        //     rotated_distance.x = min_width / 2 + this.state.initial_coordinates.top_left.x / 2;
+        // }
+
+        switch (this.anchor) {
+            case 'top_left':
+                new_size.width = Math.max(
+                    min_width,
+                    this.state.initialSize.width + rotated_distance.x
+                );
+                new_size.height = Math.max(
+                    min_height,
+                    this.state.initialSize.height + rotated_distance.y
+                );
                 break;
-            case 'ne':
-                newW = this.state.initialSize.width + rotatedWDiff
-                if (newW < minWidth) {
-                    newW = minWidth
-                    rotatedWDiff = minWidth - this.state.initialSize.width
-                }
-                newH = this.state.initialSize.height - rotatedHDiff
-                if (newH < minHeight) {
-                    newH = minHeight
-                    rotatedHDiff = this.state.initialSize.height - minHeight
-                }
-                newX += 0.5 * rotatedWDiff * cosFraction
-                newY += 0.5 * rotatedWDiff * sinFraction
-                newX -= 0.5 * rotatedHDiff * sinFraction
-                newY += 0.5 * rotatedHDiff * cosFraction
-                break
+            case 'top_right':
+                new_size.width = Math.max(
+                    min_width,
+                    this.state.initialSize.width - rotated_distance.x
+                );
+                new_size.height = Math.max(
+                    min_height,
+                    this.state.initialSize.height + rotated_distance.y
+                );
+                break;
+            case 'bottom_left':
+                new_size.width = Math.max(
+                    min_width,
+                    this.state.initialSize.width + rotated_distance.x
+                );
+                new_size.height = Math.max(
+                    min_height,
+                    this.state.initialSize.height - rotated_distance.y
+                );
+                break;
+            case 'bottom_right':
+                new_size.width = Math.max(
+                    min_width,
+                    this.state.initialSize.width - rotated_distance.x
+                );
+                new_size.height = Math.max(
+                    min_height,
+                    this.state.initialSize.height - rotated_distance.y
+                );
+                break;
         }
 
-        this.selectedElement.style.width = newW + "px"
-        this.selectedElement.style.height = newH + "px"
-        this.selectedElement.style.top = (this.selectedElement.offsetHeight / 2 - newY) + "px"
+        console.log("Distance: ", distance, initial_rotation, this.anchor)
+        // Rotate this point around the center
+        const scale_factor = ablesUtils.get_scale_factor(this.state.initialSize, new_size);
 
-        this.selectedElement.style.left = (this.selectedElement.offsetWidth / 2 - newX) + "px"
+        const unrotated_resized_rectangle = ablesUtils.get_unrotated_size(
+            scale_factor,
+            this.state.initial_coordinates,
+            this.anchor
+        );
+        const rotated_resized_rectangle = ablesUtils.calculate_rotated_rectangle(
+            {...unrotated_resized_rectangle, center: this.state.initial_coordinates.center},
+            initial_radian_rotation
+        )
 
-        this.target.style.width = newW + "px"
-        this.target.style.height = newH + "px"
-        this.target.style.top = (this.target.offsetHeight / 2 - newY) + "px"
-        this.target.style.left = (this.target.offsetWidth / 2 - newX) + "px"
+        const new_center = {
+            x: (rotated_resized_rectangle.top_right.x + rotated_resized_rectangle.bottom_left.x) / 2,
+            y: (rotated_resized_rectangle.top_right.y + rotated_resized_rectangle.bottom_left.y) / 2,
+        };
 
+        const new_position = ablesUtils.rotate_point(
+            rotated_resized_rectangle.top_left,
+            new_center,
+            -initial_radian_rotation
+        );
+
+        // Updating element's styles
+        this.target.style.width = new_size.width + "px"
+        this.target.style.height = new_size.height + "px"
+        this.target.style.top = new_position.y + "px"
+        this.target.style.left = new_position.x + "px"
+
+        this.selectedElement.style.width = new_size.width + "px"
+        this.selectedElement.style.height = new_size.height + "px"
+        this.selectedElement.style.top = new_position.y + "px"
+        this.selectedElement.style.left = new_position.x + "px"
     }
 
     onMouseUp():void {
         this.state.isResizing = false;
-        window.removeEventListener('mousemove', this.onMouseMove )
-        window.removeEventListener('mouseup', this.onMouseUp)
+        document.removeEventListener('mousemove', this.onMouseMove )
+        document.removeEventListener('mouseup', this.onMouseUp)
     }
 
 }
