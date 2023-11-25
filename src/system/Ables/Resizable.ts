@@ -185,6 +185,12 @@ class Resizable {
         this.target.style.height = new_size.height + "px"
         this.target.style.top = new_position.y + "px"
         this.target.style.left = new_position.x + "px"
+
+        // Dispatch a custom event to notify that the element has been moved
+        const resized = new CustomEvent('resized', {
+            detail: {element: this.selectedElement},
+        });
+        this.target.dispatchEvent(resized);
     }
 
     onMouseUp():void {
