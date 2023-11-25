@@ -9,6 +9,7 @@ class Resizable {
     state: ShareState;
     handlers: ResizeBound[] = []
     private anchor: keyof AnchorPosition & string = "top_left"
+    private initial_position: Point = { x: 0, y: 0 }
 
     constructor(target: HTMLElement, state: ShareState, handlers: ResizeBound[]) {
         this.state = state;
@@ -46,6 +47,11 @@ class Resizable {
             y: event.clientY
         }
 
+        this.initial_position = {
+            x:  this.selectedElement?.offsetLeft || 0,
+            y:  this.selectedElement?.offsetTop || 0,
+        }
+
         this.state.initial_coordinates = ablesUtils.get_original_coordinates(this.target);
 
         this.anchor = event.target.dataset.anchor || "top_left";
@@ -66,6 +72,7 @@ class Resizable {
             x: event.clientX,
             y: event.clientY,
         })
+
         const initial_rotation = ablesUtils.get_current_rotation(this.target)
         const initial_radian_rotation = (initial_rotation * Math.PI) / 180
         const cosFraction = Math.cos(initial_radian_rotation)
@@ -76,23 +83,13 @@ class Resizable {
             y: cosFraction * distance.y - sinFraction * distance.x,
         };
 
-        const min_width = 10;
-        const min_height = 10;
+        const min_width = 40;
+        const min_height = 40;
 
         let new_size: Size = {
             width: min_width,
             height: min_height,
         };
-
-        if (new_size.height == min_height) {
-            new_size.height = min_height;
-            rotated_distance.y = min_height / 2 + this.state.initial_coordinates.top_left.y / 2;
-        }
-        //
-        // if (new_size.width == min_width) {
-        //     new_size.width = min_width;
-        //     rotated_distance.x = min_width / 2 + this.state.initial_coordinates.top_left.x / 2;
-        // }
 
         switch (this.anchor) {
             case 'top_left':
@@ -137,6 +134,16 @@ class Resizable {
                 break;
         }
 
+        if (new_size.height == min_height) {
+            new_size.height = min_height;
+            rotated_distance.y = min_height / 2 + this.state.initial_coordinates.top_left.y / 2;
+        }
+
+        if (new_size.width == min_width) {
+            new_size.width = min_width;
+            rotated_distance.x = min_width / 2 + this.state.initial_coordinates.top_left.x / 2;
+        }
+
         console.log("Distance: ", distance, initial_rotation, this.anchor)
         // Rotate this point around the center
         const scale_factor = ablesUtils.get_scale_factor(this.state.initialSize, new_size);
@@ -163,15 +170,21 @@ class Resizable {
         );
 
         // Updating element's styles
+        this.selectedElement.style.width = new_size.width + "px"
+        this.selectedElement.style.height = new_size.height + "px"
+
+        const transform = this.target.style.transform;
+        const m = ablesUtils.parse_css_transform(transform)
+        console.log("TRa", m)
+
+        this.selectedElement.style.top = new_position.y + "px"
+        this.selectedElement.style.left = new_position.x + "px"
+
+        // Updating Bounding box's styles
         this.target.style.width = new_size.width + "px"
         this.target.style.height = new_size.height + "px"
         this.target.style.top = new_position.y + "px"
         this.target.style.left = new_position.x + "px"
-
-        this.selectedElement.style.width = new_size.width + "px"
-        this.selectedElement.style.height = new_size.height + "px"
-        this.selectedElement.style.top = new_position.y + "px"
-        this.selectedElement.style.left = new_position.x + "px"
     }
 
     onMouseUp():void {

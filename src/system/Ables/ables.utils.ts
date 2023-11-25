@@ -134,7 +134,22 @@ function  get_current_rotation(element: HTMLElement): number {
     return 0
 }
 
+function parse_css_transform(transformString:string) {
+    const transformObject: Record<string, string | string[]> = {};
+    const regex = /(\w+)\(([^)]+)\)/g;
+    let match;
+
+    while ((match = regex.exec(transformString)) !== null) {
+        const transformType = match[1];
+        const values = match[2].split(',').map(val => val.trim());
+        transformObject[transformType] = values.length > 1 ? values : values[0];
+    }
+
+    return transformObject;
+}
+
 export default {
+    parse_css_transform,
     get_current_rotation,
     get_point_distance,
     get_original_size,

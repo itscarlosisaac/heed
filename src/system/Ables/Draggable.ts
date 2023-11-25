@@ -48,11 +48,12 @@ class Draggable {
         document.addEventListener('mouseup', this.onDragEnd);
 
         this.restartTransforms();
-        const cssStyleDeclaration = getComputedStyle(this.selectedElement);
 
-        this.moveElement(this.boundingBox,
-            cssStyleDeclaration.left.replace("px", ""),
-            cssStyleDeclaration.top.replace("px", ""))
+        this.moveElement(
+            this.boundingBox,
+            this.selectedElement.offsetLeft,
+            this.selectedElement.offsetTop
+        )
     }
 
     onDragMove(e: MouseEvent) {
@@ -70,8 +71,11 @@ class Draggable {
                 this.state.dragStartPosition.y + (e.clientY - this.state.dragMousePosition.y)
             );
 
-
-            Transformer.updateTranslate(this.boundingBox, e.clientX - this.state.dragMousePosition.x, e.clientY - this.state.dragMousePosition.y)
+            this.moveElement(
+                this.boundingBox,
+                this.selectedElement.offsetLeft,
+                this.selectedElement.offsetTop
+            )
 
             // Dispatch a custom event to notify that the element has been moved
             const dragMove = new CustomEvent('dragMove', {
@@ -82,10 +86,8 @@ class Draggable {
     }
 
     onDragEnd() {
-        this.boundingBox.style.cursor = "grab"
-        console.log('Will END drag - move', this);
-
         this.state.isDragging = false;
+        this.boundingBox.style.cursor = "grab"
         document.removeEventListener('mouseup', this.onDragEnd);
         document.removeEventListener('mousemove', this.onDragMove);
     }

@@ -51,10 +51,10 @@ class Selectable extends EventTarget {
         new LineBound('vertical', 'left', this.boundingBox);
         new LineBound('vertical', 'right', this.boundingBox);
 
-        const nw = new ResizeBound('top_left', this.boundingBox);
-        const ne = new ResizeBound('top_right', this.boundingBox);
-        const se = new ResizeBound('bottom_right', this.boundingBox);
-        const sw = new ResizeBound('bottom_left', this.boundingBox);
+        const top_left = new ResizeBound('top_left', this.boundingBox);
+        const top_right = new ResizeBound('top_right', this.boundingBox);
+        const bottom_right = new ResizeBound('bottom_right', this.boundingBox);
+        const bottom_left = new ResizeBound('bottom_left', this.boundingBox);
 
         // new ResizeBound('n', this.boundingBox);
         // new ResizeBound('s', this.boundingBox);
@@ -64,7 +64,6 @@ class Selectable extends EventTarget {
         const rotateHandler = new RotateBound(this.boundingBox);
 
         // So it doesn't interfere with clicking other elements
-        // document.body.appendChild(this.boundingBox);
         container.appendChild(this.boundingBox);
         this.draggable = new Draggable(this.boundingBox, this.state);
 
@@ -73,7 +72,7 @@ class Selectable extends EventTarget {
 
         // Resize Handler
         this.resizable = new Resizable(this.boundingBox, this.state, [
-            ne, se, sw, nw
+            top_left, top_right, bottom_right, bottom_left
         ])
 
         // TODO - Fix the de-attach logic

@@ -35,8 +35,8 @@ export class ResizeBound {
 
         switch (this.anchor) {
             case 'top_left':
-                this._handler.style.top = `-${offset}`;
-                this._handler.style.left = `-${offset}`;
+                this._handler.style.bottom = `-${offset}`;
+                this._handler.style.right = `-${offset}`;
                 break;
             // case 'n':
             //     this._handler.style.top = `-${offset}`;
@@ -44,8 +44,8 @@ export class ResizeBound {
             //     this._handler.style.right = '0';
             //     break;
             case 'top_right':
-                this._handler.style.top = `-${offset}`;
-                this._handler.style.right = `-${offset}`;
+                this._handler.style.bottom = `-${offset}`;
+                this._handler.style.left = `-${offset}`;
                 break;
             // case 'e':
             //     this._handler.style.top = '0px';
@@ -53,8 +53,8 @@ export class ResizeBound {
             //     this._handler.style.right = `-${offset}`;
             //     break;
             case 'bottom_right':
-                this._handler.style.bottom = `-${offset}`;
-                this._handler.style.right = `-${offset}`;
+                this._handler.style.top = `-${offset}`;
+                this._handler.style.left = `-${offset}`;
                 break;
             // case 's':
             //     this._handler.style.bottom = `-${offset}`;
@@ -62,8 +62,8 @@ export class ResizeBound {
             //     this._handler.style.right = '0';
             //     break;
             case 'bottom_left':
-                this._handler.style.bottom = `-${offset}`;
-                this._handler.style.left = `-${offset}`;
+                this._handler.style.top = `-${offset}`;
+                this._handler.style.right = `-${offset}`;
                 break;
             // case 'w':
             //     this._handler.style.top = '0px';
