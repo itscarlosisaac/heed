@@ -5,3 +5,6 @@ out
 .vscode
 .idea/**/*
 resources/components
+src-tauri/target
+src/lib/src/**/*.js
+src/lib/src/**/*d.ts

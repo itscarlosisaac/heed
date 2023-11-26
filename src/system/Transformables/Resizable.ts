@@ -138,8 +138,9 @@ class Resizable {
           rotatedHDiff = minHeight - this.sharedState.initH
         }
         newX += 0.5 * rotatedWDiff * cosFraction
-        newY += 0.5 * rotatedWDiff * sinFraction
         newX -= 0.5 * rotatedHDiff * sinFraction
+
+        newY += 0.5 * rotatedWDiff * sinFraction
         newY += 0.5 * rotatedHDiff * cosFraction
         break
       case 'bottom-right':
@@ -186,6 +187,10 @@ class Resizable {
       newX - this.element.offsetWidth / 2,
       newY - this.element.offsetHeight / 2
     )
+
+    this.element.dispatchEvent(new CustomEvent('hd-resized', {
+      detail: { state: this.sharedState }
+    }))
   }
 
   private onMouseUp(): void {

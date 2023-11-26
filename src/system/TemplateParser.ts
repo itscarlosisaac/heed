@@ -14,6 +14,7 @@ class TemplateParser {
       meta: [],
       bodyContent: { content: '', position: '' }
     }
+    this.parse = this.parse.bind(this);
   }
 
   // Parse the provided HTML content and extract the desired elements.
@@ -103,7 +104,7 @@ class TemplateParser {
     const path: string[] = []
     while (tag && tag !== tag.ownerDocument.documentElement) {
       path.unshift(this.getNodeNameAndIndex(tag))
-      tag = tag.parentNode
+      tag = tag.parentNode as Element
     }
     return path.join(' > ')
   }
@@ -113,6 +114,9 @@ class TemplateParser {
     let name = node.nodeName
     let index = 1
     const siblings = node.parentNode && node.parentNode.childNodes
+    if( !siblings ) {
+      return ""
+    }
     for (let i = 0; i < siblings.length; i++) {
       if (siblings[i] === node) {
         break

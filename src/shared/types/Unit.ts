@@ -1,4 +1,6 @@
 export interface IUnit {
+  filepath: string;
+  content: string;
   id: string
   filename: string
   extension: string

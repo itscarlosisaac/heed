@@ -30,6 +30,9 @@ class Draggable {
       initX + (event.clientX - mousePressX),
       initY + (event.clientY - mousePressY)
     )
+    this.element.dispatchEvent(new CustomEvent('hd-dragged', {
+      detail: { state: this.sharedState }
+    }))
   }
 
   private onMouseUp(): void {
