@@ -11,9 +11,6 @@ import AblesUtils from "../../../system/Ables/ables.utils.ts";
 
 function Rotation(): JSX.Element {
 
-    if( heedElementManager.selected_style?.transform){
-        console.log("STYLE",AblesUtils.parse_object_transform(heedElementManager.selected_style.transform))
-    }
     return (
         <>
             <HStack spacing={4} w={"100%"}>
@@ -23,7 +20,7 @@ function Rotation(): JSX.Element {
                            placeholder="0"
                            defaultValue={
                                heedElementManager.selected_style ?
-                                   AblesUtils.parse_css_transform(heedElementManager.selected_style.transform).rotation
+                                   AblesUtils.decompose_matrix(heedElementManager.selected_style.transform).rotate
                                     : ""
                            }/>
                     <InputLeftElement>

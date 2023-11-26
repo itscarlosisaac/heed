@@ -148,47 +148,37 @@ function parse_css_transform(transformString:string) {
     return transformObject;
 }
 
-function parse_object_transform(transformString: string) {
-    // Create an object to hold the extracted values
-    const transformObject = {
-        position: { x: 0, y: 0 },
+function decompose_matrix(matrix_string: string) {
+    // Extract the values from the matrix string
+    let values: RegExpMatchArray | null = null
+    values = matrix_string.match(/matrix\(([^)]+)\)/);
+    if( !values ) return {
+        translate: {x:0, y: 0},
         rotate: 0,
-        scale: { x: 1, y: 1 }
+        scale: 1
+    }
+    const parseValues = values[1].split(', ').map(Number);
+
+    // Decompose the matrix values
+    const [a, b, c, d, e, f] = parseValues;
+    const scaleX = Math.sqrt(a * a + b * b);
+    const scaleY = Math.sqrt(c * c + d * d);
+    const rotation = Math.atan2(b, a);
+
+    // Convert rotation to degrees
+    const rotate = rotation * (180 / Math.PI);
+
+    // Return the decomposed values
+    return {
+        translate: { x: e, y: f },
+        rotate: rotate.toFixed(2),
+        scale: { x: scaleX.toFixed(2), y: scaleY.toFixed(2) }
     };
-
-    // Regular expressions to extract values
-    const translateRegex = /translate\((-?\d+(?:\.\d+)?px),\s*(-?\d+(?:\.\d+)?px)\)/;
-    const rotateRegex = /rotate\((-?\d+(?:\.\d+)?deg)\)/;
-    const scaleRegex = /scale\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)/;
-
-    // Extracting translate values
-    const translateMatch = transformString.match(translateRegex);
-    if (translateMatch) {
-        transformObject.position.x = parseInt(translateMatch[1], 10);
-        transformObject.position.y = parseInt(translateMatch[2], 10);
-    }
-
-    // Extracting rotate values
-    const rotateMatch = transformString.match(rotateRegex);
-    if (rotateMatch) {
-        transformObject.rotate = parseInt(rotateMatch[1], 10);
-    }
-
-    // Extracting scale values
-    const scaleMatch = transformString.match(scaleRegex);
-    if (scaleMatch) {
-        transformObject.scale.x = parseInt(scaleMatch[1], 10);
-        transformObject.scale.y = parseInt(scaleMatch[2], 10);
-    }
-
-    console.log("ROTATE:", rotateMatch)
-
-    return transformObject;
 }
 
 
 export default {
-    parse_object_transform,
+    decompose_matrix,
     parse_css_transform,
     get_current_rotation,
     get_point_distance,
