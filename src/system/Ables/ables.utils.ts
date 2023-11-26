@@ -148,7 +148,47 @@ function parse_css_transform(transformString:string) {
     return transformObject;
 }
 
+function parse_object_transform(transformString: string) {
+    // Create an object to hold the extracted values
+    const transformObject = {
+        position: { x: 0, y: 0 },
+        rotate: 0,
+        scale: { x: 1, y: 1 }
+    };
+
+    // Regular expressions to extract values
+    const translateRegex = /translate\((-?\d+(?:\.\d+)?px),\s*(-?\d+(?:\.\d+)?px)\)/;
+    const rotateRegex = /rotate\((-?\d+(?:\.\d+)?deg)\)/;
+    const scaleRegex = /scale\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)/;
+
+    // Extracting translate values
+    const translateMatch = transformString.match(translateRegex);
+    if (translateMatch) {
+        transformObject.position.x = parseInt(translateMatch[1], 10);
+        transformObject.position.y = parseInt(translateMatch[2], 10);
+    }
+
+    // Extracting rotate values
+    const rotateMatch = transformString.match(rotateRegex);
+    if (rotateMatch) {
+        transformObject.rotate = parseInt(rotateMatch[1], 10);
+    }
+
+    // Extracting scale values
+    const scaleMatch = transformString.match(scaleRegex);
+    if (scaleMatch) {
+        transformObject.scale.x = parseInt(scaleMatch[1], 10);
+        transformObject.scale.y = parseInt(scaleMatch[2], 10);
+    }
+
+    console.log("ROTATE:", rotateMatch)
+
+    return transformObject;
+}
+
+
 export default {
+    parse_object_transform,
     parse_css_transform,
     get_current_rotation,
     get_point_distance,

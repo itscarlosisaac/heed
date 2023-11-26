@@ -16,6 +16,10 @@ class AblesEventFactory {
             moved: "MOVED",
             ended: "ENDED"
         },
+        rotate: {
+            started: "STARTED",
+            moved: "MOVED",
+        }
     }
 
     public static get events(){

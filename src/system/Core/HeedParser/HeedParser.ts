@@ -71,6 +71,12 @@ class HeedParser {
             }
         });
 
+        selectable.boundingBox.addEventListener(AblesEventFactory.events.rotate.moved, (event: CustomEventInit) => {
+            if (event.detail.element instanceof HTMLElement) {
+                heedElementManager.update_rotation(event.detail.element)
+            }
+        });
+
         Array.from(heedUnit.children).forEach((child) => {
             // TODO - Figure out why the element is duplicated when using the child
             const clonedElement = child.cloneNode(false) as HTMLElement
@@ -84,8 +90,6 @@ class HeedParser {
 
             heedElementManager.add_element(clonedElement);
         })
-
-
         return unit;
     }
 

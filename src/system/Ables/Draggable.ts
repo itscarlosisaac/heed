@@ -28,8 +28,8 @@ class Draggable {
         // Repositioning the bounding box
         if( !this.selectedElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element")
         const elementTransform = Transformer.parseTransformations(this.selectedElement);
-        if( !elementTransform || !elementTransform.rotate ) throw new AppError(AppErrorCode.TransformParserError, "Unable to parse transformation for selected  element.")
-        Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
+        if( !elementTransform ) throw new AppError(AppErrorCode.TransformParserError, "Unable to parse transformation for selected  element.")
+        Transformer.updateRotate(this.boundingBox, elementTransform.rotate || 0)
         Transformer.updateTranslate(this.boundingBox, 0, 0)
     }
 

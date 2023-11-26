@@ -1,10 +1,13 @@
 import {RotateBound} from "./Bounds/RotateBound.ts";
 import {ShareState} from "./ables.types.ts";
 import Transformer from "./Transformer.ts";
+import AppError from "../Error/AppError.ts";
+import {AppErrorCode} from "../Error/AppError.types.ts";
+import AblesEventFactory from "./Bounds/ables.events.ts";
 
 class Rotatable {
-    private boundingBox: HTMLElement;
-    private selectedElement: HTMLElement;
+    private readonly boundingBox: HTMLElement;
+    private selectedElement: HTMLElement | null = null;
     private rotateBound: RotateBound;
     private state: ShareState;
     constructor(boundingBox: HTMLElement, rotateBound: RotateBound, state: ShareState) {
@@ -24,8 +27,11 @@ class Rotatable {
 
     // Repositioning the bounding box
     restartTransforms(){
+        if( !this.selectedElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find Resize handler.")
         const elementTransform = Transformer.parseTransformations(this.selectedElement);
-        Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
+        if( !elementTransform  ) throw new AppError(AppErrorCode.TransformParserError, "Unable to parse transformations.")
+
+        Transformer.updateRotate(this.boundingBox, elementTransform.rotate || 0)
     }
 
     onRotateStart(event: MouseEvent): void {
@@ -46,6 +52,7 @@ class Rotatable {
         this.restartTransforms()
     }
     onRotate(event: MouseEvent): void {
+        if( !this.selectedElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find Resize handler.")
         if( !this.state.isRotating ) return;
 
         const angle = Math.atan2(
@@ -56,14 +63,19 @@ class Rotatable {
         const degree = (angle * 180) / Math.PI
         this.selectedElement.style.transform = `rotate(${degree}deg)`
         Transformer.updateRotate(this.boundingBox, degree)
+
+        // Dispatch a custom event to notify that the element has been moved
+        this.boundingBox.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.rotate.moved,
+                {element: this.selectedElement})
+        )
     }
-    onRotateEnd(event){
+    onRotateEnd(){
         this.state.isRotating = false;
         document.removeEventListener('mousemove', this.onRotate);
         document.removeEventListener('mouseup', this.onRotateEnd);
     }
-
-
 }
 
 export default Rotatable;

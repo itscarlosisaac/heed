@@ -63,6 +63,12 @@ class HeedElementManager {
         }
     }
 
+    update_rotation(target: HTMLElement){
+        if( this._selected_element ){
+            this._selected_style = window.getComputedStyle(target);
+        }
+    }
+
     remove_element(el: HTMLElement) {
         this._elements.filter( e => e.id !== el.id);
     }
