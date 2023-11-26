@@ -2,6 +2,7 @@ import {ShareState} from './ables.types';
 import {AppErrorCode} from "../Error/AppError.types.ts";
 import AppError from "../Error/AppError.ts";
 import Transformer from "./Transformer.ts";
+import AblesEventFactory from "./Bounds/ables.events.ts";
 
 class Draggable {
     boundingBox: HTMLElement;
@@ -25,7 +26,9 @@ class Draggable {
 
     restartTransforms() {
         // Repositioning the bounding box
+        if( !this.selectedElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find selected element")
         const elementTransform = Transformer.parseTransformations(this.selectedElement);
+        if( !elementTransform || !elementTransform.rotate ) throw new AppError(AppErrorCode.TransformParserError, "Unable to parse transformation for selected  element.")
         Transformer.updateRotate(this.boundingBox, elementTransform.rotate)
         Transformer.updateTranslate(this.boundingBox, 0, 0)
     }
@@ -54,7 +57,13 @@ class Draggable {
             this.selectedElement.offsetLeft,
             this.selectedElement.offsetTop
         )
-    }
+
+        // Dispatch Drag Start Event
+        this.boundingBox.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.drag.started,
+                {element: this.selectedElement})
+        )    }
 
     onDragMove(e: MouseEvent) {
         if (!this.state.isDragging) return;
@@ -78,18 +87,25 @@ class Draggable {
             )
 
             // Dispatch a custom event to notify that the element has been moved
-            const dragMove = new CustomEvent('dragMove', {
-                detail: {element: this.selectedElement},
-            });
-            this.boundingBox.dispatchEvent(dragMove);
+            this.boundingBox.dispatchEvent(
+                AblesEventFactory.instance.create_event(
+                    AblesEventFactory.events.drag.moved,
+                    {element: this.selectedElement})
+            )
         });
     }
 
     onDragEnd() {
         this.state.isDragging = false;
-        this.boundingBox.style.cursor = "grab"
+        this.boundingBox.style.cursor = "initial"
         document.removeEventListener('mouseup', this.onDragEnd);
         document.removeEventListener('mousemove', this.onDragMove);
+        this.boundingBox.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.drag.ended,
+                {element: this.selectedElement})
+        )
+
     }
 
     moveElement(box: HTMLElement, x: number, y: number): void {

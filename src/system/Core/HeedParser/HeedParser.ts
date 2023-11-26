@@ -5,6 +5,7 @@ import AppError from "../../Error/AppError.ts";
 import {AppErrorCode} from "../../Error/AppError.types.ts";
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 import Selectable from "../../Ables/Selectable.ts";
+import AblesEventFactory from "../../Ables/Bounds/ables.events.ts";
 
 class HeedParser {
 
@@ -38,30 +39,36 @@ class HeedParser {
         }
 
 
-        //
-        const selectable = new Selectable('#canvas', document.querySelector("#unit"));
-        //
-        // // SELECTABLE
-        selectable.addEventListener('boundingBoxAttached', (event: CustomEvent) => {
-            heedElementManager.select(event.detail.element as HTMLElement);
-            console.log('Element attached:', event.detail.element);
+        // SELECTABLE
+        const unitElement = document.querySelector("#unit");
+        if( !unitElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find the unit element.")
+        const selectable = new Selectable('#canvas', unitElement as HTMLElement);
+
+
+        // The event listener should directly use CustomEvent with the detail type
+        selectable.addEventListener(AblesEventFactory.events.select.started, (event: CustomEventInit) => {
+            // Ensure that `event.detail.element` is an HTMLElement before using it
+            if (event.detail.element instanceof HTMLElement) {
+                heedElementManager.select(event.detail.element);
+            }
         });
 
-        selectable.addEventListener('boundingBoxDetached', (event: CustomEvent) => {
+        selectable.addEventListener(AblesEventFactory.events.select.ended, () => {
             heedElementManager.select(null)
-            console.log('Element detached:', event.detail.element);
         });
 
-        selectable.boundingBox.addEventListener('dragMove', (event: CustomEvent) => {
-            // console.log('Element move:', event.detail.element);
-            heedElementManager.update_position({target: event.detail.element})
-            heedElementManager.update_size({target: event.detail.element})
+        selectable.boundingBox.addEventListener(AblesEventFactory.events.drag.moved, (event: CustomEventInit) => {
+            if (event.detail.element instanceof HTMLElement) {
+                heedElementManager.update_position(event.detail.element)
+                heedElementManager.update_size(event.detail.element)
+            }
         });
 
-        selectable.boundingBox.addEventListener('resized', (event: CustomEvent) => {
-            // console.log('Element move:', event.detail.element);
-            heedElementManager.update_position({target: event.detail.element})
-            heedElementManager.update_size({target: event.detail.element})
+        selectable.boundingBox.addEventListener(AblesEventFactory.events.resize.moved, (event: CustomEventInit) => {
+            if (event.detail.element instanceof HTMLElement) {
+                heedElementManager.update_position(event.detail.element)
+                heedElementManager.update_size(event.detail.element)
+            }
         });
 
         Array.from(heedUnit.children).forEach((child) => {

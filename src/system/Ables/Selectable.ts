@@ -2,12 +2,20 @@ import {ResizeBound} from "./Bounds/ResizeBound";
 import {RotateBound} from "./Bounds/RotateBound";
 import {LineBound} from "./Bounds/LineBound";
 import Draggable from "./Draggable.ts";
-import {ShareState} from "./ables.types.ts";
+import {AnchorPosition, ShareState} from "./ables.types.ts";
 import AppError from "../Error/AppError.ts";
 import {AppErrorCode} from "../Error/AppError.types.ts";
 import Rotatable from "./Rotatable.ts";
 import Resizable from "./Resizable.ts";
+import AblesEventFactory from "./Bounds/ables.events.ts";
 
+const initial_coordinates: AnchorPosition = {
+    bottom_left: {x:0, y: 0},
+    bottom_right: {x:0, y: 0},
+    center: {x:0, y: 0},
+    top_left: {x:0, y: 0},
+    top_right: {x:0, y: 0 }
+}
 
 class Selectable extends EventTarget {
     boundingBox: HTMLElement;
@@ -20,6 +28,7 @@ class Selectable extends EventTarget {
     private resizable: Resizable;
 
     public state: ShareState = {
+        initial_coordinates: initial_coordinates,
         dragStartPosition: { x: 0, y: 0 },
         dragMousePosition: { x: 0, y: 0 },
         initialSize: { width: 0, height: 0 },
@@ -123,11 +132,12 @@ class Selectable extends EventTarget {
         // Logic to calculate and set position and size based on the element's dimensions
         requestAnimationFrame(() => this.moveBox())
 
-        // Dispatch a custom event to notify that an element has been attached
-        const attachEvent = new CustomEvent('boundingBoxAttached', {
-            detail: { element: this.selectedElement },
-        });
-        this.dispatchEvent(attachEvent);
+        // Dispatch a custom event to notify that the element has been moved
+        this.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.select.started,
+                {element: this.selectedElement})
+        )
 
         if( !this.outsideClicker ) {
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find outside clicker element when attaching bounding box.")
@@ -147,10 +157,11 @@ class Selectable extends EventTarget {
         this.selectedElement = null;
 
         // Dispatch a custom event to notify that the element has been detached
-        const detachEvent = new CustomEvent('boundingBoxDetached', {
-            detail: { element: detachedElement },
-        });
-        this.dispatchEvent(detachEvent);
+        this.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.select.ended,
+                {element: detachedElement})
+        )
         this.hideBox();
 
         if( !this.outsideClicker ) {

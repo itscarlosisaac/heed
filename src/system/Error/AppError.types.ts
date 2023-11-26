@@ -2,6 +2,10 @@ export enum AppErrorCode {
     // Unit Errors
     ConstructError = 300,
 
+    // Parser Error
+    TransformParserError = 400,
+
+
     // File Errors
     FileNotFound = 1001,
     PermissionDenied = 1002,
@@ -25,6 +29,7 @@ export enum AppErrorCode {
 
 export const AppErrorMessage: Record<AppErrorCode, string> = {
     [AppErrorCode.ConstructError]: "Unable to Construct Unit",
+    [AppErrorCode.TransformParserError]: "",
     [AppErrorCode.FileNotFound]: "File Not Found",
     [AppErrorCode.ElementNotFound]: "Unable to find Dom element.",
     [AppErrorCode.PermissionDenied]: "",

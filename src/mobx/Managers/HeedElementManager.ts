@@ -51,15 +51,15 @@ class HeedElementManager {
         this._elements.push(el);
     }
 
-    update_position(d: Event){
+    update_position(target: HTMLElement){
         if( this._selected_element ){
-            this._selected_style = window.getComputedStyle(d.target);
+            this._selected_style = window.getComputedStyle(target);
         }
     }
 
-    update_size(d: Event){
+    update_size(target: HTMLElement){
         if( this._selected_element ){
-            this._selected_style = window.getComputedStyle(d.target);
+            this._selected_style = window.getComputedStyle(target);
         }
     }
 

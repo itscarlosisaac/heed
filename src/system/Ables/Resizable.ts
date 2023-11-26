@@ -1,6 +1,9 @@
 import {AnchorPosition, Point, ShareState, Size} from "./ables.types";
 import {ResizeBound} from "./Bounds/ResizeBound.ts";
 import ablesUtils from "./ables.utils.ts";
+import AppError from "../Error/AppError.ts";
+import {AppErrorCode} from "../Error/AppError.types.ts";
+import AblesEventFactory from "./Bounds/ables.events.ts";
 
 class Resizable {
     protected target: HTMLElement
@@ -9,7 +12,6 @@ class Resizable {
     state: ShareState;
     handlers: ResizeBound[] = []
     private anchor: keyof AnchorPosition & string = "top_left"
-    private initial_position: Point = { x: 0, y: 0 }
 
     constructor(target: HTMLElement, state: ShareState, handlers: ResizeBound[]) {
         this.state = state;
@@ -47,14 +49,11 @@ class Resizable {
             y: event.clientY
         }
 
-        this.initial_position = {
-            x:  this.selectedElement?.offsetLeft || 0,
-            y:  this.selectedElement?.offsetTop || 0,
-        }
+        const event_target = event.target as HTMLElement;
+        if( !event_target ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find Resize handler.")
 
         this.state.initial_coordinates = ablesUtils.get_original_coordinates(this.target);
-
-        this.anchor = event.target.dataset.anchor || "top_left";
+        this.anchor = event_target.dataset.anchor as keyof AnchorPosition || "top_left";
     }
 
     onMouseDown(event: MouseEvent): void {
@@ -172,11 +171,6 @@ class Resizable {
         // Updating element's styles
         this.selectedElement.style.width = new_size.width + "px"
         this.selectedElement.style.height = new_size.height + "px"
-
-        const transform = this.target.style.transform;
-        const m = ablesUtils.parse_css_transform(transform)
-        console.log("TRa", m)
-
         this.selectedElement.style.top = new_position.y + "px"
         this.selectedElement.style.left = new_position.x + "px"
 
@@ -187,10 +181,11 @@ class Resizable {
         this.target.style.left = new_position.x + "px"
 
         // Dispatch a custom event to notify that the element has been moved
-        const resized = new CustomEvent('resized', {
-            detail: {element: this.selectedElement},
-        });
-        this.target.dispatchEvent(resized);
+        this.target.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.resize.moved,
+                {element: this.selectedElement})
+        )
     }
 
     onMouseUp():void {
