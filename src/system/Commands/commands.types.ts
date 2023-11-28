@@ -5,6 +5,5 @@ export interface Command {
 }
 export interface IMoveableControl {
     init: () => void,
-    commands: Record<string, Command>,
     selectable: Selectable
 }

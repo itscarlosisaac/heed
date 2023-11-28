@@ -39,48 +39,21 @@ class HeedParser {
 
         // SELECTABLE
         control.init();
-        //
-        // document.querySelector("#canvas").addEventListener('click', () => {
-        //     control.execute('deselect')
-        // })
+        console.log("Control", control.commandList);
+        const viewer = document.querySelector(".viewer");
 
+        if( !viewer )
+            throw new AppError(AppErrorCode.ElementNotFound, "Unable to find viewer.");
 
-        // const unitElement = document.querySelector("#unit");
-        // if( !unitElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find the unit element.")
-        // const selectable = new Selectable('#canvas', unitElement as HTMLElement);
-        //
-        // // The event listener should directly use CustomEvent with the detail type
-        // selectable.addEventListener(AblesEventFactory.events.select.started, (event: CustomEventInit) => {
-        //     // Ensure that `event.detail.element` is an HTMLElement before using it
-        //     if (event.detail.element instanceof HTMLElement) {
-        //         heedElementManager.select(event.detail.element);
-        //     }
-        // });
-        //
-        // selectable.addEventListener(AblesEventFactory.events.select.ended, () => {
-        //     heedElementManager.select(null)
-        // });
-        //
-        // selectable.boundingBox.addEventListener(AblesEventFactory.events.drag.moved, (event: CustomEventInit) => {
-        //     if (event.detail.element instanceof HTMLElement) {
-        //         heedElementManager.update_position(event.detail.element)
-        //         heedElementManager.update_size(event.detail.element)
-        //     }
-        // });
-        //
-        // selectable.boundingBox.addEventListener(AblesEventFactory.events.resize.moved, (event: CustomEventInit) => {
-        //     if (event.detail.element instanceof HTMLElement) {
-        //         heedElementManager.update_position(event.detail.element)
-        //         heedElementManager.update_size(event.detail.element)
-        //     }
-        // });
-        //
-        // selectable.boundingBox.addEventListener(AblesEventFactory.events.rotate.moved, (event: CustomEventInit) => {
-        //     if (event.detail.element instanceof HTMLElement) {
-        //         heedElementManager.update_rotation(event.detail.element)
-        //     }
-        // });
-
+        // TODO - Look into why when adding an else statement to select the element
+        // is seems to select multiple times.
+        viewer.addEventListener('mousedown', (event) => {
+            const target = event.target as HTMLElement;
+            const isClickable = target.getAttribute('data-clickable')
+            if( !!isClickable || isClickable == null ) {
+                control.execute('deselect', [event])
+            }
+        })
 
         Array.from(heedUnit.children).forEach((child) => {
             // TODO - Figure out why the element is duplicated when using the child
@@ -88,13 +61,14 @@ class HeedParser {
             clonedElement.style.userSelect = "none"
             unitElements.appendChild(clonedElement)
 
-            // Assuming you have elements you want to make movable
-            clonedElement.addEventListener('mousedown', (event: MouseEvent) =>
-                control.execute("select", [event, clonedElement as HTMLElement])
+            clonedElement.addEventListener('mousedown', (event: MouseEvent) => {
+                    control.execute("select", [event, clonedElement as HTMLElement])
+                }
             );
 
             heedElementManager.add_element(clonedElement);
         })
+
         return unit;
     }
 

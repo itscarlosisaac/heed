@@ -8,16 +8,15 @@ function CreateHotspotButton(): JSX.Element {
     ComponentEventManager.emit('create', {
       tagName: 'hd-hotspot',
       attributes: {
-        width: '50px',
-        height: '50px'
+        'data-type': 'clickable'
       }
     })
   }
 
-  function handleCreatedHotspot(data: HTMLElement): void {
-    data.style.position = "absolute"
-    data.addEventListener('mousedown', (event) => {
-      control.execute("select", [event, data as HTMLElement])
+  function handleCreatedHotspot(element: HTMLElement): void {
+    element.style.position = "absolute"
+    element.addEventListener('mousedown', (event) => {
+      control.execute("select", [event, element as HTMLElement])
     })
   }
 

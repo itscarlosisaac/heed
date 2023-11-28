@@ -5,9 +5,15 @@ class DeselectCommand {
     constructor(control: MoveableControl) {
         this.control = control
     }
-    public execute(): void {
-        console.log("Will deselect")
-        this.control.selectable.deselect();
+    public execute(event: MouseEvent): void {
+        console.log("Will deselect", event.target)
+        if (
+            this.control.selectable.selected &&
+            !this.control.selectable.selected.contains(event.target as Node)
+        ) {
+            this.control.selectable.deselect();
+        }
+
     }
 }
 

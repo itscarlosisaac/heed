@@ -9,6 +9,7 @@ function CreateImageButton(): JSX.Element {
     ComponentEventManager.emit('create', {
       tagName: 'hd-image-display',
       attributes: {
+        'data-type': 'clickable',
         'image-scaling': 'contain',
         'image-anchor': 'top left',
         'image-src': 'http://placehold.it/200x200',

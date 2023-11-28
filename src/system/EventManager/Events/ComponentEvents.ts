@@ -13,7 +13,7 @@ ComponentEventManager.on('create', (data) => {
     tagName: data.tagName,
     attributes: {
       ...data.attributes,
-      style: `width:50px; height:50px;`
+      style: `width:50px; height:50px;position: absolute`
     }
   })
   ComponentEventManager.emit('created', element)

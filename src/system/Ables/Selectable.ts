@@ -27,6 +27,10 @@ class Selectable extends EventTarget {
     private rotatable: Rotatable;
     private resizable: Resizable;
 
+    public get selected(){
+        return this.selectedElement
+    }
+
     public state: ShareState = {
         initial_coordinates: initial_coordinates,
         dragStartPosition: { x: 0, y: 0 },
@@ -48,6 +52,7 @@ class Selectable extends EventTarget {
 
         // Create the bounding box element
         this.boundingBox = document.createElement('div');
+        this.boundingBox.dataset.clickable = ""
         this.boundingBox.style.position = 'absolute';
         this.boundingBox.style.willChange = 'transform';
         this.boundingBox.style.zIndex = '999999';
