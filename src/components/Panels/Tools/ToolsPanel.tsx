@@ -7,7 +7,7 @@ function Properties(): JSX.Element {
   return (
     <>
       <PanelContainer title={'Tools'}>
-        <HStack spacing={4} alignItems={'flex-start'}>
+        <HStack spacing={3} alignItems={'flex-start'}>
           <CreateImageButton />
           <CreateHotspotButton />
         </HStack>

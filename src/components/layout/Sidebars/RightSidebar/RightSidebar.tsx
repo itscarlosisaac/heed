@@ -7,7 +7,7 @@ import ImagePropertiesPanel from "../../../Panels/ImagePropertiesPanel/ImageProp
 
 function RightSidebar(): JSX.Element {
   return (
-    <GridItem area={'right-sidebar'} h={'100%'} bg={'#1A2233'} overflow={'auto'}>
+    <GridItem area={'right-sidebar'} h={'100%'} overflow={'auto'}>
       <Properties />
       <Transformation />
       <StylePanel />

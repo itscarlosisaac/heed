@@ -9,8 +9,12 @@ export function AppHeaderActions(): JSX.Element {
       <Flex gap={3} alignItems={'center'}>
         <OpenFileModal />
         <SaveFileButton />
-        <Button size={'xs'}>Publish</Button>
-        <Button size={'xs'}>Preview</Button>
+        <Button
+            variant={"secondary"}
+            size={'xs'}>Publish</Button>
+        <Button
+            variant={"secondary"}
+            size={'xs'}>Preview</Button>
       </Flex>
     </>
   )

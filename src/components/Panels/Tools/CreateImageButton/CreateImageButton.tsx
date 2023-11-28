@@ -1,8 +1,7 @@
 import { Button } from '@chakra-ui/react'
-// import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-// import { ApplicationActions } from '../../../../redux/Application/ApplicationSlice'
 import ComponentEventManager from '../../../../system/EventManager/Events/ComponentEventManager'
+import control from "../../../../system/Commands/Moveable";
 
 function CreateImageButton(): JSX.Element {
   // const dispatch = useDispatch()
@@ -19,8 +18,10 @@ function CreateImageButton(): JSX.Element {
   }
 
   function handleCreatedImage(data: HTMLElement): void {
-    console.log('Created', data)
-    // dispatch(ApplicationActions.UpdateBody(data.outerHTML))
+    data.style.position = "absolute"
+    data.addEventListener('mousedown', (event) => {
+      control.execute("select", [event, event.target as HTMLElement])
+    })
   }
 
   useEffect(() => {

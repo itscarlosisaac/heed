@@ -5,7 +5,7 @@ function ImagePropertiesPanel(): JSX.Element {
   return (
     <>
       <PanelContainer title={'Image Properties'}>
-        <VStack spacing={4} alignItems={'flex-start'}>
+        <VStack spacing={3} alignItems={'flex-start'}>
           <HStack w={'100%'}>
             <Text color={'white'}>Name: </Text>
             <Input name={'id'} color={'white'} placeholder={'Image'} />

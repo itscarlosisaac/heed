@@ -8,7 +8,7 @@ function AppCanvas(): JSX.Element {
   }
 
   return (
-    <Box h={'100%'} w={'100%'} bg={'coral'} position={'relative'}>
+    <Box h={'100%'} w={'100%'} bg={'app.gray.medium'} position={'relative'}>
       <InfiniteViewer
         useWheelScroll={true}
         useAutoZoom={true}

@@ -1,5 +1,4 @@
 import ComponentInstantiator from '../../ComponentInstantiator/ComponentInstantiator'
-import Transformable from '../../Transformables/Transformable'
 import ComponentEventManager from './ComponentEventManager'
 
 /**
@@ -17,10 +16,7 @@ ComponentEventManager.on('create', (data) => {
       style: `width:50px; height:50px;`
     }
   })
-  console.log('Will update ', data)
   ComponentEventManager.emit('created', element)
-  console.log('Creating transformable for: ', element)
-  new Transformable(element)
 })
 
 /**

@@ -11,10 +11,10 @@ function LayerItem({ children }: {children: string}): JSX.Element {
         borderBottom={'1px solid'}
         borderColor={'rgba(255,255,255,0.1)'}
       >
-        <Text color={'white'} fontSize={"12px"}>{children}</Text>
+        <Text color={'app.dark_blue.text'} fontSize={"12px"}>{children}</Text>
         <Flex gap={2}>
-          <LockIcon boxSize={'10px'} color={'red'} />
-          <ViewIcon boxSize={'10px'} color={'red'} />
+          <LockIcon boxSize={'10px'} color={'app.dark_blue.text'} />
+          <ViewIcon boxSize={'10px'} color={'app.dark_blue.text'} />
         </Flex>
       </Flex>
     </>

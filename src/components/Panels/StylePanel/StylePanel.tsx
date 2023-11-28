@@ -16,7 +16,7 @@ function StylePanel(): JSX.Element {
   return (
     <>
       <PanelContainer title={'Style'}>
-        <VStack spacing={4} alignItems={'flex-start'}>
+        <VStack spacing={3} alignItems={'flex-start'}>
           <VStack w={'100%'} alignItems={'flex-start'}>
             <Text color={'white'}>Fill: </Text>
 

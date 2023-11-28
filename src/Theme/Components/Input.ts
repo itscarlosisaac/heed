@@ -5,13 +5,18 @@ const { defineMultiStyleConfig } = createMultiStyleConfigHelpers(inputAnatomy.ke
 
 export const InputTheme = defineMultiStyleConfig({
   variants: {
-    outline: {
+    editor: {
       field: {
-        borderColor: '#3F5073'
+        h: "42px",
+        fontSize: "12px",
+        borderRadius: "13px",
+        background: "app.gray.light",
+        borderColor: 'transparent',
+        color: "app.dark_blue.text"
       }
     }
   },
   defaultProps: {
-    size: 'md'
+    variant: "editor"
   }
 })

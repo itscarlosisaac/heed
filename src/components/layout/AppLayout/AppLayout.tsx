@@ -22,13 +22,13 @@ export function AppLayout({
           "info-bar info-bar info-bar"
         `}
         gridTemplateColumns={'300px 1fr 300px'}
-        gridTemplateRows={'90px 1fr auto 40px'}
+        gridTemplateRows={'80px 1fr auto 40px'}
       >
         <GridItem area={'header'}>
           <AppHeader />
         </GridItem>
 
-        <GridItem area={'left-sidebar'} h={'100%'} bg={'red'}>
+        <GridItem area={'left-sidebar'} h={'100%'}>
           <Sidebar>
             <LeftSidebar />
           </Sidebar>

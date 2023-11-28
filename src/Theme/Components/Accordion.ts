@@ -10,27 +10,28 @@ const baseStyle = definePartsStyle({
     border: 'none'
   },
   button: {
-    bg: '#0D111A',
+    // bg: '#0D111A',
     border: 'none',
-    color: '#6B7A99',
+    color: 'app.dark_blue.text',
     fontFamily: 'Roboto',
     fontSize: '12px',
     fontStyle: 'normal',
     fontWeight: 700,
     lineHeight: '20px',
+    bg: 'app.gray.dark',
     _hover: {
-      bg: '#0D111A'
+      // bg: '#0D111A'
     }
   },
   panel: {
     border: 'none',
     borderColor: 'gray.200',
-    background: '#1A2233'
+    background: '#ffffff'
   },
   icon: {
     fontSize: '20px',
     background: 'transparent',
-    color: 'white'
+    color: 'app.dark_blue.text',
   }
 })
 

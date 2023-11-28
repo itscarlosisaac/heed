@@ -13,10 +13,9 @@ import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 function Size() : JSX.Element {
     return (
         <>
-            <HStack spacing={4}>
+            <HStack spacing={3}>
                 <InputGroup>
                     <Input name={'width'}
-                           color={'white'}
                            placeholder="0"
                            defaultValue={heedElementManager.selected_style ? heedElementManager.selected_style.width : ""} />
                     <InputRightElement>
@@ -25,14 +24,15 @@ function Size() : JSX.Element {
                 </InputGroup>
                 <InputGroup>
                     <Input name={'height'}
-                           color={'white'}
                            placeholder="0"
                            defaultValue={heedElementManager.selected_style ? heedElementManager.selected_style.height : ""} />
                     <InputRightElement>
                         <Text color={'white'}>H</Text>
                     </InputRightElement>
                 </InputGroup>
-                <IconButton aria-label="Link" icon={<LinkIcon />} />
+                <IconButton
+                    borderRadius={ "13px"}
+                    bg={"app.gray.light"} aria-label="Link" icon={<LinkIcon />} />
             </HStack>
         </>
     )

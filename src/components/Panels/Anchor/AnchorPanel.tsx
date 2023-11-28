@@ -10,7 +10,7 @@ function AnchorPanel(): JSX.Element {
   return (
     <>
       <PanelContainer title={'Anchoring'}>
-        <VStack spacing={4} alignItems={'flex-start'}>
+        <VStack spacing={3} alignItems={'flex-start'}>
           <HStack w={'100%'}>
             <InputGroup>
               <Select color={'white'}>

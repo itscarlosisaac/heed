@@ -9,12 +9,11 @@ function Properties(): JSX.Element {
     return (
         <>
             <PanelContainer title={'Properties'}>
-                <VStack spacing={4} alignItems={'flex-start'}>
+                <VStack spacing={3} alignItems={'flex-start'}>
                     <HStack w={'100%'}>
                         <Text color={'white'}>Id: </Text>
                         <Input
                             name={'id'}
-                            color={'white'}
                             placeholder={'id'}
                             onChange={(e) => heedElementManager.update_id(e)}
                             value={

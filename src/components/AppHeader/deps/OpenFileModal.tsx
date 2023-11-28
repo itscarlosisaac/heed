@@ -27,7 +27,9 @@ function OpenFileModal() {
     }
 
     return (
-        <Button size={'xs'} onClick={handle_open_file}>
+        <Button
+            variant={"primary"}
+            onClick={handle_open_file}>
             Open File
         </Button>
     );

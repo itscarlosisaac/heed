@@ -6,10 +6,10 @@ export function AppHeader(): JSX.Element {
   return (
     <>
       <Grid
-        h={24}
         px={10}
+        h={"100%"}
         w={'100%'}
-        bg={'#1A2233'}
+        bg={'app.gray.light'}
         boxSizing={'border-box'}
         gridTemplateColumns={'1fr 1fr'}
       >

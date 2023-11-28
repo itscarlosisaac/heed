@@ -11,7 +11,7 @@ function App(): JSX.Element {
 
     return (
         <>
-            <WelcomeModal/>
+            {/*<WelcomeModal/>*/}
             <AppLayout
                 AppHeader={AppHeader}
                 LeftSidebar={LeftSidebar}

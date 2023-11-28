@@ -16,7 +16,6 @@ function Rotation(): JSX.Element {
             <HStack spacing={4} w={"100%"}>
                 <InputGroup>
                     <Input name={'rotation'}
-                           color={'white'}
                            placeholder="0"
                            defaultValue={
                                heedElementManager.selected_style ?

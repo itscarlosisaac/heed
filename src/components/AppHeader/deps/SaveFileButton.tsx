@@ -18,7 +18,9 @@ function SaveFileButton() {
     }
     return (
         <>
-            <Button size={'xs'} onClick={save_file}>
+            <Button
+                variant={"primary"}
+                onClick={save_file}>
                 Save File
             </Button>
         </>

@@ -1,5 +1,5 @@
 import {
-    HStack,
+    HStack, IconButton,
     Input,
     InputGroup,
     InputRightElement,
@@ -7,15 +7,16 @@ import {
 } from '@chakra-ui/react'
 import {observer} from "mobx-react";
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
+import {LinkIcon} from "@chakra-ui/icons";
 
 function Position(): JSX.Element {
 
     return (
         <>
-            <HStack spacing={4}>
+            <HStack spacing={3}>
                 <InputGroup>
                     <Input name={'x-position'}
-                           color={'white'}
+                           variant={"editor"}
                            placeholder="0"
                            defaultValue={
                                heedElementManager.selected_style ?
@@ -27,8 +28,8 @@ function Position(): JSX.Element {
                 </InputGroup>
                 <InputGroup>
                     <Input name={'y-position'}
-                           color={'white'}
                            placeholder="0"
+                           variant={"editor"}
                            defaultValue={
                                heedElementManager.selected_style ?
                                    heedElementManager.selected_style.top : ""
@@ -37,6 +38,9 @@ function Position(): JSX.Element {
                         <Text color={'white'}>Y</Text>
                     </InputRightElement>
                 </InputGroup>
+
+                <IconButton
+                    visibility={"hidden"} aria-label="Link" icon={<LinkIcon color={"transparent"} />} />
             </HStack>
         </>
     )
