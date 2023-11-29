@@ -5,7 +5,9 @@ import {
     InputRightElement,
     Text,
 } from '@chakra-ui/react'
-import {useState, useRef, useCallback} from "react";
+import {useState, useRef, useCallback, useEffect} from "react";
+import heedElementManager from "../../mobx/Managers/HeedElementManager.ts";
+import {observer} from "mobx-react";
 
 function DraggableInput(props: InputProps) {
 
@@ -29,6 +31,11 @@ function DraggableInput(props: InputProps) {
         window.addEventListener('mouseup', handleMouseUp);
     }, []);
 
+
+    useEffect(() => {
+        heedElementManager.set_move("top", value)
+    }, [value])
+
     return (
         <>
             <InputGroup>
@@ -37,11 +44,11 @@ function DraggableInput(props: InputProps) {
                     onMouseDown={handleMouseDown}
                     {...props} />
                 <InputRightElement>
-                    <Text>Y</Text>
+                    <Text>X</Text>
                 </InputRightElement>
             </InputGroup>
         </>
     );
 }
 
-export default DraggableInput;
+export default observer(DraggableInput);

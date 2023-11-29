@@ -69,6 +69,14 @@ class HeedElementManager {
         }
     }
 
+    // Actions
+    set_move(direction: "left" | "top", position: number){
+        if( this._selected_element ){
+            this._selected_element.style[direction] = position + "px";
+            this._selected_style = window.getComputedStyle(this._selected_element);
+        }
+    }
+
     remove_element(el: HTMLElement) {
         this._elements.filter( e => e.id !== el.id);
     }

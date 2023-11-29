@@ -16,34 +16,34 @@ function Position(): JSX.Element {
         <>
             <HStack spacing={3}>
                 <InputGroup>
-                    <DraggableInput name={'x-position'}
-                           variant={"editor"}
-                           placeholder="0"
-                           type={"number"}
-                           defaultValue={
-                               heedElementManager.selected_style ?
-                                   heedElementManager.selected_style.left.replace("px", '') : ""
-                           }/>
+                    <DraggableInput
+                        disabled={!heedElementManager.selected_element}
+                        name={'x-position'}
+                        variant={"editor"}
+                        placeholder="--"
+                        type={"number"}/>
                     <InputRightElement>
                         <Text color={'white'}>X</Text>
                     </InputRightElement>
                 </InputGroup>
                 <InputGroup>
-                    <Input name={'y-position'}
-                           placeholder="0"
-                           variant={"editor"}
-                           type={"number"}
-                           defaultValue={
-                               heedElementManager.selected_style ?
-                                   heedElementManager.selected_style.top.replace("px", '') : ""
-                           }/>
+                    <Input
+                        disabled={!heedElementManager.selected_element}
+                        name={'y-position'}
+                        placeholder="--"
+                        variant={"editor"}
+                        type={"number"}
+                        defaultValue={
+                            heedElementManager.selected_style ?
+                                heedElementManager.selected_style.top.replace("px", '') : "--"
+                        }/>
                     <InputRightElement>
                         <Text color={'white'}>Y</Text>
                     </InputRightElement>
                 </InputGroup>
 
                 <IconButton
-                    visibility={"hidden"} aria-label="Link" icon={<LinkIcon color={"transparent"} />} />
+                    visibility={"hidden"} aria-label="Link" icon={<LinkIcon color={"transparent"}/>}/>
             </HStack>
         </>
     )
