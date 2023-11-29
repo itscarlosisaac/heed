@@ -143,7 +143,6 @@ class Resizable {
             rotated_distance.x = min_width / 2 + this.state.initial_coordinates.top_left.x / 2;
         }
 
-        console.log("Distance: ", distance, initial_rotation, this.anchor)
         // Rotate this point around the center
         const scale_factor = ablesUtils.get_scale_factor(this.state.initialSize, new_size);
 

@@ -34,7 +34,7 @@ export function AppLayout({
           </Sidebar>
         </GridItem>
 
-        <GridItem area={'canvas'} id={"canvas"}>
+        <GridItem area={'canvas'}>
           <AppCanvas />
         </GridItem>
 

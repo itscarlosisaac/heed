@@ -23,7 +23,6 @@ class MoveableControl implements IMoveableControl {
         if( !unitElement ) throw new AppError(AppErrorCode.ElementNotFound, "Unable to find the unit element.")
         this._selectable = new Selectable('#canvas', unitElement as HTMLElement);
 
-
         // // The event listener should directly use CustomEvent with the detail type
         this._selectable.addEventListener(AblesEventFactory.events.select.started, (event: CustomEventInit) => {
             // Ensure that `event.detail.element` is an HTMLElement before using it

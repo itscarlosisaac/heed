@@ -42,6 +42,7 @@ class HeedParser {
         console.log("Control", control.commandList);
         const viewer = document.querySelector(".viewer");
 
+
         if( !viewer )
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find viewer.");
 
@@ -51,6 +52,28 @@ class HeedParser {
             const target = event.target as HTMLElement;
             const isClickable = target.getAttribute('data-clickable')
             if( !!isClickable || isClickable == null ) {
+                control.execute('deselect', [event])
+            }
+        })
+
+        let isMouseInBounds = false
+        // Event listener for mouse movement
+        viewer.addEventListener('mouseenter', () => {
+            isMouseInBounds = true
+        });
+
+        viewer.addEventListener('mouseleave', () => {
+            isMouseInBounds = false
+        });
+
+        //
+        // Deletes element if cursor is withing the bounds of
+        // the working area and an element is selected.
+        document.addEventListener('keydown', (event: KeyboardEvent) => {
+            const isDeleteKey = event.keyCode == 8;
+            const hasSelected = control.selectable.selected;
+            if(isDeleteKey && hasSelected && isMouseInBounds) {
+                control.execute('delete', [event])
                 control.execute('deselect', [event])
             }
         })
