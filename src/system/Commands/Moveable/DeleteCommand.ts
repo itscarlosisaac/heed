@@ -5,8 +5,7 @@ class DeleteCommand {
     constructor(control: MoveableControl) {
         this.control = control
     }
-    public execute(event: MouseEvent): void {
-        console.log("Will delete", event.target)
+    public execute(): void {
         if( this.control.selectable.selected )
             this.control.selectable.selected.remove()
     }
