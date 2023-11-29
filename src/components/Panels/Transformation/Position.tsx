@@ -8,6 +8,7 @@ import {
 import {observer} from "mobx-react";
 import heedElementManager from "../../../mobx/Managers/HeedElementManager.ts";
 import {LinkIcon} from "@chakra-ui/icons";
+import DraggableInput from "../../Form/DraggableInput.tsx";
 
 function Position(): JSX.Element {
 
@@ -15,12 +16,13 @@ function Position(): JSX.Element {
         <>
             <HStack spacing={3}>
                 <InputGroup>
-                    <Input name={'x-position'}
+                    <DraggableInput name={'x-position'}
                            variant={"editor"}
                            placeholder="0"
+                           type={"number"}
                            defaultValue={
                                heedElementManager.selected_style ?
-                                   heedElementManager.selected_style.left : ""
+                                   heedElementManager.selected_style.left.replace("px", '') : ""
                            }/>
                     <InputRightElement>
                         <Text color={'white'}>X</Text>
@@ -30,9 +32,10 @@ function Position(): JSX.Element {
                     <Input name={'y-position'}
                            placeholder="0"
                            variant={"editor"}
+                           type={"number"}
                            defaultValue={
                                heedElementManager.selected_style ?
-                                   heedElementManager.selected_style.top : ""
+                                   heedElementManager.selected_style.top.replace("px", '') : ""
                            }/>
                     <InputRightElement>
                         <Text color={'white'}>Y</Text>

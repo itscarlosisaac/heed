@@ -39,9 +39,7 @@ class HeedParser {
 
         // SELECTABLE
         control.init();
-        console.log("Control", control.commandList);
         const viewer = document.querySelector(".viewer");
-
 
         if( !viewer )
             throw new AppError(AppErrorCode.ElementNotFound, "Unable to find viewer.");
@@ -49,11 +47,11 @@ class HeedParser {
         // TODO - Look into why when adding an else statement to select the element
         // is seems to select multiple times.
         viewer.addEventListener('mousedown', (event) => {
-            const target = event.target as HTMLElement;
-            const isClickable = target.getAttribute('data-clickable')
-            if( !!isClickable || isClickable == null ) {
-                control.execute('deselect', [event])
-            }
+            // const target = event.target as HTMLElement;
+            // const isClickable = target.getAttribute('data-clickable')
+            // if( !!isClickable || isClickable == null ) {
+            //     control.execute('deselect', [event])
+            // }
         })
 
         let isMouseInBounds = false
@@ -66,17 +64,17 @@ class HeedParser {
             isMouseInBounds = false
         });
 
-        //
         // Deletes element if cursor is withing the bounds of
         // the working area and an element is selected.
-        document.addEventListener('keydown', (event: KeyboardEvent) => {
-            const isDeleteKey = event.keyCode == 8;
-            const hasSelected = control.selectable.selected;
-            if(isDeleteKey && hasSelected && isMouseInBounds) {
-                control.execute('delete', [event])
-                control.execute('deselect', [event])
-            }
-        })
+        // document.addEventListener('keydown', (event: KeyboardEvent) => {
+        //     const isDeleteKey = event.keyCode == 8;
+        //     const hasSelected = control.selectable.selected;
+        //     console.log("Will delete", hasSelected)
+        //     if(isDeleteKey && hasSelected && isMouseInBounds) {
+        //         control.execute('delete', [event])
+        //         control.execute('deselect', [event])
+        //     }
+        // })
 
         Array.from(heedUnit.children).forEach((child) => {
             // TODO - Figure out why the element is duplicated when using the child
