@@ -12,7 +12,9 @@ import {observer} from "mobx-react";
 function DraggableInput(props: InputProps) {
 
     const lastYPosition = useRef(0)
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(
+        heedElementManager.selected_style?.top.replace("px", "") || 0
+    )
 
     const handleMouseDown = useCallback((event: MouseEvent) => {
         lastYPosition.current = event.clientY;
