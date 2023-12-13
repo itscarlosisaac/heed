@@ -107,6 +107,25 @@ class Draggable {
         )
 
     }
+    
+    requestMove(x: number, y: number): void {
+        if (!this.selectedElement) {
+            throw new AppError(
+                AppErrorCode.ElementNotFound,
+                'Unable to find selected element to move.'
+            );
+        }
+        
+        // Move the selected element to the new position
+        this.moveElement(this.selectedElement, x, y);
+        
+        // Move the bounding box to the same position as the selected element
+        this.moveElement(this.boundingBox, x, y);
+        
+        // Update the state to reflect the new position
+        this.state.dragStartPosition.x = x;
+        this.state.dragStartPosition.y = y;
+    }
 
     moveElement(box: HTMLElement, x: number, y: number): void {
         box.style.left = x + 'px';
