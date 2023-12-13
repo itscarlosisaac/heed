@@ -76,6 +76,36 @@ class Rotatable {
         document.removeEventListener('mousemove', this.onRotate);
         document.removeEventListener('mouseup', this.onRotateEnd);
     }
+    
+    requestRotate(angle: number): void {
+        if (!this.selectedElement) {
+            throw new AppError(
+                AppErrorCode.ElementNotFound,
+                'Unable to find selected element to rotate.'
+            );
+        }
+        
+        // Ensuring the angle is within a 0-360 range
+        const normalizedAngle = angle % 360;
+        
+        // Rotating the selected element
+        this.selectedElement.style.transform = `rotate(${normalizedAngle}deg)`;
+        
+        // Rotating the bounding box
+        Transformer.updateRotate(this.boundingBox, normalizedAngle);
+        
+        // Optionally, update the state to reflect the new rotation
+        // This depends on whether your state management requires tracking the rotation angle
+        // this.state.currentRotation = normalizedAngle;
+        
+        // Dispatch a custom event to notify that the element has been rotated
+        this.boundingBox.dispatchEvent(
+            AblesEventFactory.instance.create_event(
+                AblesEventFactory.events.rotate.changed,
+                { element: this.selectedElement, angle: normalizedAngle }
+            )
+        );
+    }
 }
 
 export default Rotatable;

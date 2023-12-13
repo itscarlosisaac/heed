@@ -30,6 +30,10 @@ class Selectable extends EventTarget {
     public get selected(){
         return this.selectedElement
     }
+    
+    public get rotate(){
+        return this.rotatable;
+    }
 
     public state: ShareState = {
         initial_coordinates: initial_coordinates,
