@@ -5,20 +5,21 @@ import {
     InputRightElement,
     Text,
 } from '@chakra-ui/react'
-import {useState, useRef, useCallback, useEffect} from "react";
-import heedElementManager from "../../mobx/Managers/HeedElementManager.ts";
+import {useState, useRef, useCallback, useEffect, ReactNode} from "react";
 import {observer} from "mobx-react";
 
-function DraggableInput(props: InputProps) {
+type CustomProps = {
+    label: ReactNode;
+    onChange: (value: number) => void;
+} & InputProps;
 
-    const lastYPosition = useRef(0)
-    const [value, setValue] = useState(
-        heedElementManager.selected_style?.top.replace("px", "") || 0
-    )
-
+function DraggableInput(props: CustomProps) {
+    const lastYPosition = useRef(0);
+    const [value, setValue] = useState(0);
+    
     const handleMouseDown = useCallback((event: MouseEvent) => {
         lastYPosition.current = event.clientY;
-        const handleMouseMove = (event: MouseEvent ) => {
+        const handleMouseMove = (event: MouseEvent) => {
             const deltaY = lastYPosition.current - event.clientY;
             if (deltaY !== 0) {
                 setValue((prevValue) => prevValue + deltaY);
@@ -32,21 +33,19 @@ function DraggableInput(props: InputProps) {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
     }, []);
-
-
+    
     useEffect(() => {
-        heedElementManager.set_move("top", value)
-    }, [value])
-
+        if( props.onChange) {
+            props.onChange(value);
+        }
+    }, [value]);
+    
     return (
         <>
             <InputGroup>
-                <Input
-                    value={value}
-                    onMouseDown={handleMouseDown}
-                    {...props} />
+                <Input value={value} onMouseDown={handleMouseDown} {...props} />
                 <InputRightElement>
-                    <Text>X</Text>
+                    <Text>{props.label}</Text>
                 </InputRightElement>
             </InputGroup>
         </>
